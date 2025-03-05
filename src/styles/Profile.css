@@ -1,136 +1,148 @@
 /* تنسيق عام */
 .profile-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  /* زر فتح السايدبار */
-  .sidebar-toggle {
-    position: fixed;
-    top: 80px;
-    left: 20px;
-    z-index: 1000;
-    background-color: #ebca26 !important;
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 50%;
-  }
-  
-  .sidebar-toggle:hover {
-    background-color: #d4b220;
-  }
-  
-  /* تنسيق السايدبار */
-  .offcanvas {
-    background: rgb(30, 30, 48) !important;
-    color: white;
-  }
-  
-  .offcanvas-header {
-    border-bottom: 1px solid #ebca26;
-  }
-  
-  .offcanvas-title {
-    font-size: 1.5rem;
-  }
-  
-  .sidebar-menu {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar-menu li {
-    margin-bottom: 15px;
-    border-bottom: 1px solid #2f2f2f;
-  }
-  /* إزالة الخط تحت كلمات Update Info */
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* تنسيق الكارت */
+.card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffffff, #f1f3f5);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 1.5rem;
+  border-bottom: none;
+  border-radius: 15px 15px 0 0;
+}
+
+.card-header h4 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-footer {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  border-radius: 0 0 15px 15px;
+}
+
+/* تنسيق العنوان */
+.courses-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+/* تنسيق النص الوصفي */
+.page-description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* تنسيق الأيقونات */
+.icon-hover {
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #6a11cb;
+}
+
+.icon-hover:hover {
+  transform: scale(1.2);
+  color: #2575fc;
+}
+
+/* تنسيق الأزرار */
+.btn-custom {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-custom:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+}
+
+/* تنسيق السايدبار (يبقى كما هو) */
+.sidebar {
+  width: 250px;
+  background: rgb(30, 30, 48);
+  color: white;
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar-close-btn:hover {
+  color: #6a11cb;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin-top: 40px;
+}
+
+.sidebar-menu li {
+  margin-bottom: 15px;
+}
+
 .sidebar-menu .btn-link {
-    text-decoration: none;
-    color: white; /* لون النص */
-  }
-  
-  .sidebar-menu .btn-link:hover {
-    color: #ebca26; /* لون النص عند hover */
-  }
-  
-  /* تغيير لون أيقونة الإغلاق */
-  .offcanvas-header .btn-close {
-    filter: invert(1); /* تغيير لون الأيقونة إلى الأبيض */
-    transition: filter 0.3s ease;
-  }
-  
-  .offcanvas-header .btn-close:hover {
-    filter: invert(0.8) sepia(1) saturate(5) hue-rotate(0deg); /* تغيير اللون إلى #ebca26 عند hover */
-  }
-  .sidebar-menu li button {
-    background: none;
-    border: none;
-    color: #ebca26;
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  .sidebar-menu li button:hover {
-    transform: translateX(10px);
-    color: #ebca26;
-  }
-  
-  .sidebar-menu li button svg {
-    margin-right: 10px;
-  }
-  
-  /* تنسيق محتوى البروفايل */
-  .profile-content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 60px; /* إضافة مساحة لزر فتح السايدبار */
-  }
-  
-  .profile-content h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    background: white;
-  }
-  
-  .card-body {
-    padding: 20px;
-  }
-  
-  .card h4 {
-    font-size: 1.25rem;
-    color: #6a11cb;
-    margin-bottom: 15px;
-  }
-  
-  .card h4 svg {
-    margin-right: 10px;
-  }
-  
-  .card .mb-3 {
-    margin-bottom: 15px;
-  }
-  
-  .card strong {
-    color: #333;
-  }
-  
-  .card .text-success {
-    color: #28a745 !important;
-  }
-  
-  .card .text-danger {
-    color: #dc3545 !important;
-  }
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.sidebar-menu .btn-link:hover {
+  color: #6a11cb;
+}

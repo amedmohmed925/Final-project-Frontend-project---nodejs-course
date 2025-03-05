@@ -21,9 +21,12 @@ const Home = () => {
             <Container>
               <Row className="justify-content-center align-items-center h-100">
                 <Col md={8} className="text-center">
-                  <h1 className="hero-title animate__animated animate__bounceInDown animate__delay-1">
+              <div className="title-container">
+                  <h1 style={{color:"#ebca26"}}  className="hero-title animate__animated animate__bounceInDown animate__delay-1">
                     Welcome to Our Courses Platform
                   </h1>
+
+              </div>
                   <p className="hero-subtitle animate__animated animate__bounceIn animate__delay-3">
                     Learn from the best instructors and enhance your skills.
                   </p>

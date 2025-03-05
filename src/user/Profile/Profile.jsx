@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearUser, editUserInfo } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars } from 'react-icons/fa';
-import { Offcanvas, Button } from 'react-bootstrap'; // استيراد Offcanvas و Button من react-bootstrap
+import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaBirthdayCake, FaEnvelope, FaIdBadge, FaTimes } from 'react-icons/fa';
+import { Card, Row, Col, Button } from 'react-bootstrap';
+import 'animate.css';
+import SidebarProfile from '../../components/SidebarProfile/SidebarProfile';
 import '../../styles/Profile.css';
 
 const Profile = () => {
@@ -11,7 +13,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isUpdating, setIsUpdating] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(false); // حالة لعرض السايدبار
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -32,73 +34,59 @@ const Profile = () => {
   if (!user) {
     return (
       <div className="container mt-5 d-flex justify-content-center">
-        <FaSpinner className="spinner" />
+        <FaSpinner className="spinner animate__animated animate__spin" />
       </div>
     );
   }
 
   return (
-    <div className="profile-container">
+    <div className="profile-container animate__animated animate__fadeIn">
       {/* زر فتح السايدبار */}
-      <Button onClick={() => setShowSidebar(true)} className="sidebar-toggle">
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="sidebar-toggle animate__animated animate__bounceIn"
+      >
         <FaBars />
-      </Button>
+      </button>
 
       {/* السايدبار */}
-      <Offcanvas show={showSidebar} onHide={() => setShowSidebar(false)} placement="start">
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title className='text-light'>Menu</Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body>
-          <ul className="sidebar-menu">
-            <li>
-              <button className="btn btn-link" onClick={() => navigate('/update-info')}>
-                <FaEdit className="me-2" />
-                Update Info
-              </button>
-            </li>
-            <li>
-              <button className="btn btn-link" onClick={handleLogout}>
-                <FaSignOutAlt className="me-2" />
-                Logout
-              </button>
-            </li>
-          </ul>
-        </Offcanvas.Body>
-      </Offcanvas>
+      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* محتوى البروفايل */}
       <div className="profile-content">
-        <h2 className="mb-4">Profile</h2>
-        <div className="card shadow">
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-6">
-                <h4 className="mb-3">
-                  <FaUser className="me-2" />
-                  Personal Information
-                </h4>
+        <div className="title-container">
+          <h1 className="courses-title mb-4 text-center animate__animated animate__fadeInDown">Profile</h1>
+          <p className="page-description animate__animated animate__fadeIn">
+            Welcome to your profile page! Here, you can view and manage your personal and account information.
+          </p>
+        </div>
+        <Card className="shadow-lg animate__animated animate__fadeInUp">
+          <Card.Header>
+            <h4 className="mb-0">
+              <FaUser className="me-2 icon-hover" />
+              User Information
+            </h4>
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <Col md={6}>
                 <div className="mb-3">
-                  <strong>Username:</strong> {user.username}
+                  <strong><FaIdBadge className="me-2 icon-hover" /> Username:</strong> {user.username}
                 </div>
                 <div className="mb-3">
-                  <strong>First Name:</strong> {user.firstName}
+                  <strong><FaUser className="me-2 icon-hover" /> First Name:</strong> {user.firstName}
                 </div>
                 <div className="mb-3">
-                  <strong>Last Name:</strong> {user.lastName}
+                  <strong><FaUser className="me-2 icon-hover" /> Last Name:</strong> {user.lastName}
                 </div>
                 <div className="mb-3">
-                  <strong>Email:</strong> {user.email}
+                  <strong><FaEnvelope className="me-2 icon-hover" /> Email:</strong> {user.email}
                 </div>
                 <div className="mb-3">
-                  <strong>Date of Birth:</strong> {new Date(user.dob).toLocaleDateString()}
+                  <strong><FaBirthdayCake className="me-2 icon-hover" /> Date of Birth:</strong> {new Date(user.dob).toLocaleDateString()}
                 </div>
-              </div>
-              <div className="col-md-6">
-                <h4 className="mb-3">
-                  <FaUserShield className="me-2" />
-                  Account Information
-                </h4>
+              </Col>
+              <Col md={6}>
                 <div className="mb-3">
                   <strong>Role:</strong> {user.role}
                 </div>
@@ -106,18 +94,24 @@ const Profile = () => {
                   <strong>Verification Status:</strong>
                   {user.isVerified ? (
                     <span className="text-success ms-2">
-                      <FaCheckCircle /> Verified
+                      <FaCheckCircle className="icon-hover" /> Verified
                     </span>
                   ) : (
                     <span className="text-danger ms-2">
-                      <FaTimesCircle /> Not Verified
+                      <FaTimesCircle className="icon-hover" /> Not Verified
                     </span>
                   )}
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              </Col>
+            </Row>
+          </Card.Body>
+          <Card.Footer>
+            <Button className="btn-custom" onClick={() => navigate('/update-info')}>
+              <FaEdit className="me-2" />
+              Update Info
+            </Button>
+          </Card.Footer>
+        </Card>
       </div>
     </div>
   );

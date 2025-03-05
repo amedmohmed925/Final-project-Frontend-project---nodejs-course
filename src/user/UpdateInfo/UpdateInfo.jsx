@@ -84,6 +84,8 @@ const UpdateInfo = () => {
 
   return (
     <div className="update-info-container">
+
+      
       <button className="back-button" onClick={() => navigate(-1)}>
         <FaArrowLeft /> Back
       </button>

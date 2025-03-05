@@ -80,7 +80,7 @@ const Courses = () => {
   }, [selectedCategory, courses]);
 
   return (
-    <div className="courses-container">
+    <div className="courses-container" style={{marginTop:"100px"}}>
       <div className="title-container">
         <h1 className="courses-title">Explore Our <span>Courses</span></h1>
       </div>

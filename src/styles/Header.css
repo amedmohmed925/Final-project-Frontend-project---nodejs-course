@@ -62,3 +62,9 @@
     -webkit-background-clip: text; /* تطبيق التدريج على النص */
     -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
   }
+
+  .active-link {
+    color: #ebca26 !important;
+    font-weight: bold;
+  }
+  
