@@ -1,0 +1,262 @@
+/* تنسيق عام */
+.home-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Section */
+.hero-section {
+  height: 100vh;
+  position: relative; /* إضافة position: relative */
+  overflow: hidden;
+  background-image: url('./bgHeroSection.jpeg');
+  background-size: cover;
+  background-position: center;
+  margin-top: 0; /* تأكد من عدم وجود هوامش تفصل بين الـ Header والـ Hero Section */
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* باقي المحتوى */
+
+
+.hero-title {
+  font-size: 3rem;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-input {
+  width: 300px;
+  border-radius: 25px;
+  border: 2px solid #ebca26;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #d4b220;
+  background-color: white;
+  outline: none;
+}
+
+.search-button {
+  background-color: #ebca26;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #d4b220;
+}
+
+/* تأثيرات الظهور */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__animated.animate__fadeInDown {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate__animated.animate__fadeInUp {
+  animation: fadeIn 1s ease forwards;
+}
+
+.animate__delay-1s {
+  animation-delay: 1s;
+}
+
+.animate__delay-2s {
+  animation-delay: 2s;
+}
+  /* Featured Courses Section */
+  .featured-courses {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .course-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .course-card .btn-primary {
+    background-color: #ebca26;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .course-card .btn-primary:hover {
+    background-color: #d4b220;
+  }
+  
+  /* Statistics Section */
+  .statistics-section {
+    padding: 60px 0;
+    background-color: white;
+  }
+  
+  .statistic-number {
+    font-size: 2.5rem;
+    color: #ebca26;
+    margin-bottom: 10px;
+  }
+  
+  .statistic-text {
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  /* Testimonials Section */
+  .testimonials-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .testimonial-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Newsletter Section */
+  .newsletter-section {
+    padding: 60px 0;
+    background-color: white;
+  }
+  
+  .newsletter-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .newsletter-form .form-control {
+    width: 300px;
+    border-radius: 25px;
+  }
+  
+  .subscribe-button {
+    background-color: #ebca26;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .subscribe-button:hover {
+    background-color: #d4b220;
+  }
+
+  /* تنسيق الـ Form */
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px; /* تحديد عرض النموذج */
+  margin: 0 auto; /* توسيط النموذج */
+}
+
+/* تنسيق حقل البحث */
+.search-input {
+  border-radius: 25px 0 0 25px; /* حواف دائرية على اليسار */
+  border: 2px solid #ebca26 !important; /* لون الحدود */
+  padding: 10px 20px; /* تباعد داخلي */
+  flex: 1;
+}
+
+/* تنسيق الزر */
+.search-button {
+  border-radius: 0 25px 25px 0; /* حواف دائرية على اليمين */
+  background-color: #ebca26 !important; /* لون الخلفية */
+  border: 2px solid #ebca26 !important; /* لون الحدود */
+  padding: 10px 20px; /* تباعد داخلي */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer; /* تغيير شكل المؤشر */
+}
+
+/* تغيير لون الزر عند التحويم */
+.search-button:hover {
+  background-color: #d4b122 !important; /* لون خلفية أغمق */
+  border-color: #d4b122 !important; /* لون حدود أغمق */
+}
+
+/* تنسيق الأيقونة */
+.search-button svg {
+  width: 20px; /* حجم الأيقونة */
+  height: 20px; /* حجم الأيقونة */
+  fill: white; /* لون الأيقونة */
+}
+
+/* تأخير مخصص */
+.animate__delay-1 {
+  animation-delay: 1s;
+}
+
+.animate__delay-2 {
+  animation-delay: 2s;
+}
+
+.animate__delay-3 {
+  animation-delay: 3s;
+}
+

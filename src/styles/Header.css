@@ -1,0 +1,64 @@
+/* تنسيق عام للـ Header */
+.navbar {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* تنسيق الـ Header في صفحة Home */
+  .header-transparent {
+    background-color: transparent !important; /* خلفية شفافة */
+    box-shadow: none !important; /* إزالة الظل */
+    position: absolute; /* لجعل الـ Header يظهر فوق المحتوى */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; 
+  }
+  
+  /* تنسيق الروابط في صفحة Home */
+  .header-transparent .nav-link {
+    color: white !important; /* لون النص أبيض */
+  }
+  
+  /* تنسيق Dropdown في صفحة Home */
+  .header-transparent .dropdown-toggle {
+    color: white !important; /* لون النص أبيض */
+  }
+  
+  /* تنسيق الـ Navbar Toggle في صفحة Home */
+  .header-transparent .navbar-toggler {
+    border-color: white !important; /* لون الحدود أبيض */
+  }
+  
+  .header-transparent .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important; /* لون الأيقونة أبيض */
+  }
+
+  .logo {
+    font-family: 'Arial', sans-serif; /* اختر خطًا مناسبًا */
+    font-size: 2.5rem; /* حجم الخط */
+    font-weight: bold; /* سماكة الخط */
+    text-transform: uppercase; /* تحويل النص إلى أحرف كبيرة */
+    letter-spacing: 2px; /* تباعد بين الحروف */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+  }
+  
+  .logo-part-1 {
+    color: #ffffff; /* لون أبيض */
+  }
+  
+  .logo-part-2 {
+    color: #ebca26; /* اللون الذهبي (#ebca26) */
+    background: linear-gradient(45deg, #ebca26, #ffd700); /* تدريج لوني */
+    -webkit-background-clip: text; /* تطبيق التدريج على النص */
+    -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
+  }
+  
+  .logo:hover .logo-part-1 {
+    color: #ebca26; /* تغيير اللون عند التحويم */
+  }
+  
+  .logo:hover .logo-part-2 {
+    background: linear-gradient(45deg, #ffffff, #f0f0f0); /* تدريج لوني أبيض عند التحويم */
+    -webkit-background-clip: text; /* تطبيق التدريج على النص */
+    -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
+  }

@@ -12,8 +12,8 @@ import UpdateInfo from "./user/UpdateInfo/UpdateInfo";
 const App = () => {
   return (
     <Router>
+      <div>
       <Header />
-      <Container className="mt-4 ">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<Courses />} />
@@ -22,7 +22,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/update-info" element={<UpdateInfo />} />
         </Routes>
-      </Container>
+      </div>
     </Router>
   );
 };
