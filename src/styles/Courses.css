@@ -1,0 +1,209 @@
+/* تنسيق عام */
+.courses-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  .courses-title {
+    font-size: 2
+    
+    rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(120deg, #ebca26 50%, #333 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.5s ease-in-out;
+}
+
+/* عند تمرير الماوس - الامتلاء التدريجي */
+.courses-title:hover {
+    background-position: 0 0;
+}
+
+/* ضبط العنوان ليكون في المنتصف داخل الحاوية */
+.title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+  .categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .category-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-btn:hover {
+    background-color: #ebca26;
+    color: white;
+  }
+  
+  .category-btn.active {
+    background-color: #ebca26;
+    color: white;
+    font-weight: bold;
+  }
+  
+ 
+
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 350px);
+    gap: 20px;
+    padding: 0 20px;
+    justify-content: center;
+  }
+  
+  .course-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .course-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .course-card:hover .course-image img {
+    transform: scale(1.1);
+  }
+  
+  .course-content {
+    padding: 20px;
+  }
+  
+  .course-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .course-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .course-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ebca26;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .course-action .arrow {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .course-card:hover .course-action .arrow {
+    animation: moveRight 1s infinite;
+  }
+  
+  /* ظهور الكروت بشكل ناعم */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .course-card {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+  }
+  
+  .course-card:nth-child(1) { animation-delay: 0.1s; }
+  .course-card:nth-child(2) { animation-delay: 0.2s; }
+  .course-card:nth-child(3) { animation-delay: 0.3s; }
+  .course-card:nth-child(4) { animation-delay: 0.4s; }
+  .course-card:nth-child(5) { animation-delay: 0.5s; }
+  .course-card:nth-child(6) { animation-delay: 0.6s; }
+  .course-card:nth-child(7) { animation-delay: 0.7s; }
+  .course-card:nth-child(8) { animation-delay: 0.8s; }
+  .course-card:nth-child(9) { animation-delay: 0.9s; }
+  .course-card:nth-child(10) { animation-delay: 1s; }
+  .course-card:nth-child(11) { animation-delay: 1.1s; }
+  .course-card:nth-child(12) { animation-delay: 1.2s; }
+  .course-card:nth-child(13) { animation-delay: 1.3s; }
+  .course-card:nth-child(14) { animation-delay: 1.4s; }
+  .course-card:nth-child(15) { animation-delay: 1.5s; }
+  .course-card:nth-child(16) { animation-delay: 1.6s; }
+  .course-card:nth-child(17) { animation-delay: 1.7s; }
+  .course-card:nth-child(18) { animation-delay: 1.8s; }
+  .course-card:nth-child(19) { animation-delay: 1.9s; }
+  .course-card:nth-child(20) { animation-delay: 2s; }
+  
+  /* تحريك السهم */
+  @keyframes moveRight {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.show-more-btn, .show-less-btn {
+    background-color: #ebca26;
+    color: #333;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin: 5px;
+}
+
+.show-more-btn:hover, .show-less-btn:hover {
+    background-color: #333;
+    color: #ebca26;
+    transform: scale(1.1);
+}

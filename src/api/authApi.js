@@ -38,16 +38,6 @@ export const logout = createAsyncThunk('user/logout', async (token, { rejectWith
     }
 });
 
-export const getCurrentUser = createAsyncThunk('user/getCurrentUser', async (token, { rejectWithValue }) => {
-    try {
-        const response = await axios.get(`${API_URL}/me`, {
-            headers: { Authorization: `Bearer ${token}` }
-        });
-        return response.data;
-    } catch (error) {
-        return rejectWithValue(error.response.data);
-    }
-});
 
 
 export const verifyOTP = async (email, otp) => {

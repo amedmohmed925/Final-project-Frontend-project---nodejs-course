@@ -1,0 +1,82 @@
+.update-info-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .update-info-container h2 {
+    color: #ebca26;
+    margin-bottom: 20px;
+  }
+  
+  .update-info-container .form-label {
+    color: #333;
+  }
+  
+  .update-info-container .form-control {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .update-info-container .btn-primary {
+    background-color: #ebd126;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #fff;
+  }
+  
+  .update-info-container .btn-primary:disabled {
+    background-color: #ccc;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .back-button {
+    background: none;
+    border: none;
+    color: #ebd126;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 5px 10px; /* إضافة padding لتحسين المظهر */
+  }
+  
+
+  
+  .back-button svg {
+    margin-right: 5px;
+    /* transition: margin-right 0.3s ease;  */
+  }
+  
+  /* تعريف الحركة باستخدام keyframes */
+  .back-button:hover svg {
+    animation: moveRight 1s infinite; /* تطبيق الحركة على السهم فقط */
+  }
+  
+  @keyframes moveRight {
+    0% {
+      transform: translateX(0); /* البداية */
+    }
+    50% {
+      transform: translateX(15px); /* يتحرك لليمين */
+    }
+    100% {
+      transform: translateX(0); /* يعود إلى مكانه */
+    }
+  }
