@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { clearUser, editUserInfo } from '../../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaBirthdayCake, FaEnvelope, FaIdBadge, FaTimes } from 'react-icons/fa';
-import { Card, Row, Col, Button } from 'react-bootstrap';
-import 'animate.css';
-import SidebarProfile from '../../components/SidebarProfile/SidebarProfile';
-import '../../styles/Profile.css';
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { clearUser, editUserInfo } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaBirthdayCake, FaEnvelope, FaIdBadge, FaTimes } from "react-icons/fa";
+import { Card, Row, Col, Button } from "react-bootstrap";
+import "animate.css";
+import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
+import "../../styles/Profile.css";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -17,7 +17,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     dispatch(clearUser());
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleUpdateInfo = async (updatedData) => {
@@ -27,7 +27,7 @@ const Profile = () => {
       setIsUpdating(false);
     } catch (error) {
       setIsUpdating(false);
-      console.error('Failed to update user info:', error);
+      console.error("Failed to update user info:", error);
     }
   };
 
@@ -53,7 +53,7 @@ const Profile = () => {
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* محتوى البروفايل */}
-      <div className="profile-content">
+      <div className={`profile-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div className="title-container">
           <h1 className="courses-title mb-4 text-center animate__animated animate__fadeInDown">Profile</h1>
           <p className="page-description animate__animated animate__fadeIn">
@@ -106,7 +106,7 @@ const Profile = () => {
             </Row>
           </Card.Body>
           <Card.Footer>
-            <Button className="btn-custom" onClick={() => navigate('/update-info')}>
+            <Button className="btn-custom" onClick={() => navigate("/update-info")}>
               <FaEdit className="me-2" />
               Update Info
             </Button>

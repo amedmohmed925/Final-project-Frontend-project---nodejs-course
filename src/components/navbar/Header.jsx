@@ -15,11 +15,46 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false); // حالة لتتبع التمرير
 
   const handleLogout = () => {
-    dispatch(clearUser());
-    navigate("/login");
+    dispatch(clearUser()); // حذف اليوزر من Redux
+    navigate("/login"); // تحويل المستخدم إلى صفحة login
   };
 
   const isHomePage = location.pathname === "/";
+
+  // التحقق من وجود التوكن وصلاحيتها
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken"); // الحصول على التوكن من localStorage
+
+    if (!token) {
+      // إذا لم يكن التوكن موجودًا
+      dispatch(clearUser()); // حذف اليوزر من Redux
+      navigate("/login"); // تحويل المستخدم إلى صفحة login
+    } else {
+      // إذا كان التوكن موجودًا، تحقق من صلاحيتها
+      const checkTokenValidity = async () => {
+        try {
+          const response = await fetch("/api/check-token", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            // إذا كانت صلاحية التوكن منتهية
+            dispatch(clearUser()); // حذف اليوزر من Redux
+            navigate("/login"); // تحويل المستخدم إلى صفحة login
+          }
+        } catch (error) {
+          console.error("Error checking token validity:", error);
+          dispatch(clearUser()); // حذف اليوزر من Redux
+          navigate("/login"); // تحويل المستخدم إلى صفحة login
+        }
+      };
+
+      checkTokenValidity();
+    }
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -118,9 +153,9 @@ const Header = () => {
                   }}
                   className="text-light"
                 >
-                  {user.firstName[0]}
+                  {user?.firstName?.[0]} {/* التحقق من وجود user و firstName */}
                 </span>
-                <span>{user.firstName + " " + user.lastName}</span>
+                <span>{user?.firstName + " " + user?.lastName}</span> {/* التحقق من وجود user */}
               </Nav.Link>
             )}
           </Nav>
