@@ -1,5 +1,10 @@
 
-
+.auth-container{
+  background-image: url('./background.d202d53710b4a383.jpg');
+  background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 100vh;
+}
 
 .spinner {
     animation: spin 1s linear infinite;
@@ -12,4 +17,12 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+  .linetUnderTitle {
+    width: 50px; /* القيمة الافتراضية للعرض، ضع القيمة اللي تناسبك */
+    transition: width 0.3s ease; /* التحريك يشتغل في كل التغييرات على width */
+  }
+  
+  .logoAuth:hover .linetUnderTitle {
+    width: 200px !important; /* العرض لما يتوسع */
   }

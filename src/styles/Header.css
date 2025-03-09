@@ -34,12 +34,13 @@
   }
 
   .logo {
-    font-family: 'Arial', sans-serif; /* اختر خطًا مناسبًا */
-    font-size: 2.5rem; /* حجم الخط */
+    font-family:'Courier New', Courier, monospace; /* اختر خطًا مناسبًا */
+    font-size: 2rem; /* حجم الخط */
     font-weight: bold; /* سماكة الخط */
     text-transform: uppercase; /* تحويل النص إلى أحرف كبيرة */
-    letter-spacing: 2px; /* تباعد بين الحروف */
+    letter-spacing: -2px; /* تباعد بين الحروف */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
+    text-decoration: none;
   }
   
   .logo-part-1 {
@@ -47,24 +48,16 @@
   }
   
   .logo-part-2 {
-    color: #ebca26; /* اللون الذهبي (#ebca26) */
-    background: linear-gradient(45deg, #ebca26, #ffd700); /* تدريج لوني */
+    color: var(--mainColor); /* اللون الذهبي (var(--mainColor)) */
+    background: linear-gradient(45deg, var(--mainColor), #ffd700); /* تدريج لوني */
     -webkit-background-clip: text; /* تطبيق التدريج على النص */
     -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
   }
   
-  .logo:hover .logo-part-1 {
-    color: #ebca26; /* تغيير اللون عند التحويم */
-  }
-  
-  .logo:hover .logo-part-2 {
-    background: linear-gradient(45deg, #ffffff, #f0f0f0); /* تدريج لوني أبيض عند التحويم */
-    -webkit-background-clip: text; /* تطبيق التدريج على النص */
-    -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
-  }
+
 
   .active-link {
-    color: #ebca26 !important;
+    color: var(--mainColor) !important;
     font-weight: bold;
   }
   

@@ -1,3 +1,8 @@
+
+:root{
+  --mainColor:#ebd126
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -19,13 +24,13 @@ body {
   }
   
   .btn-primary {
-    background-color: #ebd126;
+    background-color: var(--mainColor);
     border: none;
     color: #fff;
   }
   
   .btn-primary:hover {
-    background-color: #d4b71e;
+    background-color: var(--mainColor);
   }
   
   .btn-danger {
@@ -51,3 +56,6 @@ body {
   .shadow {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
+
+
+

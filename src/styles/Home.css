@@ -1,4 +1,8 @@
 /* تنسيق عام */
+:root {
+  --mainColor: #ebca26;
+}
+
 .home-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -6,12 +10,12 @@
 /* Hero Section */
 .hero-section {
   height: 100vh;
-  position: relative; /* إضافة position: relative */
+  position: relative;
   overflow: hidden;
   background-image: url('./bgHeroSection.jpeg');
   background-size: cover;
   background-position: center;
-  margin-top: 0; /* تأكد من عدم وجود هوامش تفصل بين الـ Header والـ Hero Section */
+  margin-top: 0;
   z-index: 1;
 }
 
@@ -27,9 +31,6 @@
   justify-content: center;
 }
 
-/* باقي المحتوى */
-
-
 .hero-title {
   font-size: 3rem;
   color: white;
@@ -43,17 +44,14 @@
 }
 
 .search-form {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .search-input {
-  width: 300px;
-  border-radius: 25px;
-  border: 2px solid #ebca26;
+  border-radius: 25px 0 0 25px;
+  border: 2px solid var(--mainColor);
   padding: 10px 20px;
-  font-size: 1rem;
   background-color: rgba(255, 255, 255, 0.8);
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
@@ -65,11 +63,10 @@
 }
 
 .search-button {
-  background-color: #ebca26;
-  border: none;
-  border-radius: 25px;
+  border-radius: 0 25px 25px 0;
+  background-color: var(--mainColor);
+  border: 2px solid var(--mainColor);
   padding: 10px 20px;
-  font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
@@ -77,186 +74,169 @@
   background-color: #d4b220;
 }
 
-/* تأثيرات الظهور */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate__animated.animate__fadeInDown {
-  animation: fadeIn 1s ease forwards;
-}
-
-.animate__animated.animate__fadeInUp {
-  animation: fadeIn 1s ease forwards;
-}
-
-.animate__delay-1s {
-  animation-delay: 1s;
-}
-
-.animate__delay-2s {
-  animation-delay: 2s;
-}
-  /* Featured Courses Section */
-  .featured-courses {
-    padding: 60px 0;
-    background-color: #f8f9fa;
-  }
-  
-  .section-title {
-    font-size: 2.5rem;
-    color: #333;
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .course-card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .course-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .course-card .btn-primary {
-    background-color: #ebca26;
-    border: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .course-card .btn-primary:hover {
-    background-color: #d4b220;
-  }
-  
-  /* Statistics Section */
-  .statistics-section {
-    padding: 60px 0;
-    background-color: white;
-  }
-  
-  .statistic-number {
-    font-size: 2.5rem;
-    color: #ebca26;
-    margin-bottom: 10px;
-  }
-  
-  .statistic-text {
-    font-size: 1.2rem;
-    color: #333;
-  }
-  
-  /* Testimonials Section */
-  .testimonials-section {
-    padding: 60px 0;
-    background-color: #f8f9fa;
-  }
-  
-  .testimonial-card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .testimonial-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Newsletter Section */
-  .newsletter-section {
-    padding: 60px 0;
-    background-color: white;
-  }
-  
-  .newsletter-form {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .newsletter-form .form-control {
-    width: 300px;
-    border-radius: 25px;
-  }
-  
-  .subscribe-button {
-    background-color: #ebca26;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .subscribe-button:hover {
-    background-color: #d4b220;
-  }
-
-  /* تنسيق الـ Form */
-.search-form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 500px; /* تحديد عرض النموذج */
-  margin: 0 auto; /* توسيط النموذج */
-}
-
-/* تنسيق حقل البحث */
-.search-input {
-  border-radius: 25px 0 0 25px; /* حواف دائرية على اليسار */
-  border: 2px solid #ebca26 !important; /* لون الحدود */
-  padding: 10px 20px; /* تباعد داخلي */
-  flex: 1;
-}
-
-/* تنسيق الزر */
-.search-button {
-  border-radius: 0 25px 25px 0; /* حواف دائرية على اليمين */
-  background-color: #ebca26 !important; /* لون الخلفية */
-  border: 2px solid #ebca26 !important; /* لون الحدود */
-  padding: 10px 20px; /* تباعد داخلي */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; /* تغيير شكل المؤشر */
-}
-
-/* تغيير لون الزر عند التحويم */
-.search-button:hover {
-  background-color: #d4b122 !important; /* لون خلفية أغمق */
-  border-color: #d4b122 !important; /* لون حدود أغمق */
-}
-
-/* تنسيق الأيقونة */
 .search-button svg {
-  width: 20px; /* حجم الأيقونة */
-  height: 20px; /* حجم الأيقونة */
-  fill: white; /* لون الأيقونة */
+  width: 20px;
+  height: 20px;
+  fill: white;
 }
 
-/* تأخير مخصص */
-.animate__delay-1 {
-  animation-delay: 1s;
+/* Most Viewed Courses Section */
+.most-viewed-courses {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-.animate__delay-2 {
-  animation-delay: 2s;
+.section-title {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 50px;
+  font-weight: 700;
 }
 
-.animate__delay-3 {
-  animation-delay: 3s;
+.course-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: white;
 }
 
+.course-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.course-card .btn-primary {
+  background-color: var(--mainColor);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.course-card .btn-primary:hover {
+  background-color: #d4b220;
+  transform: scale(1.05);
+}
+
+/* Why Choose Us Section */
+.why-choose-us-section {
+  padding: 80px 0;
+  background: white;
+}
+
+.why-card {
+  text-align: center;
+  padding: 20px;
+}
+
+.why-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.why-card h3 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.why-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Statistics Section */
+.statistics-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.statistic-number {
+  font-size: 3rem;
+  color: var(--mainColor);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.statistic-text {
+  font-size: 1.3rem;
+  color: #555;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.testimonial-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 20px;
+}
+
+/* Latest Blog Posts Section */
+.blog-section {
+  padding: 80px 0;
+  background: white;
+}
+
+.blog-card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.blog-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.blog-card .btn-outline-primary {
+  border-color: var(--mainColor);
+  color: var(--mainColor);
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.blog-card .btn-outline-primary:hover {
+  background-color: var(--mainColor);
+  color: white;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.newsletter-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.newsletter-input {
+  border-radius: 25px 0 0 25px;
+  border: 2px solid var(--mainColor);
+  padding: 12px 20px;
+}
+
+.subscribe-button {
+  border-radius: 0 25px 25px 0;
+  background-color: var(--mainColor);
+  border: 2px solid var(--mainColor);
+  padding: 12px 25px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.subscribe-button:hover {
+  background-color: #d4b220;
+  transform: scale(1.05);
+}

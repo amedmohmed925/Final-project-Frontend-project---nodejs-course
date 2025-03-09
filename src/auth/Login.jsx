@@ -7,6 +7,7 @@ import { Form, Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/register.css';
+import Logo from '../components/Logo';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
@@ -60,10 +61,36 @@ const Login = () => {
 
   return (
     <div style={{ minHeight: '100vh' }} className="auth-container d-flex align-items-center justify-content-center">
-      <div className="form-section w-75 h-75 card p-4">
-        <motion.h2 initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          Login
-        </motion.h2>
+      <div className="form-section w-50 h-75 card p-4 animate__animated animate__bounceInDown">
+      <div
+          className="py-4 logoAuth"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "20px",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Logo colorText="#0a3e6e" />
+          <motion.h2
+            className="fs-4 fw-bold"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Welcome Back to Learning!
+          </motion.h2>
+          <span
+          className='linetUnderTitle'
+            style={{
+              width: "100px",
+              backgroundColor: "#0a3e6e",
+              height: "2px",
+              border: "none",
+            }}
+          ></span>
+        </div>
         <Form onSubmit={handleSubmit} className="auth-form">
           <Form.Group className="mb-3">
             <Form.Label>
@@ -129,8 +156,8 @@ const Login = () => {
             variant="secondary"
             onClick={() => setShowModal(false)}
             style={{
-              backgroundColor: '#ebd126',
-              borderColor: '#ebd126',
+              backgroundColor: 'var(--mainColor)',
+              borderColor: 'var(--mainColor)',
               color: '#000',
             }}
           >

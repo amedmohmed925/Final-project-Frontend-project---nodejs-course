@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
 
 import "../../styles/Header.css";
+import Logo from "../Logo";
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
@@ -20,41 +21,6 @@ const Header = () => {
   };
 
   const isHomePage = location.pathname === "/";
-
-  // التحقق من وجود التوكن وصلاحيتها
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken"); // الحصول على التوكن من localStorage
-
-    if (!token) {
-      // إذا لم يكن التوكن موجودًا
-      dispatch(clearUser()); // حذف اليوزر من Redux
-      navigate("/login"); // تحويل المستخدم إلى صفحة login
-    } else {
-      // إذا كان التوكن موجودًا، تحقق من صلاحيتها
-      const checkTokenValidity = async () => {
-        try {
-          const response = await fetch("/api/check-token", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (!response.ok) {
-            // إذا كانت صلاحية التوكن منتهية
-            dispatch(clearUser()); // حذف اليوزر من Redux
-            navigate("/login"); // تحويل المستخدم إلى صفحة login
-          }
-        } catch (error) {
-          console.error("Error checking token validity:", error);
-          dispatch(clearUser()); // حذف اليوزر من Redux
-          navigate("/login"); // تحويل المستخدم إلى صفحة login
-        }
-      };
-
-      checkTokenValidity();
-    }
-  }, [dispatch, navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,6 +43,7 @@ const Header = () => {
 
   return (
     <Navbar
+    style={{padding:"0"}}
       bg={isHomePage && !isScrolled ? "transparent" : "dark"}
       variant={isHomePage && !isScrolled ? "light" : "dark"}
       expand="lg"
@@ -84,12 +51,7 @@ const Header = () => {
       fixed={isHomePage ? "top" : undefined} // تطبيق fixed فقط في الصفحة الرئيسية
     >
       <Container>
-        <Navbar.Brand as={Link} to="/">
-          <h1 className="text-light logo">
-            <span className="logo-part-1">Cour</span>
-            <span className="logo-part-2">ses</span>
-          </h1>
-        </Navbar.Brand>
+      <Logo />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav style={{ alignItems: "center" }} className="ms-auto">
@@ -142,7 +104,7 @@ const Header = () => {
                 <span
                   style={{
                     padding: "10px",
-                    backgroundColor: "#ebca26",
+                    backgroundColor: "var(--mainColor)",
                     width: "40px",
                     height: "40px",
                     borderRadius: "50%",
