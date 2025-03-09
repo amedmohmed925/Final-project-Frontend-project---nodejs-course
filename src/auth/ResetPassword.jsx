@@ -1,47 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaSpinner } from 'react-icons/fa';
-import { forgetPassword } from '../api/authApi'; // استيراد فانكشن الـ API
-import '../styles/register.css'; // نفس الـ CSS بتاع الـ Login
+import { FaLock, FaSpinner } from 'react-icons/fa';
+import { resetPassword } from '../api/authApi';
+import '../styles/register.css';
 import Logo from '../components/Logo';
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+const ResetPassword = () => {
+  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const query = new URLSearchParams(location.search);
+  const email = query.get('email');
+  const token = query.get('token');
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address.');
+  useEffect(() => {
+    if (!email || !token) {
+      setError('Invalid reset link.');
       setShowModal(true);
-      return false;
     }
-    return true;
-  };
+  }, [email, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateEmail()) return;
+    if (!newPassword.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
+      setError('Password must be at least 8 characters with a letter and a number.');
+      setShowModal(true);
+      return;
+    }
 
     setIsLoading(true);
     try {
-      const response = await forgetPassword(email);
+      const response = await resetPassword(email, token, newPassword);
       setSuccess(response.message);
       setError('');
       setShowModal(true);
-      setTimeout(() => navigate('/login'), 3000); // إرجاع لصفحة الـ Login بعد 3 ثواني
+      setTimeout(() => navigate('/login'), 3000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send reset link');
+      setError(err.response?.data?.message || 'Failed to reset password');
       setShowModal(true);
     } finally {
       setIsLoading(false);
@@ -71,7 +73,7 @@ const ForgotPassword = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Forgot Your Password?
+            Reset Your Password
           </motion.h2>
           <span
             className="linetUnderTitle"
@@ -86,14 +88,14 @@ const ForgotPassword = () => {
         <Form onSubmit={handleSubmit} className="auth-form">
           <Form.Group className="mb-3">
             <Form.Label>
-              <FaEnvelope /> Email
+              <FaLock /> New Password
             </Form.Label>
             <Form.Control
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleChange}
-              placeholder="Enter your email"
+              type="password"
+              name="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter new password"
               required
             />
           </Form.Group>
@@ -105,11 +107,8 @@ const ForgotPassword = () => {
               disabled={isLoading}
               style={{ backgroundColor: '#ebd126', borderColor: '#ebd126' }}
             >
-              {isLoading ? <FaSpinner className="spinner" /> : 'Send Reset Link'}
+              {isLoading ? <FaSpinner className="spinner" /> : 'Reset Password'}
             </Button>
-            <Link className="text-secondary" to="/login">
-              Back to Login
-            </Link>
           </div>
         </Form>
       </div>
@@ -152,4 +151,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;

@@ -58,3 +58,16 @@ export const verifyOTP = async (email, otp) => {
       throw error.response.data;
     }
   };
+
+
+
+  export const forgetPassword = async (email) => {
+  const response = await axios.post(`${API_URL}/forget-password`, { email });
+  return response.data;
+};
+
+
+export const resetPassword = async (email, token, newPassword) => {
+  const response = await axios.post(`${API_URL}/reset-password`, { email, token, newPassword });
+  return response.data;
+};

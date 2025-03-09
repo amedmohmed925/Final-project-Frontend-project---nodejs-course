@@ -10,6 +10,7 @@ import Home from "./pages/Home/Home";
 import Profile from "./user/Profile/Profile";
 import UpdateInfo from "./user/UpdateInfo/UpdateInfo";
 import ForgotPassword from "./auth/ForgotPassword";
+import ResetPassword from "./auth/ResetPassword";
 const App = () => {
   return (
     <Router>
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/update-info" element={<UpdateInfo />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </div>
     </Router>

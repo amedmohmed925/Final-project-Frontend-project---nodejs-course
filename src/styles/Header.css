@@ -33,28 +33,87 @@
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important; /* لون الأيقونة أبيض */
   }
 
+  :root {
+    --mainColor: #ebca26; /* اللون الرئيسي للمنصة */
+    --hoverColor: #d4b220; /* لون الـ hover */
+  }
+  
+  /* تنسيق اللوجو الرئيسي */
   .logo {
-    font-family:'Courier New', Courier, monospace; /* اختر خطًا مناسبًا */
-    font-size: 2rem; /* حجم الخط */
-    font-weight: bold; /* سماكة الخط */
-    text-transform: uppercase; /* تحويل النص إلى أحرف كبيرة */
-    letter-spacing: -2px; /* تباعد بين الحروف */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); 
-    text-decoration: none;
+    font-family: 'Poppins', 'Courier New', Courier, monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
   }
   
+  /* تأثير عند الـ hover */
+  .logo:hover {
+    transform: scale(1.05);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* الجزء الأول من اللوجو (Cour) */
   .logo-part-1 {
-    color: #ffffff; /* لون أبيض */
+    color: #ffffff; /* اللون الافتراضي أبيض */
+    background: linear-gradient(45deg, #ffffff, #f0f0f0); /* تدرج افتراضي للخلفيات الداكنة */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: color 0.3s ease, background 0.3s ease;
   }
   
+  /* الجزء الثاني من اللوجو (ses) */
   .logo-part-2 {
-    color: var(--mainColor); /* اللون الذهبي (var(--mainColor)) */
-    background: linear-gradient(45deg, var(--mainColor), #ffd700); /* تدريج لوني */
-    -webkit-background-clip: text; /* تطبيق التدريج على النص */
-    -webkit-text-fill-color: transparent; /* جعل النص شفافًا */
+    color: var(--mainColor);
+    background: linear-gradient(45deg, var(--mainColor), #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background 0.3s ease;
   }
+  
+  /* الـ .com */
+  .logo-domain {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #ffffff; /* اللون الافتراضي أبيض */
+    margin-left: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  /* تأثير الـ hover على الـ .com */
+  .logo:hover .logo-domain {
+    transform: translateY(-2px);
+  }
+  
+  /* تعديل اللوجو في صفحة الـ Register/Login عند تمرير لون داكن */
+  .logoAuth .logo .logo-part-1 {
+    color: #0a3e6e; /* اللون الداكن المطلوب */
+    background: linear-gradient(45deg, #0a3e6e, #1a5a9b); /* تدرج داكن متناسق */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .logoAuth .logo .logo-domain {
+    color: #0a3e6e; /* نفس اللون الداكن للـ .com */
+  }
+  
+  
   
 
+  /* لضمان التوافق مع الخلفيات الداكنة (اختياري) */
+  @media (prefers-color-scheme: dark) {
+    .logo-part-1 {
+      color: #ffffff;
+    }
+    .logo-domain {
+      color: #ffffff;
+    }
+  }
 
   .active-link {
     color: var(--mainColor) !important;
