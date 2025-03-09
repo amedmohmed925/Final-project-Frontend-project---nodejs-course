@@ -9,6 +9,7 @@ import Courses from "./pages/Courses/Courses";
 import Home from "./pages/Home/Home";
 import Profile from "./user/Profile/Profile";
 import UpdateInfo from "./user/UpdateInfo/UpdateInfo";
+import ForgotPassword from "./auth/ForgotPassword";
 const App = () => {
   return (
     <Router>
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/update-info" element={<UpdateInfo />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
         </Routes>
       </div>
     </Router>

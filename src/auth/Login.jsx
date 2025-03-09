@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../api/authApi';
 import { FaUser, FaLock, FaSpinner } from 'react-icons/fa';
 import { Form, Button, Modal } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/register.css';
 import Logo from '../components/Logo';
@@ -118,15 +118,20 @@ const Login = () => {
               required
             />
           </Form.Group>
+          <div className='d-flex justify-content-center align-items-center py-2' style={{flexDirection:"column"}}>
+            
           <Button
             variant="primary"
             type="submit"
-            className="auth-button w-100"
+            className="auth-button w-25"
             disabled={isLoading}
             style={{ backgroundColor: '#ebd126', borderColor: '#ebd126' }}
           >
-            {isLoading ? <FaSpinner className="spinner" /> : 'Login'}
+            {isLoading ? <FaSpinner className="spinner" /> : 'Let`s Login'}
           </Button>
+          <Link className='text-secondary' to={'/forgotPassword'}>Forgot your password?</Link>
+          <Link className='text-secondary' to={'/register'}>Don't have an account? Register</Link>
+          </div>
         </Form>
       </div>
 

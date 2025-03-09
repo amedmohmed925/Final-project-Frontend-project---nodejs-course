@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { register } from "../api/authApi";
 import { verifyOTP, resendOTP } from "../api/authApi";
 import {
@@ -296,10 +296,12 @@ const Register = () => {
                 </Form.Group>
               </Col>
             </Row>
+            <div className='d-flex justify-content-center align-items-center py-2' style={{flexDirection:"column"}}>
+
             <Button
               variant="primary"
               type="submit"
-              className="auth-button w-100"
+              className="auth-button w-25"
               disabled={isLoadingVerify}
               style={{
                 backgroundColor: "var(--mainColor)",
@@ -308,6 +310,8 @@ const Register = () => {
             >
               {isLoadingVerify ? <FaSpinner className="spinner" /> : "Register"}
             </Button>
+            <Link  className='text-secondary' to={'/login'}>Already have an account? Log in</Link>
+            </div>
           </Form>
         ) : (
           <Form onSubmit={handleOtpSubmit} className="auth-form">
@@ -324,7 +328,7 @@ const Register = () => {
             <Button
               variant="primary"
               type="submit"
-              className="auth-button w-100 mb-2"
+              className="auth-button w-25 mb-2"
               disabled={isLoadingVerify}
               style={{
                 backgroundColor: "var(--mainColor)",
@@ -339,7 +343,7 @@ const Register = () => {
             </Button>
             <Button
               variant="secondary"
-              className="w-100"
+              className="w-25"
               onClick={handleResendOtp}
               disabled={isLoadingResend}
             >
