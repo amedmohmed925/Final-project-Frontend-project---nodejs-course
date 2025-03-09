@@ -1,6 +1,10 @@
 
-:root{
-  --mainColor:#ebd126
+:root {
+  --mainColor: #ebca26;
+  --darkBackground: #1a1a1a;
+  --lightText: #ffffff;
+  --mutedText: #bbbbbb;
+  --darkColor:#061e33
 }
 
 body {

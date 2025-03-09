@@ -11,8 +11,8 @@ import {
   FaUserShield,
   FaSpinner,
 } from "react-icons/fa";
-import { Form, Button, Row, Col, Modal } from "react-bootstrap";
-import { color, motion } from "framer-motion";
+import { Form, Button, Row, Col, Modal, Container } from "react-bootstrap";
+import { motion } from "framer-motion";
 import "../styles/register.css";
 import Logo from "../components/Logo";
 
@@ -34,7 +34,6 @@ const Register = () => {
   const [isLoadingVerify, setIsLoadingVerify] = useState(false);
   const [isLoadingResend, setIsLoadingResend] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [emptyFields, setEmptyFields] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -129,236 +128,244 @@ const Register = () => {
   };
 
   return (
-    <div
-      style={{ minHeight: "100vh" }}
-      className="auth-container  d-flex align-items-center justify-content-center"
-    >
-      <div className="form-section w-75 h-75 card p-4 animate__animated animate__bounceInDown">
-        <div
-          className="py-4 logoAuth"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            fontSize: "20px",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Logo colorText="#0a3e6e" />
-          <motion.h2
-            className="fs-4 fw-bold"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Start Your Journey Today
-          </motion.h2>
-          <span
-                    className='linetUnderTitle'
-
-            style={{
-              width: "100px",
-              backgroundColor: "#0a3e6e",
-              height: "2px",
-              border: "none",
-            }}
-          ></span>
-        </div>
-
-        {!showOtpForm ? (
-          <Form onSubmit={handleSubmit} className="auth-form ">
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaUser /> First Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="Enter your first name"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaUser /> Last Name
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Enter your last name"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaUser /> Username
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="Enter your username"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaEnvelope /> Email
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter your email"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaCalendar /> Date of Birth
-                  </Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleChange}
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaUserShield /> Role
-                  </Form.Label>
-                  <Form.Select
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                    required
-                  >
-                    <option value="">Select Role</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaLock /> Password
-                  </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Enter your password"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    <FaLock /> Confirm Password
-                  </Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="confirm_password"
-                    value={formData.confirm_password}
-                    onChange={handleChange}
-                    placeholder="Confirm your password"
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <div className='d-flex justify-content-center align-items-center py-2' style={{flexDirection:"column"}}>
-
-            <Button
-              variant="primary"
-              type="submit"
-              className="auth-button w-25"
-              disabled={isLoadingVerify}
-              style={{
-                backgroundColor: "var(--mainColor)",
-                borderColor: "var(--mainColor)",
-              }}
+    <div className="auth-container d-flex align-items-center justify-content-center">
+      <Container>
+        <Row className="align-items-center justify-content-center min-vh-100">
+          <Col xs={12} md={10} lg={8} className="p-4">
+            <motion.div
+              className="form-section card p-4 shadow-sm"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {isLoadingVerify ? <FaSpinner className="spinner" /> : "Register"}
-            </Button>
-            <Link  className='text-secondary' to={'/login'}>Already have an account? Log in</Link>
-            </div>
-          </Form>
-        ) : (
-          <Form onSubmit={handleOtpSubmit} className="auth-form">
-            <Form.Group className="mb-3">
-              <Form.Label>Enter OTP</Form.Label>
-              <Form.Control
-                type="text"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                required
-              />
-            </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-              className="auth-button w-25 mb-2"
-              disabled={isLoadingVerify}
-              style={{
-                backgroundColor: "var(--mainColor)",
-                borderColor: "var(--mainColor)",
-              }}
-            >
-              {isLoadingVerify ? (
-                <FaSpinner className="spinner" />
+              <div className="py-4 logoAuth text-center">
+                <Logo colorText="#0a3e6e" />
+                <motion.h2
+                  className="fs-4 fw-bold mt-3"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Start Your Journey Today
+                </motion.h2>
+                <motion.span
+                  className="linetUnderTitle"
+                  initial={{ width: "50px" }}
+                  whileHover={{ width: "200px" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{
+                    backgroundColor: "#0a3e6e",
+                    height: "2px",
+                    border: "none",
+                    display: "block",
+                    margin: "10px auto",
+                  }}
+                ></motion.span>
+              </div>
+
+              {!showOtpForm ? (
+                <Form onSubmit={handleSubmit} className="auth-form">
+                  <Row>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaUser className="me-2" /> First Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="firstName"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          placeholder="Enter your first name"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaUser className="me-2" /> Last Name
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="lastName"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          placeholder="Enter your last name"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaUser className="me-2" /> Username
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="username"
+                          value={formData.username}
+                          onChange={handleChange}
+                          placeholder="Enter your username"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaEnvelope className="me-2" /> Email
+                        </Form.Label>
+                        <Form.Control
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="Enter your email"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaCalendar className="me-2" /> Date of Birth
+                        </Form.Label>
+                        <Form.Control
+                          type="date"
+                          name="dob"
+                          value={formData.dob}
+                          onChange={handleChange}
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaUserShield className="me-2" /> Role
+                        </Form.Label>
+                        <Form.Select
+                          name="role"
+                          value={formData.role}
+                          onChange={handleChange}
+                          required
+                          className="rounded-pill"
+                        >
+                          <option value="">Select Role</option>
+                          <option value="teacher">Teacher</option>
+                          <option value="student">Student</option>
+                        </Form.Select>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaLock className="me-2" /> Password
+                        </Form.Label>
+                        <Form.Control
+                          type="password"
+                          name="password"
+                          value={formData.password}
+                          onChange={handleChange}
+                          placeholder="Enter your password"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6} xs={12} className="mb-3">
+                      <Form.Group>
+                        <Form.Label>
+                          <FaLock className="me-2" /> Confirm Password
+                        </Form.Label>
+                        <Form.Control
+                          type="password"
+                          name="confirm_password"
+                          value={formData.confirm_password}
+                          onChange={handleChange}
+                          placeholder="Confirm your password"
+                          required
+                          className="rounded-pill"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+                  <div className="d-flex flex-column align-items-center py-3">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="auth-button mb-2 rounded-pill"
+                      disabled={isLoadingVerify}
+                      style={{
+                        backgroundColor: "#ebd126",
+                        borderColor: "#ebd126",
+                        width: "200px",
+                      }}
+                    >
+                      {isLoadingVerify ? <FaSpinner className="spinner" /> : "Register"}
+                    </Button>
+                    <Link className="text-secondary mb-2 text-decoration-none" to="/login">
+                      Already have an account? Log in
+                    </Link>
+                  </div>
+                </Form>
               ) : (
-                "Verify OTP"
+                <Form onSubmit={handleOtpSubmit} className="auth-form">
+                  <Form.Group className="mb-3">
+                    <Form.Label>Enter OTP</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="Enter OTP"
+                      required
+                      className="rounded-pill"
+                    />
+                  </Form.Group>
+                  <div className="d-flex flex-column align-items-center">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="auth-button mb-2 rounded-pill"
+                      disabled={isLoadingVerify}
+                      style={{
+                        backgroundColor: "#ebd126",
+                        borderColor: "#ebd126",
+                        width: "200px",
+                      }}
+                    >
+                      {isLoadingVerify ? <FaSpinner className="spinner" /> : "Verify OTP"}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="w-25 mb-2 rounded-pill"
+                      onClick={handleResendOtp}
+                      disabled={isLoadingResend}
+                      style={{ backgroundColor: "#6c757d", borderColor: "#6c757d" }}
+                    >
+                      {isLoadingResend ? <FaSpinner className="spinner" /> : "Resend OTP"}
+                    </Button>
+                  </div>
+                </Form>
               )}
-            </Button>
-            <Button
-              variant="secondary"
-              className="w-25"
-              onClick={handleResendOtp}
-              disabled={isLoadingResend}
-            >
-              {isLoadingResend ? (
-                <FaSpinner className="spinner" />
-              ) : (
-                "Resend OTP"
-              )}
-            </Button>
-          </Form>
-        )}
-      </div>
+            </motion.div>
+          </Col>
+        </Row>
+      </Container>
 
-      {/* نافذة النجاح/الخطأ */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header
           closeButton
           style={{
@@ -383,8 +390,8 @@ const Register = () => {
             variant="secondary"
             onClick={() => setShowModal(false)}
             style={{
-              backgroundColor: "var(--mainColor)",
-              borderColor: "var(--mainColor)",
+              backgroundColor: "#ebd126",
+              borderColor: "#ebd126",
               color: "#000",
             }}
           >

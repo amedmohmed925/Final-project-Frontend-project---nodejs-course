@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Form, Button, Modal } from 'react-bootstrap';
+import { Form, Button, Modal, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaLock, FaSpinner } from 'react-icons/fa';
 import { resetPassword } from '../api/authApi';
-import '../styles/register.css';
+import '../styles/register.css'; // استخدام أسلوب التصميم من register.css
 import Logo from '../components/Logo';
 
 const ResetPassword = () => {
@@ -51,69 +51,73 @@ const ResetPassword = () => {
   };
 
   return (
-    <div
-      style={{ minHeight: '100vh' }}
-      className="auth-container d-flex align-items-center justify-content-center"
-    >
-      <div className="form-section w-50 h-75 card p-4 animate__animated animate__bounceInDown">
-        <div
-          className="py-4 logoAuth"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            fontSize: "20px",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Logo colorText="#0a3e6e" />
-          <motion.h2
-            className="fs-4 fw-bold"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Reset Your Password
-          </motion.h2>
-          <span
-            className="linetUnderTitle"
-            style={{
-              width: "100px",
-              backgroundColor: "#0a3e6e",
-              height: "2px",
-              border: "none",
-            }}
-          ></span>
-        </div>
-        <Form onSubmit={handleSubmit} className="auth-form">
-          <Form.Group className="mb-3">
-            <Form.Label>
-              <FaLock /> New Password
-            </Form.Label>
-            <Form.Control
-              type="password"
-              name="newPassword"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Enter new password"
-              required
-            />
-          </Form.Group>
-          <div className="d-flex justify-content-center align-items-center py-2" style={{ flexDirection: "column" }}>
-            <Button
-              variant="primary"
-              type="submit"
-              className="auth-button w-25"
-              disabled={isLoading}
-              style={{ backgroundColor: '#ebd126', borderColor: '#ebd126' }}
+    <div className="auth-container d-flex align-items-center justify-content-center">
+      <Container>
+        <Row className="align-items-center justify-content-center min-vh-100">
+          <Col xs={12} md={8} lg={6} className="p-4">
+            <motion.div
+              className="form-section card p-4 shadow-sm"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {isLoading ? <FaSpinner className="spinner" /> : 'Reset Password'}
-            </Button>
-          </div>
-        </Form>
-      </div>
+              <div className="py-4 logoAuth text-center">
+                <Logo colorText="#0a3e6e" />
+                <motion.h2
+                  className="fs-4 fw-bold mt-3"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Reset Your Password
+                </motion.h2>
+                <motion.span
+                  className="linetUnderTitle"
+                  initial={{ width: '50px' }}
+                  whileHover={{ width: '200px' }}
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  style={{
+                    backgroundColor: '#0a3e6e',
+                    height: '2px',
+                    border: 'none',
+                    display: 'block',
+                    margin: '10px auto',
+                  }}
+                ></motion.span>
+              </div>
+              <Form onSubmit={handleSubmit} className="auth-form">
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>
+                    <FaLock className="me-2" /> New Password
+                  </Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="newPassword"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                    className="rounded-pill"
+                  />
+                </Form.Group>
+                <div className="d-flex flex-column align-items-center py-3">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="auth-button mb-2 rounded-pill"
+                    disabled={isLoading}
+                    style={{ backgroundColor: '#ebd126', borderColor: '#ebd126', width: '200px' }}
+                  >
+                    {isLoading ? <FaSpinner className="spinner" /> : 'Reset Password'}
+                  </Button>
+                </div>
+              </Form>
+            </motion.div>
+          </Col>
+        </Row>
+      </Container>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header
           closeButton
           style={{
