@@ -195,7 +195,7 @@
   background: #6a11cb; /* لون الخلفية */
   color: white;
   border: none;
-  border-radius: 0 10px 10px 0; /* زوايا دائرية من الجهة اليمنى */
+  border-radius: 0 10px 20px 0; /* زوايا دائرية من الجهة اليمنى */
   font-size: 1.5rem;
   display: flex;
   align-items: center;

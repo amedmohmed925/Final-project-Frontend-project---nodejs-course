@@ -10,6 +10,7 @@ import Logo from "../../components/Logo";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import FeaturesSection from "./FeaturesSection";
+import AchievementsSection from "./AchievementsSection";
 
 const Home = () => {
   const sliderSettings = {
@@ -215,39 +216,7 @@ const Home = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="achievements-section">
-        <Container>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            Our Achievements
-            <h5 className="text-light fs-6">Every Number Tells a Story of Success and Growth.</h5>
-          </motion.h2>
-          <Row className="justify-content-center">
-            {[
-              { number: "500+", text: "Over 500 Transformative Courses Await You!" },
-              { number: "10,000+", text: "Join 10,000+ Success-Driven Students!" },
-              { number: "200+", text: "Learn from 200+ Industry Pioneers!" },
-            ].map((stat, index) => (
-              <Col xs={12} md={4} key={index} className="text-center mb-4">
-                <motion.h3
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, delay: index * 0.3, repeat: Infinity, repeatType: "reverse" }}
-                  className="statistic-number"
-                >
-                  {stat.number}
-                </motion.h3>
-                <p className="statistic-text">{stat.text}</p>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
-
+<AchievementsSection />
       <section className="image-content-section">
         <Container>
           <Row className="align-items-center flex-column-reverse flex-md-row">

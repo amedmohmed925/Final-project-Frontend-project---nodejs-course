@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editUserInfo } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { FaSpinner, FaArrowLeft, FaBars, FaArrowRight } from "react-icons/fa";
+import { FaSpinner, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
 import "../../styles/UpdateInfo.css";
@@ -11,10 +11,11 @@ const UpdateInfo = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
     dob: user.dob ? new Date(user.dob).toISOString().split("T")[0] : "",
     password: "",
     newPassword: "",
@@ -58,11 +59,9 @@ const UpdateInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     setIsUpdating(true);
-
     try {
       await dispatch(editUserInfo({ id: user._id, updatedData: formData })).unwrap();
       setModalMessage("User information updated successfully!");
@@ -79,133 +78,123 @@ const UpdateInfo = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    if (isSuccess) {
-      navigate("/profile");
-    }
+    if (isSuccess) navigate("/profile");
   };
 
   return (
-    <div className="update-info-container">
-      {/* زر فتح السايدبار */}
-        <button
+    <div className="update-info-page">
+      {/* Sidebar Toggle Button */}
+      <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+        aria-label="Toggle Sidebar"
       >
         {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
       </button>
-      
 
-      {/* السايدبار */}
+      {/* Sidebar */}
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* زر العودة */}
-      <button className="back-button" onClick={() => navigate(-1)}>
-        <FaArrowLeft /> Back
-      </button>
+      {/* Main Content */}
+      <div className={`update-info-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
+        <div className="update-info-container profile-card">
+          <button className="back-btn" onClick={() => navigate(-1)} aria-label="Go Back">
+            <FaArrowLeft /> <span>Back to Profile</span>
+          </button>
 
-      <h2 className="mb-4">Update Info</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="firstName" className="form-label">
-            First Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="firstName"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-          />
+          <h2 className="update-title">Update Your Information</h2>
+          <form onSubmit={handleSubmit} className="update-form">
+            <div className="info-section">
+              <div className="form-group">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your first name"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your last name"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="dob">Date of Birth</label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Current Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter current password"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="newPassword">New Password (Optional)</label>
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={formData.newPassword}
+                  onChange={handleChange}
+                  placeholder="Enter new password"
+                />
+              </div>
+            </div>
+            <button type="submit" className="btn-custom" disabled={isUpdating}>
+              {isUpdating ? <FaSpinner className="spinner" /> : "Update Profile"}
+            </button>
+          </form>
         </div>
-        <div className="mb-3">
-          <label htmlFor="lastName" className="form-label">
-            Last Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="lastName"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="dob" className="form-label">
-            Date of Birth
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="dob"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Current Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="newPassword" className="form-label">
-            New Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="newPassword"
-            name="newPassword"
-            value={formData.newPassword}
-            onChange={handleChange}
-            minLength={6}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" disabled={isUpdating}>
-          {isUpdating ? <FaSpinner className="spinner" /> : "Update"}
-        </button>
-      </form>
 
-      {/* Modal لعرض الرسائل */}
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>{isSuccess ? "Success" : "Error"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{modalMessage}</Modal.Body>
-        <Modal.Footer>
-          <Button variant={isSuccess ? "success" : "danger"} onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        {/* Modal */}
+        <Modal show={showModal} onHide={handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>{isSuccess ? "Success" : "Error"}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{modalMessage}</Modal.Body>
+          <Modal.Footer>
+            <Button variant={isSuccess ? "success" : "danger"} onClick={handleCloseModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };
