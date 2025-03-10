@@ -11,6 +11,7 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/f
 import { Link } from "react-router-dom";
 import FeaturesSection from "./FeaturesSection";
 import AchievementsSection from "./AchievementsSection";
+import TeamSection from "./TeamSection";
 
 const Home = () => {
   const sliderSettings = {
@@ -145,11 +146,12 @@ const Home = () => {
                 </Form>
               </Col>
             </Row>
+
           </Container>
         </div>
       </section>
 
-      {/* Most Viewed Courses Section */}
+<TeamSection />
       <section className="most-viewed-courses">
         <Container>
           <motion.h2
@@ -336,40 +338,7 @@ const Home = () => {
       {/* Image Content Section */}
     
 
-      {/* Latest Blog Posts Section */}
-      <section className="blog-section">
-        <Container>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            Latest Blog Posts
-          </motion.h2>
-          <Row className="justify-content-center">
-            {[1, 2, 3].map((post) => (
-              <Col xs={12} md={4} key={post} className="mb-4">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: post * 0.2 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <Card className="blog-card">
-                    <Card.Img variant="top" src={`https://picsum.photos/300/200?random=${post + 5}`} />
-                    <Card.Body>
-                      <Card.Title>Blog Post {post}</Card.Title>
-                      <Card.Text>A sneak peek into the latest trends in learning.</Card.Text>
-                      <Button variant="outline-primary">Read More</Button>
-                    </Card.Body>
-                  </Card>
-                </motion.div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
+ 
 
       {/* Newsletter Section */}
     {/* Footer Section */}

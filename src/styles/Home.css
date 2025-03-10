@@ -103,13 +103,33 @@
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem); /* يتكيف بين 1.5rem و2.5rem */
   color: var(--mainColor);
-  text-align: center;
   margin-bottom: 40px;
   font-weight: 700;
+  position: relative; /* ضروري لتحديد موقع الخط */
+  text-align: center; /* التأكد من توسيط النص */
+  width: 100%; /* لضمان أن العنوان يأخذ العرض الكامل */
 }
 
+/* إضافة الخط أسفل العنوان باستخدام ::after */
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px; /* المسافة بين النص والخط */
+  left: 50%; /* بداية الخط من المنتصف */
+  transform: translateX(-50%); /* لتوسيط الخط تمامًا */
+  width: 60px; /* عرض الخط */
+  height: 4px; /* سمك الخط */
+  background: linear-gradient(90deg, var(--mainColor), #3498db); /* تدرج لوني لإضفاء لمسة احترافية */
+  border-radius: 2px; /* زوايا دائرية للخط */
+  transition: width 0.3s ease; /* تأثير انتقالي عند التفاعل */
+}
+
+/* تأثير عند التمرير (Hover) */
+.section-title:hover::after {
+  width: 150px; /* زيادة عرض الخط عند التمرير */
+}
 .course-card {
   border: none;
   border-radius: 15px;
