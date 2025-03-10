@@ -141,26 +141,14 @@ const Register = () => {
               <div className="py-4 logoAuth text-center">
                 <Logo colorText="#0a3e6e" />
                 <motion.h2
-                  className="fs-4 fw-bold mt-3"
+                  className="fs-4 fw-bold mb-0 mt-3  section-title"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
                   Start Your Journey Today
                 </motion.h2>
-                <motion.span
-                  className="linetUnderTitle"
-                  initial={{ width: "50px" }}
-                  whileHover={{ width: "200px" }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  style={{
-                    backgroundColor: "#0a3e6e",
-                    height: "2px",
-                    border: "none",
-                    display: "block",
-                    margin: "10px auto",
-                  }}
-                ></motion.span>
+               
               </div>
 
               {!showOtpForm ? (
@@ -309,8 +297,8 @@ const Register = () => {
                       className="auth-button mb-2 rounded-pill"
                       disabled={isLoadingVerify}
                       style={{
-                        backgroundColor: "#ebd126",
-                        borderColor: "#ebd126",
+                        backgroundColor: "var(--mainColor)",
+                        borderColor: "var(--mainColor)",
                         width: "200px",
                       }}
                     >
@@ -353,7 +341,7 @@ const Register = () => {
                       className="w-25 mb-2 rounded-pill"
                       onClick={handleResendOtp}
                       disabled={isLoadingResend}
-                      style={{ backgroundColor: "#6c757d", borderColor: "#6c757d" }}
+                      style={{ backgroundColor: "var(--mainColor)", borderColor: "var(--mainColor)" }}
                     >
                       {isLoadingResend ? <FaSpinner className="spinner" /> : "Resend OTP"}
                     </Button>
@@ -390,8 +378,8 @@ const Register = () => {
             variant="secondary"
             onClick={() => setShowModal(false)}
             style={{
-              backgroundColor: "#ebd126",
-              borderColor: "#ebd126",
+              backgroundColor: "var(--mainColor)",
+              borderColor: "var(--mainColor)",
               color: "#000",
             }}
           >

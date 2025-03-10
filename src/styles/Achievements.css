@@ -45,7 +45,7 @@
     margin-top: 10px;
   }
   
-  /* تخطيط الشبكة */
+
   .achievements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -54,7 +54,7 @@
     z-index: 1;
   }
   
-  /* تنسيق الكروت */
+
   .achievement-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);

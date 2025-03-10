@@ -123,7 +123,7 @@ const Home = () => {
               <Col xs={12} md={8} className="text-center">
                 <div className="title-container">
                   <h1
-                    style={{ color: "#ebca26" }}
+                   
                     className="hero-title animate__animated animate__bounceInDown animate__delay-1"
                   >
                     Welcome to Our Courses Platform

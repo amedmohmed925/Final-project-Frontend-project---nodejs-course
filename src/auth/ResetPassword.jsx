@@ -64,26 +64,14 @@ const ResetPassword = () => {
               <div className="py-4 logoAuth text-center">
                 <Logo colorText="#0a3e6e" />
                 <motion.h2
-                  className="fs-4 fw-bold mt-3"
+                  className="fs-4 fw-bold mb-0 mt-3  section-title"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
                   Reset Your Password
                 </motion.h2>
-                <motion.span
-                  className="linetUnderTitle"
-                  initial={{ width: '50px' }}
-                  whileHover={{ width: '200px' }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  style={{
-                    backgroundColor: '#0a3e6e',
-                    height: '2px',
-                    border: 'none',
-                    display: 'block',
-                    margin: '10px auto',
-                  }}
-                ></motion.span>
+               
               </div>
               <Form onSubmit={handleSubmit} className="auth-form">
                 <Form.Group className="mb-3 position-relative">
@@ -106,7 +94,7 @@ const ResetPassword = () => {
                     type="submit"
                     className="auth-button mb-2 rounded-pill"
                     disabled={isLoading}
-                    style={{ backgroundColor: '#ebd126', borderColor: '#ebd126', width: '200px' }}
+                    style={{ backgroundColor: 'var(--mainColor)', borderColor: 'var(--mainColor)', width: '200px' }}
                   >
                     {isLoading ? <FaSpinner className="spinner" /> : 'Reset Password'}
                   </Button>
@@ -142,8 +130,8 @@ const ResetPassword = () => {
             variant="secondary"
             onClick={() => setShowModal(false)}
             style={{
-              backgroundColor: '#ebd126',
-              borderColor: '#ebd126',
+              backgroundColor: 'var(--mainColor)',
+              borderColor: 'var(--mainColor)',
               color: '#000',
             }}
           >

@@ -1,7 +1,5 @@
 /* تنسيق عام */
-:root {
-  --mainColor: #ebca26;
-}
+
 
 .home-page {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,9 +33,12 @@
 }
 
 .hero-title {
-  font-size: 3rem;
-  color: white;
-  margin-bottom: 20px;
+  font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(120deg, #6a11cb 30%, #2575fc 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
@@ -60,7 +61,7 @@
 }
 
 .search-input:focus {
-  border-color: #d4b220;
+  border-color: var(--mainColor);
   background-color: white;
   outline: none;
 }
@@ -74,7 +75,7 @@
 }
 
 .search-button:hover {
-  background-color: #d4b220;
+  background-color: var(--mainColor);
 }
 
 .search-button svg {
@@ -103,10 +104,13 @@
 }
 
 .section-title {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem); /* يتكيف بين 1.5rem و2.5rem */
-  color: var(--mainColor);
+  font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(120deg, #6a11cb 30%, #2575fc 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   margin-bottom: 40px;
-  font-weight: 700;
   position: relative; /* ضروري لتحديد موقع الخط */
   text-align: center; /* التأكد من توسيط النص */
   width: 100%; /* لضمان أن العنوان يأخذ العرض الكامل */
@@ -347,7 +351,7 @@
 }
 
 .cta-button:hover {
-  background-color: #d4b220;
+  background-color: var(--mainColor);
   transform: scale(1.05);
 }
 
@@ -416,7 +420,7 @@
 }
 
 .cta-button:hover {
-  background-color: #d4b220;
+  background-color: var(--mainColor);
   transform: scale(1.05);
 }
 
@@ -503,7 +507,7 @@
 }
 
 .subscribe-button:hover {
-  background-color: #d4b220;
+  background-color: var(--mainColor);
   transform: scale(1.05);
 }
 
@@ -563,7 +567,8 @@
   background-color: var(--darkBackground);
   color: var(--lightText);
   padding: 40px 0;
-  border-top: 2px solid var(--mainColor);
+  border-top: 1px solid var(--mainColor);
+  border-bottom: 1px solid var(--mainColor);
 }
 
 .footer-heading {
