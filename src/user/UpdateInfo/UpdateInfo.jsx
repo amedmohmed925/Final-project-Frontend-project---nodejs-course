@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editUserInfo } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { FaSpinner, FaArrowLeft, FaBars } from "react-icons/fa";
+import { FaSpinner, FaArrowLeft, FaBars, FaArrowRight } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
 import "../../styles/UpdateInfo.css";
@@ -87,12 +87,13 @@ const UpdateInfo = () => {
   return (
     <div className="update-info-container">
       {/* زر فتح السايدبار */}
-      <button
-        onClick={() => setIsSidebarOpen(true)}
-        className="sidebar-toggle"
+        <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
       >
-        <FaBars />
+        {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
       </button>
+      
 
       {/* السايدبار */}
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />

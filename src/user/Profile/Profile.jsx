@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearUser, editUserInfo } from "../../features/user/userSlice";
+import { clearUser } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaBirthdayCake, FaEnvelope, FaIdBadge, FaTimes } from "react-icons/fa";
+import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaEnvelope, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import "animate.css";
 import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
@@ -12,23 +12,11 @@ const Profile = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isUpdating, setIsUpdating] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(clearUser());
     navigate("/login");
-  };
-
-  const handleUpdateInfo = async (updatedData) => {
-    setIsUpdating(true);
-    try {
-      await dispatch(editUserInfo({ id: user._id, ...updatedData })).unwrap();
-      setIsUpdating(false);
-    } catch (error) {
-      setIsUpdating(false);
-      console.error("Failed to update user info:", error);
-    }
   };
 
   if (!user) {
@@ -43,74 +31,74 @@ const Profile = () => {
     <div className="profile-container animate__animated animate__fadeIn">
       {/* زر فتح السايدبار */}
       <button
-        onClick={() => setIsSidebarOpen(true)}
-        className="sidebar-toggle animate__animated animate__bounceIn"
-      >
-        <FaBars />
-      </button>
+  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+  className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+>
+  {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+</button>
 
       {/* السايدبار */}
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* محتوى البروفايل */}
       <div className={`profile-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
-        <div className="title-container">
-          <h1 className="courses-title mb-4 text-center animate__animated animate__fadeInDown">Profile</h1>
-          <p className="page-description animate__animated animate__fadeIn">
-            Welcome to your profile page! Here, you can view and manage your personal and account information.
+        <div className="profile-header text-center mb-5 animate__animated animate__fadeInDown">
+          <div className="profile-image-placeholder">
+<img className="w-100" src="https://courssat.com/assets/images/home/avatar.png" alt="user" />          </div>
+          <h1 className="profile-title">Profile</h1>
+          <p className="profile-description">
+            Welcome to your profile page! Manage your personal and account information here.
           </p>
         </div>
-        <Card className="shadow-lg animate__animated animate__fadeInUp">
-          <Card.Header>
-            <h4 className="mb-0">
-              <FaUser className="me-2 icon-hover" />
-              User Information
-            </h4>
-          </Card.Header>
+        <Card className="profile-card shadow-lg animate__animated animate__fadeInUp">
           <Card.Body>
-            <Row>
-              <Col md={6}>
-                <div className="mb-3">
-                  <strong><FaIdBadge className="me-2 icon-hover" /> Username:</strong> {user.username}
-                </div>
-                <div className="mb-3">
-                  <strong><FaUser className="me-2 icon-hover" /> First Name:</strong> {user.firstName}
-                </div>
-                <div className="mb-3">
-                  <strong><FaUser className="me-2 icon-hover" /> Last Name:</strong> {user.lastName}
-                </div>
-                <div className="mb-3">
-                  <strong><FaEnvelope className="me-2 icon-hover" /> Email:</strong> {user.email}
-                </div>
-                <div className="mb-3">
-                  <strong><FaBirthdayCake className="me-2 icon-hover" /> Date of Birth:</strong> {new Date(user.dob).toLocaleDateString()}
+            <Row className="g-4">
+              <Col md={4} className="text-center">
+                <div className="info-section">
+                  <FaUser className="info-icon" />
+                  <h5>User Details</h5>
+                  <p><strong>Username:</strong> {user.username}</p>
+                  <p><strong>First Name:</strong> {user.firstName}</p>
+                  <p><strong>Last Name:</strong> {user.lastName}</p>
                 </div>
               </Col>
-              <Col md={6}>
-                <div className="mb-3">
-                  <strong>Role:</strong> {user.role}
+              <Col md={4} className="text-center">
+                <div className="info-section">
+                  <FaEnvelope className="info-icon" />
+                  <h5>Contact Info</h5>
+                  <p><strong>Email:</strong> {user.email}</p>
+                  <p><strong>Date of Birth:</strong> {new Date(user.dob).toLocaleDateString()}</p>
                 </div>
-                <div className="mb-3">
-                  <strong>Verification Status:</strong>
-                  {user.isVerified ? (
-                    <span className="text-success ms-2">
-                      <FaCheckCircle className="icon-hover" /> Verified
-                    </span>
-                  ) : (
-                    <span className="text-danger ms-2">
-                      <FaTimesCircle className="icon-hover" /> Not Verified
-                    </span>
-                  )}
+              </Col>
+              <Col md={4} className="text-center">
+                <div className="info-section">
+                  <FaUserShield className="info-icon" />
+                  <h5>Account Status</h5>
+                  <p><strong>Role:</strong> {user.role}</p>
+                  <p>
+                    <strong>Verification Status:</strong>
+                    {user.isVerified ? (
+                      <span className="text-success ms-2">
+                        <FaCheckCircle /> Verified
+                      </span>
+                    ) : (
+                      <span className="text-danger ms-2">
+                        <FaTimesCircle /> Not Verified
+                      </span>
+                    )}
+                  </p>
                 </div>
               </Col>
             </Row>
+            <div className="text-center mt-4">
+              <Button className="btn-custom" onClick={() => navigate("/update-info")}>
+                <FaEdit className="me-2" /> Update Info
+              </Button>
+              <Button className="btn-custom ms-3" variant="danger" onClick={handleLogout}>
+                <FaSignOutAlt className="me-2" /> Logout
+              </Button>
+            </div>
           </Card.Body>
-          <Card.Footer>
-            <Button className="btn-custom" onClick={() => navigate("/update-info")}>
-              <FaEdit className="me-2" />
-              Update Info
-            </Button>
-          </Card.Footer>
         </Card>
       </div>
     </div>

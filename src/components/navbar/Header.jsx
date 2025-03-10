@@ -101,10 +101,9 @@ const Header = () => {
                   gap: "10px",
                 }}
               >
+
                 <span
                   style={{
-                    padding: "10px",
-                    backgroundColor: "var(--mainColor)",
                     width: "40px",
                     height: "40px",
                     borderRadius: "50%",
@@ -115,7 +114,8 @@ const Header = () => {
                   }}
                   className="text-light"
                 >
-                  {user?.firstName?.[0]} {/* التحقق من وجود user و firstName */}
+                  <img className="w-100" src="https://courssat.com/assets/images/home/avatar.png" alt="user" />         
+
                 </span>
                 <span>{user?.firstName + " " + user?.lastName}</span> {/* التحقق من وجود user */}
               </Nav.Link>

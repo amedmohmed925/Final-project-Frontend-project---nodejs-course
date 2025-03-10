@@ -1,9 +1,9 @@
-import React from "react";
 import { FaUser, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
-import "../../styles/SidebarProfile";
+import '../../styles/SidebarProfile.css'
+import "animate.css";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const SidebarProfile = ({ isOpen, onClose }) => {
   const handleLogout = () => {
     dispatch(clearUser());
     navigate("/login");
+    onClose();
   };
 
   return (
@@ -24,20 +25,17 @@ const SidebarProfile = ({ isOpen, onClose }) => {
         <ul className="sidebar-links">
           <li>
             <Link to="/profile" onClick={onClose}>
-              <FaUser className="me-2" />
-              Profile
+              <FaUser className="me-2" /> Profile
             </Link>
           </li>
           <li>
             <Link to="/update-info" onClick={onClose}>
-              <FaUser className="me-2" />
-              Update Info
+              <FaUser className="me-2" /> Update Info
             </Link>
           </li>
           <li>
             <button className="logout-button" onClick={handleLogout}>
-              <FaSignOutAlt className="me-2" />
-              Logout
+              <FaSignOutAlt className="me-2" /> Logout
             </button>
           </li>
         </ul>

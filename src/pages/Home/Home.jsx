@@ -9,6 +9,7 @@ import "animate.css";
 import Logo from "../../components/Logo";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import FeaturesSection from "./FeaturesSection";
 
 const Home = () => {
   const sliderSettings = {
@@ -176,6 +177,7 @@ const Home = () => {
           </Slider>
         </Container>
       </section>
+      <FeaturesSection />
 
       {/* Why Choose Us Section */}
       <section className="why-choose-us-section">
@@ -246,7 +248,45 @@ const Home = () => {
         </Container>
       </section>
 
-   
+      <section className="image-content-section">
+        <Container>
+          <Row className="align-items-center flex-column-reverse flex-md-row">
+            <Col xs={12} md={6} className="mb-4 mb-md-0">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
+                  alt="Learning Environment"
+                  className="content-image"
+                />
+              </motion.div>
+            </Col>
+            <Col xs={12} md={6}>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <h2 className="section-title">Why Learn With Us?</h2>
+                <p className="section-text">
+                  Our platform offers the best learning experience with expert instructors, flexible schedules, and certified courses.
+                </p>
+                <ul className="section-list">
+                  <li>Expert Instructors</li>
+                  <li>Flexible Learning</li>
+                  <li>Certified Courses</li>
+                </ul>
+                <Button variant="primary" className="cta-button">
+                  Explore Courses
+                </Button>
+              </motion.div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
       {/* Student Reviews Section */}
       <section className="student-reviews-section">
@@ -325,45 +365,7 @@ const Home = () => {
       </section>
 
       {/* Image Content Section */}
-      <section className="image-content-section">
-        <Container>
-          <Row className="align-items-center flex-column-reverse flex-md-row">
-            <Col xs={12} md={6} className="mb-4 mb-md-0">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
-                  alt="Learning Environment"
-                  className="content-image"
-                />
-              </motion.div>
-            </Col>
-            <Col xs={12} md={6}>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <h2 className="section-title">Why Learn With Us?</h2>
-                <p className="section-text">
-                  Our platform offers the best learning experience with expert instructors, flexible schedules, and certified courses.
-                </p>
-                <ul className="section-list">
-                  <li>Expert Instructors</li>
-                  <li>Flexible Learning</li>
-                  <li>Certified Courses</li>
-                </ul>
-                <Button variant="primary" className="cta-button">
-                  Explore Courses
-                </Button>
-              </motion.div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+    
 
       {/* Latest Blog Posts Section */}
       <section className="blog-section">
