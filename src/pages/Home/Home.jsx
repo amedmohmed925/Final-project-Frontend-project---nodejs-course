@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, Form, Card, InputGroup } from "react-bootstrap";
+import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { Search } from "react-bootstrap-icons";
 import { motion } from "framer-motion";
 import Slider from "react-slick";
@@ -13,7 +13,76 @@ import FeaturesSection from "./FeaturesSection";
 import AchievementsSection from "./AchievementsSection";
 import TeamSection from "./TeamSection";
 
+// بيانات الكورسات مع روابط صور ثابتة من Unsplash
+const coursesData = [
+  {
+    title: "JavaScript Fundamentals",
+    category: "Frontend",
+    price: 49.99,
+    duration: "4 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/435aadaa-8b58-4df2-957e-f1d087693da7_2-%20%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%B4%D8%A7%D9%85%D9%84%20%D9%84%D8%AA%D8%B9%D9%84%D9%85%20%D8%A7%D9%84%D8%A8%D8%B1%D9%85%D8%AC%D8%A9%20-%20Python%20Programming.jpg",
+  },
+  {
+    title: "React for Beginners",
+    category: "Frontend",
+    price: 59.99,
+    duration: "6 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/6a7342d4-f6d2-4830-b08b-4a741e483537_1f3c1225-1895-408e-8083-543b018e4ee8.jpg",
+  },
+  {
+    title: "Advanced Node.js",
+    category: "Backend",
+    price: 69.99,
+    duration: "8 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/756ee1d8-822a-4548-a89c-1dbfbe5f8a1f_Untitled%20design.png",
+  },
+  {
+    title: "Full-Stack Web Development",
+    category: "Full-Stack",
+    price: 99.99,
+    duration: "12 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/a9d9bfa9-580b-4c65-aeaf-d49931cee9ab_Untitled%20design.png",
+  },
+  {
+    title: "Python for Data Science",
+    category: "AI",
+    price: 79.99,
+    duration: "10 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/1d8f8f80-cc23-4d0b-8a8b-89f4721bbfbf_Untitled%20design.png",
+  },
+  {
+    title: "Machine Learning with TensorFlow",
+    category: "AI",
+    price: 89.99,
+    duration: "10 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/ec3717a6-a9d2-4c56-a8f8-5ea683993564_%D8%A7%D9%84%D9%88%D8%A7%D9%8A%D8%AA%20%D8%A8%D9%88%D8%B1%D8%AF%20%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86750.png",
+  },
+  {
+    title: "Mobile App Development with Flutter",
+    category: "Mobile",
+    price: 74.99,
+    duration: "8 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/5056d5cc-c8ce-41a2-961f-52cd7d9a48e0_20-%20%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D8%B9%20%D8%A7%D9%84%D8%B1%D9%88%D8%A8%D9%88%D8%AA%D8%A7%D8%AA.jpg",
+  },
+  {
+    title: "Introduction to Cyber Security",
+    category: "Cyber Security",
+    price: 64.99,
+    duration: "6 weeks",
+    image: "https://api.courssat.com/api/FileManage/Image/1/true/50d74c88-5338-497f-9ed8-ca7cc46c89ab_%D9%85%D9%81%D8%A7%D8%AA%D9%8A%D8%AD%20%D8%A7%D9%84%D8%AA%D9%81%D9%88%D9%82%20%D8%A7%D9%84%D8%AF%D8%B1%D8%A7%D8%B3%D9%8A%20!%20(1).png",
+  },
+];
+
+// صورة افتراضية في حالة فشل تحميل الصورة
+const fallbackImage = "https://via.placeholder.com/300x200.png?text=Course+Image";
+
 const Home = () => {
+  // إضافة وصف لكل كورس
+  const coursesWithDescription = coursesData.map((course) => ({
+    ...course,
+    description: `Master ${course.title} with hands-on projects and expert guidance.`,
+  }));
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -113,6 +182,11 @@ const Home = () => {
     },
   ];
 
+  // دالة للتعامل مع فشل تحميل الصورة
+  const handleImageError = (e) => {
+    e.target.src = fallbackImage;
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -123,7 +197,6 @@ const Home = () => {
               <Col xs={12} md={8} className="text-center">
                 <div className="title-container">
                   <h1
-                   
                     className="hero-title animate__animated animate__bounceInDown animate__delay-1"
                   >
                     Welcome to Our Courses Platform
@@ -146,12 +219,13 @@ const Home = () => {
                 </Form>
               </Col>
             </Row>
-
           </Container>
         </div>
       </section>
 
-<TeamSection />
+      <TeamSection />
+
+      {/* Most Viewed Courses Section */}
       <section className="most-viewed-courses">
         <Container>
           <motion.h2
@@ -163,29 +237,40 @@ const Home = () => {
             Most Viewed Courses
           </motion.h2>
           <Slider {...sliderSettings}>
-            {[1, 2, 3, 4, 5].map((course) => (
-              <div key={course} className="px-2">
+            {coursesWithDescription.map((course) => (
+              <div key={course.title} className="px-2">
                 <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
-                  <Card className="course-card">
-                    <Card.Img variant="top" src={`https://picsum.photos/300/200?random=${course}`} />
-                    <Card.Body>
-                      <Card.Title>Course {course}</Card.Title>
-                      <Card.Text>Join thousands of learners in this top-rated course.</Card.Text>
-                      <Button variant="primary">Enroll Now</Button>
-                    </Card.Body>
-                  </Card>
+                  <div className="course-card">
+                    <div className="course-image">
+                      <img
+                        src={course.image}
+                        alt={course.title}
+                        onError={handleImageError}
+                      />
+                      <div className="course-price">${course.price}</div>
+                    </div>
+                    <div className="course-content">
+                      <h3 className="course-title">{course.title}</h3>
+                      <p className="course-description">{course.description}</p>
+                      <div className="course-details">
+                        <span className="course-duration">{course.duration}</span>
+                        <span className="course-level">Beginner</span>
+                      </div>
+                      <button className="btn-custom enroll-btn">Enroll Now</button>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
             ))}
           </Slider>
         </Container>
       </section>
+
       <FeaturesSection />
 
-      {/* Why Choose Us Section */}
-   
       {/* Statistics Section */}
-<AchievementsSection />
+      <AchievementsSection />
+
       <section className="image-content-section">
         <Container>
           <Row className="align-items-center flex-column-reverse flex-md-row">
@@ -294,7 +379,7 @@ const Home = () => {
                 >
                   <Link to={'/register'} variant="primary" className="cta-button">
                     Get Started
-                  </Link >
+                  </Link>
                 </motion.div>
               </Col>
             </Row>
@@ -302,14 +387,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Image Content Section */}
-    
-
- 
-
-      {/* Newsletter Section */}
-    {/* Footer Section */}
-    <footer className="footer-section">
+      {/* Footer Section */}
+      <footer className="footer-section">
         <Container>
           <Row className="align-items-center justify-content-between">
             <Col xs={12} md={4} className="text-center text-md-start mb-4 mb-md-0">
@@ -357,7 +436,7 @@ const Home = () => {
                     <FaLinkedinIn className="social-icon" />
                   </a>
                 </div>
-                <p className="footer-text mt-3">&copy; 2025 Course Platform. All rights reserved.</p>
+                <p className="footer-text mt-3">© 2025 Course Platform. All rights reserved.</p>
               </motion.div>
             </Col>
           </Row>

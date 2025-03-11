@@ -13,13 +13,7 @@ const AllUsers = () => {
   const { users, loading, error } = useSelector((state) => state.user);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      dispatch(getCurrentUser(user._id));
-    }
-  }, [dispatch]);
-
+ 
   useEffect(() => {
     if (currentUser?.role === "admin") {
       dispatch(getAllUsers());
