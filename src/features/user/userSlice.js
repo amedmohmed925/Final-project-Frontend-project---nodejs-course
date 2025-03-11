@@ -1,9 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { login, logout } from '../../api/authApi';
-import { editUserInfo, getCurrentUser } from '../../api/userApi'; // استيراد editUserInfo من userApi
+import { editUserInfo, getCurrentUser } from '../../api/userApi';
+import { getAllUsers } from '../../api/userApi'; // استيراد getAllUsers
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null,
+  user: JSON.parse(localStorage.getItem('user')) || null, // المستخدم الحالي
+  users: [], // قائمة كل المستخدمين
   loading: false,
   error: null,
 };
@@ -18,6 +20,7 @@ const userSlice = createSlice({
     },
     clearUser: (state) => {
       state.user = null;
+      state.users = []; // تصفير قائمة المستخدمين عند تسجيل الخروج
       localStorage.removeItem('user');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
@@ -44,6 +47,7 @@ const userSlice = createSlice({
     // حالات تسجيل الخروج
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
+      state.users = []; // تصفير قائمة المستخدمين
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
@@ -78,12 +82,26 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+
+    // حالات جلب كل المستخدمين
+    builder.addCase(getAllUsers.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAllUsers.fulfilled, (state, action) => {
+      state.loading = false;
+      state.users = action.payload; // تخزين قائمة المستخدمين
+    });
+    builder.addCase(getAllUsers.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
   },
 });
 
 export const { setUser, clearUser } = userSlice.actions;
 
-// تصدير editUserInfo كجزء من userSlice
-export { editUserInfo };
+// تصدير editUserInfo كجزء من userSlice (اختياري، لو مش لازم ممكن تشيله)
+export { editUserInfo, getAllUsers };
 
 export default userSlice.reducer;

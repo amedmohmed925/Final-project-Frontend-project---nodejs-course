@@ -183,40 +183,7 @@ const Home = () => {
       <FeaturesSection />
 
       {/* Why Choose Us Section */}
-      <section className="why-choose-us-section">
-        <Container>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            Why Choose Us?
-          </motion.h2>
-          <Row className="justify-content-center">
-            {[
-              { title: "Expert Instructors", text: "Learn from industry leaders.", img: "https://picsum.photos/100/100?random=1" },
-              { title: "Flexible Learning", text: "Study at your own pace.", img: "https://picsum.photos/100/100?random=2" },
-              { title: "Certified Courses", text: "Earn recognized certificates.", img: "https://picsum.photos/100/100?random=3" },
-            ].map((item, index) => (
-              <Col xs={12} md={4} key={index} className="mb-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="why-card"
-                >
-                  <img src={item.img} alt={item.title} className="why-img" />
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </motion.div>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      </section>
-
+   
       {/* Statistics Section */}
 <AchievementsSection />
       <section className="image-content-section">

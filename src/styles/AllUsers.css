@@ -1,0 +1,59 @@
+.all-users-container {
+    padding: 20px;
+  }
+  
+  .table-section {
+    margin-bottom: 40px;
+  }
+  
+  .table-title {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .users-table {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .users-table th {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: 600;
+  }
+  
+  .users-table td {
+    vertical-align: middle;
+  }
+  
+  .text-success {
+    color: #28a745;
+    font-weight: 500;
+  }
+  
+  .text-danger {
+    color: #dc3545;
+    font-weight: 500;
+  }
+  
+  .spinner {
+    font-size: 2rem;
+    color: #6a11cb;
+  }
+  
+  /* استجابة الشاشات الصغيرة */
+  @media (max-width: 768px) {
+    .table-title {
+      font-size: 1.5rem;
+    }
+  
+    .users-table {
+      font-size: 0.9rem;
+    }
+  }
+
+  

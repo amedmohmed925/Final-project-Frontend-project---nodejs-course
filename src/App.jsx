@@ -11,6 +11,7 @@ import Profile from "./user/Profile/Profile";
 import UpdateInfo from "./user/UpdateInfo/UpdateInfo";
 import ForgotPassword from "./auth/ForgotPassword";
 import ResetPassword from "./auth/ResetPassword";
+import AllUsers from "./user/AllUsers/AllUsers";
 const App = () => {
   return (
     <Router>
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/update-info" element={<UpdateInfo />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/all-users" element={<AllUsers />} />
         </Routes>
       </div>
     </Router>

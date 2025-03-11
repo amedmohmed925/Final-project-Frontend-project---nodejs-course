@@ -63,3 +63,18 @@ body {
 
 
 
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(120deg, #6a11cb 30%, #2575fc 70%);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(120deg, #47058f 30%, #2575fc 70%);
+  }

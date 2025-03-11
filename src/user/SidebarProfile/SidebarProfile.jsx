@@ -1,13 +1,18 @@
-import { FaUser, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaTimes, FaUsers } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
-import '../../styles/SidebarProfile.css'
+import "../../styles/SidebarProfile.css";
 import "animate.css";
+import { useEffect } from "react"; // استيراد useEffect
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user); // جلب المستخدم الحالي
+
+
+  
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -33,6 +38,13 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <FaUser className="me-2" /> Update Info
             </Link>
           </li>
+          {user?.role === "admin" && (
+            <li>
+              <Link to="/all-users" onClick={onClose}>
+                <FaUsers className="me-2" /> All Users
+              </Link>
+            </li>
+          )}
           <li>
             <button className="logout-button" onClick={handleLogout}>
               <FaSignOutAlt className="me-2" /> Logout
