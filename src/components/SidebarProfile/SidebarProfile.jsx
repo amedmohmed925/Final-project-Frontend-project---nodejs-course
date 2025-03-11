@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaUser, FaSignOutAlt, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
+import { getCurrentUser } from "../../api/userApi"; // استيراد getCurrentUser
+
 import "../../styles/SidebarProfile.css";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user); // المستخدم الحالي
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      dispatch(getCurrentUser(user._id)); // أو أي دالة أخرى لتحميل المستخدم الحالي
+    }
+    console.log(user)
+  }, [dispatch]);
   const handleLogout = () => {
     dispatch(clearUser());
     navigate("/login");

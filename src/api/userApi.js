@@ -75,7 +75,6 @@ export const editUserInfo = createAsyncThunk(
     }
   }
 );
-
 export const getCurrentUser = createAsyncThunk(
   'user/getCurrentUser',
   async (token, { rejectWithValue }) => {
