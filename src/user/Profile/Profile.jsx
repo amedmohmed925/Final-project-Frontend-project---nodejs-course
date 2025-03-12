@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaEnvelope, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Card, Row, Col, Button } from "react-bootstrap";
 import "animate.css";
-import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
+import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import "../../styles/Profile.css";
 
 const Profile = () => {
@@ -37,12 +37,11 @@ const Profile = () => {
   {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
 </button>
 
-      {/* السايدبار */}
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       {/* محتوى البروفايل */}
       <div className={`profile-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
-        <div className="profile-header text-center mb-5 animate__animated animate__fadeInDown">
+        <div className="profile-header text-center mb-5 animate__animated ">
           <div className="profile-image-placeholder">
 <img className="w-100" src="https://courssat.com/assets/images/home/avatar.png" alt="user" />          </div>
           <h1 className="profile-title">Profile</h1>
@@ -50,7 +49,7 @@ const Profile = () => {
             Welcome to your profile page! Manage your personal and account information here.
           </p>
         </div>
-        <Card className="profile-card shadow-lg animate__animated animate__fadeInUp">
+        <Card className="profile-card shadow-lg animate__animated">
           <Card.Body>
             <Row className="g-4">
               <Col md={4} className="text-center">

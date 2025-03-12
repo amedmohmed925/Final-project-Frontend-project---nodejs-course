@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Container, Form, Button, Row, Col, Modal } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { addCourse } from '../../api/courseApi';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../components/Logo'; // استيراد مكون Logo
+import Logo from '../../components/Logo';
+import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
+import { FaArrowLeft, FaArrowRight, FaSpinner } from 'react-icons/fa'; // أضفنا FaSpinner
 
 const AddCourse = () => {
   const [title, setTitle] = useState('');
@@ -14,7 +16,11 @@ const AddCourse = () => {
   const [tags, setTags] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [showModal, setShowModal] = useState(false); // لإدارة ظهور Modal
+  const [uploadStatus, setUploadStatus] = useState(''); // حالة جديدة للرفع
+  const [isLoading, setIsLoading] = useState(false); // حالة التحميل
+  const [showModal, setShowModal] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const handleAddLesson = () => {
@@ -41,22 +47,27 @@ const AddCourse = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setUploadStatus('');
+    setIsLoading(true); // بدء التحميل
 
     if (!title || !description) {
       setError('Title and description are required');
       setShowModal(true);
+      setIsLoading(false);
       return;
     }
 
     if (lessons.length !== lessonVideos.length) {
       setError('Number of videos must match the number of lessons');
       setShowModal(true);
+      setIsLoading(false);
       return;
     }
 
     if (lessonVideos.length > 30) {
       setError('Maximum 30 lesson videos are allowed');
       setShowModal(true);
+      setIsLoading(false);
       return;
     }
 
@@ -72,18 +83,41 @@ const AddCourse = () => {
 
       const newCourse = await addCourse(courseData);
       setSuccess('Course added successfully!');
+      setUploadStatus(newCourse.message || 'Videos are being uploaded in the background'); // رسالة من الـ Backend
       setShowModal(true);
+
+      // إعادة تعيين النموذج بعد النجاح (اختياري)
+      setTitle('');
+      setDescription('');
+      setFeaturedImage(null);
+      setLessons([{ title: '' }]);
+      setLessonVideos([]);
+      setTags('');
+
       setTimeout(() => {
-        navigate('/courses');
+        navigate('/courses'); // الانتقال بعد 2 ثانية
       }, 2000);
     } catch (err) {
       setError(err.message);
       setShowModal(true);
+    } finally {
+      setIsLoading(false); // إنهاء التحميل
     }
   };
 
   return (
-    <div className="auth-container d-flex align-items-center justify-content-center">
+    <div className="add-course-page update-info-page d-flex align-items-center justify-content-center">
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+      </button>
+
+      {/* Sidebar */}
+      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
       <Container>
         <Row className="align-items-center justify-content-center min-vh-100">
           <Col xs={12} md={8} lg={6} className="p-4">
@@ -115,7 +149,7 @@ const AddCourse = () => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
-                    className="rounded-pill"
+                    disabled={isLoading} // تعطيل أثناء التحميل
                   />
                 </Form.Group>
 
@@ -129,7 +163,7 @@ const AddCourse = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     required
-                    className="rounded-pill"
+                    disabled={isLoading}
                   />
                 </Form.Group>
 
@@ -140,7 +174,7 @@ const AddCourse = () => {
                     type="file"
                     accept="image/jpeg,image/jpg,image/png"
                     onChange={handleImageChange}
-                    className="rounded-pill"
+                    disabled={isLoading}
                   />
                   <Form.Text className="text-muted">
                     Upload an image (jpeg, jpg, or png).
@@ -159,7 +193,7 @@ const AddCourse = () => {
                           value={lesson.title}
                           onChange={(e) => handleLessonChange(index, e.target.value)}
                           required
-                          className="rounded-pill"
+                          disabled={isLoading}
                         />
                       </Col>
                     </Row>
@@ -169,6 +203,7 @@ const AddCourse = () => {
                     size="sm"
                     onClick={handleAddLesson}
                     className="mt-2 rounded-pill"
+                    disabled={isLoading}
                   >
                     Add Another Lesson
                   </Button>
@@ -182,7 +217,7 @@ const AddCourse = () => {
                     accept="video/mp4,video/mov"
                     multiple
                     onChange={handleVideosChange}
-                    className="rounded-pill"
+                    disabled={isLoading}
                   />
                   <Form.Text className="text-muted">
                     Upload videos (mp4 or mov). Number of videos must match the number of lessons.
@@ -197,7 +232,7 @@ const AddCourse = () => {
                     placeholder="e.g., web, html, css"
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
-                    className="rounded-pill"
+                    disabled={isLoading}
                   />
                 </Form.Group>
 
@@ -206,9 +241,19 @@ const AddCourse = () => {
                   <Button
                     type="submit"
                     className="auth-button rounded-pill"
+                    disabled={isLoading}
                   >
-                    Add Course
+                    {isLoading ? (
+                      <>
+                        <FaSpinner className="spinner me-2" /> Adding...
+                      </>
+                    ) : (
+                      'Add Course'
+                    )}
                   </Button>
+                  {uploadStatus && (
+                    <p className="text-muted mt-2">{uploadStatus}</p>
+                  )}
                 </div>
               </Form>
             </motion.div>
@@ -231,6 +276,7 @@ const AddCourse = () => {
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: "#f8f9fa", color: "#212529" }}>
           {success || error}
+          {uploadStatus && <p>{uploadStatus}</p>} {/* عرض حالة الرفع في الـ Modal */}
         </Modal.Body>
         <Modal.Footer
           style={{

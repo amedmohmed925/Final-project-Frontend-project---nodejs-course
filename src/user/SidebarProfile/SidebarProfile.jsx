@@ -11,7 +11,7 @@ const SidebarProfile = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user); // جلب المستخدم الحالي
 
-
+console.log(user)
   
 
   const handleLogout = () => {
@@ -42,6 +42,13 @@ const SidebarProfile = ({ isOpen, onClose }) => {
             <li>
               <Link to="/all-users" onClick={onClose}>
                 <FaUsers className="me-2" /> All Users
+              </Link>
+            </li>
+          )}
+            {user?.role === "teacher" && (
+            <li>
+              <Link to="/add-course" onClick={onClose}>
+                <FaUsers className="me-2" /> Add Course
               </Link>
             </li>
           )}

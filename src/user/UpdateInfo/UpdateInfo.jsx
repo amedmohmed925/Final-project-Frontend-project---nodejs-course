@@ -4,7 +4,7 @@ import { editUserInfo } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { FaSpinner, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
-import SidebarProfile from "../../components/SidebarProfile/SidebarProfile";
+import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import "../../styles/UpdateInfo.css";
 
 const UpdateInfo = () => {
