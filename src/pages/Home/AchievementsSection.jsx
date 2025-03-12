@@ -1,15 +1,14 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import '../../styles/Achievements.css';
 
 const AchievementsSection = () => {
   const numberAnimation = {
     animate: {
-      scale: [1, 1.2, 1],
-      color: ['#fbbf24', '#f59e0b', '#fbbf24'],
+      scale: [1, 1.15, 1],
       transition: {
-        duration: 2.5,
+        duration: 2,
         repeat: Infinity,
         repeatType: 'loop',
         ease: 'easeInOut',
@@ -18,12 +17,11 @@ const AchievementsSection = () => {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    hidden: { opacity: 0, y: 40 },
     visible: (i) => ({
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: { duration: 0.8, delay: i * 0.3, ease: 'backOut' },
+      transition: { duration: 0.6, delay: i * 0.2, ease: 'easeOut' },
     }),
   };
 
@@ -31,31 +29,34 @@ const AchievementsSection = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.2 },
     },
   };
+
+  const achievements = [
+    { number: '500+', text: 'Courses Designed for Your Success' },
+    { number: '10,000+', text: 'Students Thriving Worldwide' },
+    { number: '200+', text: 'Expert Instructors Leading the Way' },
+    { number: '50+', text: 'Industry Certifications Offered' },
+  ];
 
   return (
     <section className="achievements-section">
       <Container>
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          viewport={{ once: true }}
           className="section-title"
         >
           Our Achievements
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="subtitle"
+          <span
+           
+            className="subtitle text-light"
           >
             Empowering Education, Transforming Lives
-          </motion.span>
+          </span>
         </motion.h2>
         <motion.div
           className="achievements-grid"
@@ -64,19 +65,14 @@ const AchievementsSection = () => {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {[
-            { number: "500+", text: "Courses Designed for Your Success" },
-            { number: "10,000+", text: "Students Thriving Worldwide" },
-            { number: "200+", text: "Expert Instructors Leading the Way" },
-            { number: "50+", text: "Industry Certifications Offered" }, // إضافة إنجاز جديد
-          ].map((stat, index) => (
+          {achievements.map((stat, index) => (
             <motion.div
               key={index}
               custom={index}
               className="achievement-card"
               variants={cardVariants}
-              whileHover={{ scale: 1.05, rotate: 2, zIndex: 1 }}
-              transition={{ duration: 0.4 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
             >
               <motion.h3
                 className="statistic-number"

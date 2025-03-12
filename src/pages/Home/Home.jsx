@@ -293,7 +293,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <h2 className="section-title">Why Learn With Us?</h2>
+                <h2 className="section-title" style={{textAlign:"start"}}>Why Learn With Us?</h2>
                 <p className="section-text">
                   Our platform offers the best learning experience with expert instructors, flexible schedules, and certified courses.
                 </p>

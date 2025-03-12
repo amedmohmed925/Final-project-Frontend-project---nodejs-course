@@ -1,139 +1,160 @@
 /* تنسيق القسم الرئيسي */
 .achievements-section {
-    padding: 100px 0;
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
-    color: #ffffff;
-    isolation: isolate;
-    animation: gradientFlow 20s infinite ease-in-out;
+  padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%);
+  background-size: 200% 200%;
+  color: #ffffff;
+  isolation: isolate;
+  animation: gradientFlow 12s infinite ease-in-out;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* تأثير النبض الشعاعي */
+.achievements-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: radialPulse 8s infinite ease-in-out;
+  z-index: 0;
+}
+
+@keyframes radialPulse {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1); }
+  100% { transform: scale(9); }
+}
+
+/* تنسيق العنوان */
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  display: block;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8) !important;
+  margin-top: 8px;
+}
+
+/* تنسيق الشبكة */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  max-width: 1200px; /* حد أقصى لعرض الشبكة */
+  margin: 0 auto; /* توسيط الشبكة */
+  padding: 0 15px;
+  position: relative;
+  z-index: 1;
+}
+
+/* تنسيق الكارت */
+.achievement-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+  max-width: 300px; /* عرض أقصى للكارت */
+  margin: 0 auto; /* توسيط الكارت داخل الخلية */
+  will-change: transform, box-shadow; /* تحسين الأداء */
+}
+
+.achievement-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--mainColor, #fbbf24), #ecc94b);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-out;
+}
+
+.achievement-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* تنسيق النصوص داخل الكارت */
+.achievement-card .statistic-number {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 800;
+  /* background: linear-gradient(90deg, var(--mainColor, #fbbf24), #ecc94b); التدرج كخلفية */
+  -webkit-background-clip: text;
+  /* -webkit-text-fill-color: transparent; جعل النص شفافًا لإظهار التدرج */
+  color: #fbbf24;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.achievement-card .statistic-text {
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* الاستجابة للشاشات المختلفة */
+@media (max-width: 768px) {
+  .achievements-section {
+    padding: 60px 0;
+    animation: gradientFlow 10s infinite ease-in-out;
   }
-  
-  @keyframes gradientFlow {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-  }
-  
-  /* طبقة ديناميكية إضافية */
-  .achievements-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
-    opacity: 0.4;
-    animation: radialPulse 12s infinite ease-in-out;
-    z-index: 0;
-  }
-  
-  @keyframes radialPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-  
-  
-  
-  .subtitle {
-    display: block;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.8);
-    margin-top: 10px;
-  }
-  
 
   .achievements-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    padding: 20px;
-    z-index: 1;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
   }
-  
 
   .achievement-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px 25px;
-    text-align: center;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.05);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
+    padding: 25px 15px;
+    max-width: 250px;
   }
-  
-  .achievement-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, #f59e0b, #ecc94b);
-    transition: transform 0.4s ease;
+}
+
+@media (max-width: 480px) {
+  .achievements-grid {
+    grid-template-columns: 1fr; /* عمود واحد للشاشات الصغيرة جدًا */
+    gap: 15px;
   }
-  
-  .achievement-card:hover::before {
-    transform: scaleX(1.2);
+
+  .achievement-card {
+    max-width: 100%; /* الكارت يأخذ العرض الكامل في الشاشات الصغيرة */
   }
-  
-  .achievement-card .statistic-number {
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    font-weight: 800;
-    color: #f59e0b;
-    text-shadow: 0 0 20px rgba(245, 158, 11, 0.7), 0 0 10px rgba(0, 0, 0, 0.4);
-    margin-bottom: 15px;
-    line-height: 1.2;
+}
+
+@media (min-width: 1200px) {
+  .achievements-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 كروت في الصف للشاشات الكبيرة */
   }
-  
-  .achievement-card .statistic-text {
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    font-weight: 400;
-    line-height: 1.6;
-  }
-  
-  /* الاستجابة للشاشات الصغيرة */
-  @media (max-width: 768px) {
-    .achievements-section {
-      padding: 60px 0;
-    }
-  
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
-    }
-  
-    .subtitle {
-      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    }
-  
-    .achievement-card {
-      padding: 25px 15px;
-    }
-  
-    .achievement-card .statistic-number {
-      font-size: clamp(2rem, 6vw, 2.5rem);
-    }
-  
-    .achievement-card .statistic-text {
-      font-size: clamp(0.8rem, 1.2vw, 1rem);
-    }
-  }
-  
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .achievements-grid {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-  
-    .achievement-card {
-      padding: 30px 20px;
-    }
-  }
+}

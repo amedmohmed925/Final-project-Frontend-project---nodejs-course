@@ -1,0 +1,217 @@
+/* General Page Layout */
+.course-creation-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f4f8, #e0e7ee);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    padding: 20px;
+  }
+  
+  /* Sidebar Toggle Button */
+  .course-sidebar-toggle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100vh;
+    background: #6a11cb;
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 2px 0 12px rgba(106, 17, 203, 0.3);
+    transition: left 0.3s ease, background 0.3s ease;
+  }
+  
+  .course-sidebar-toggle:hover {
+    background: #2575fc;
+  }
+  
+  .course-sidebar-toggle.sidebar-expanded {
+    left: 300px;
+  }
+  
+  /* Form Container Styling */
+  .course-form-container {
+    max-width: 100%;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    padding: 30px;
+  }
+  
+  .course-form-container:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Logo and Title */
+  .course-logo-section {
+    margin-bottom: 2rem;
+  }
+  
+  .course-form-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  /* Form Styling */
+  .course-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .course-input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .course-input-group label {
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .course-form .form-control {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+  }
+  
+  .course-form .form-control:focus {
+    border-color: #6a11cb;
+    outline: none;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
+  }
+  
+  .course-form .form-control::placeholder {
+    color: #aaa;
+  }
+  
+  .course-form .form-control:invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.2);
+  }
+  
+  .course-form .form-select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+  }
+  
+  .course-form .form-select:focus {
+    border-color: #6a11cb;
+    outline: none;
+    box-shadow: 0 0 8px rgba(106, 17, 203, 0.2);
+  }
+  
+  /* Textarea Styling */
+  .course-form textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  /* File Input Styling */
+  .course-form .form-control[type="file"] {
+    padding: 8px;
+  }
+  
+  /* Add Buttons */
+  .course-add-btn {
+    border-color: #6a11cb;
+    color: #6a11cb;
+    padding: 8px 20px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .course-add-btn:hover {
+    background: #6a11cb;
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  /* Submit Button */
+  .course-submit-btn {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .course-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  }
+  
+  .course-submit-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Spinner Animation */
+  .course-spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .course-form-container {
+      padding: 20px;
+    }
+  
+    .course-form-title {
+      font-size: 1.8rem;
+    }
+  
+    .course-form .form-control,
+    .course-form .form-select {
+      padding: 10px;
+    }
+  
+    .course-submit-btn {
+      padding: 10px 25px;
+      font-size: 1rem;
+    }
+  
+    .course-sidebar-toggle {
+      width: 25px;
+      font-size: 1.2rem;
+    }
+  
+    .course-sidebar-toggle.sidebar-expanded {
+      left: 0;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .course-form .row > div {
+      margin-bottom: 10px;
+    }
+  
+    .course-add-btn {
+      width: 100%;
+    }
+  }
