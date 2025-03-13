@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCourseById } from "../../api/courseApi";
-import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle } from "react-icons/fa";
+import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook } from "react-icons/fa";
 import "../../styles/CourseDetails.css";
 
 const CourseDetails = () => {
@@ -37,7 +37,6 @@ const CourseDetails = () => {
 
   const handleFavoriteToggle = () => {
     setIsFavorite(!isFavorite);
-    // يمكنك إضافة منطق لإضافة الكورس إلى المفضلة في الـ Backend هنا
   };
 
   const handleShare = () => {
@@ -45,101 +44,118 @@ const CourseDetails = () => {
     alert("Course link copied to clipboard!");
   };
 
-  if (loading) return <div className="loading">Loading course details...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
-  if (!course) return <div className="not-found">Course not found</div>;
+  if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
+  if (error) return <div className="error-overlay">Error: {error}</div>;
+  if (!course) return <div className="not-found-overlay">Course not found</div>;
 
   return (
-    <div className="course-details-container">
-      {/* Header */}
-      <div className="course-header">
-        <h1 className="course-details-title">{course.title}</h1>
-        <p className="course-subtitle">{course.description.substring(0, 100)}...</p>
-        <div className="course-actions">
-          <button
-            className={`action-btn favorite-btn ${isFavorite ? "active" : ""}`}
-            onClick={handleFavoriteToggle}
-          >
-            <FaHeart /> {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
-          </button>
-          <button className="action-btn share-btn" onClick={handleShare}>
-            <FaShareAlt /> Share
-          </button>
-          <button className="action-btn cart-btn">
-            <FaShoppingCart /> Add to Cart
-          </button>
-        </div>
-      </div>
-
-      <div className="course-details-content">
-        {/* Main Content */}
-        <div className="course-main">
-          <div className="course-image">
-            <img
-              src={course.featuredImage || "https://via.placeholder.com/600x400.png?text=Course+Image"}
-              alt={course.title}
-            />
+    <div className="course-depth-page">
+      {/* Sticky Header */}
+      <header className="course-sticky-header">
+        <div className="header-content">
+          <h1 className="course-title text-light">{course.title}</h1>
+          <div className="quick-actions">
+            <button className="action-icon" onClick={handleFavoriteToggle}>
+              <FaHeart className={isFavorite ? "active" : ""} />
+            </button>
+            <button className="action-icon" onClick={handleShare}>
+              <FaShareAlt />
+            </button>
+            <button className="action-icon">
+              <FaShoppingCart />
+            </button>
+            <button className="enroll-sticky-btn" onClick={() => alert("Enrollment coming soon!")}>
+              Enroll - ${course.price}
+            </button>
           </div>
+        </div>
+      </header>
 
-          <div className="course-info">
-            <h2>About This Course</h2>
-            <p className="course-description">{course.description}</p>
+      {/* Hero Banner */}
+      <section className="course-banner">
+        <div className="banner-overlay">
+          <img src={course.featuredImage} alt={course.title} />
+        </div>
+        <div className="banner-content">
+          <h2>{course.title}</h2>
+          <p className="banner-description">{course.description.substring(0, 150)}...</p>
+          <div className="banner-stats">
+            <span><FaClock /> {course.lessons.length * 2} Hours</span>
+            <span><FaBook /> {course.lessons.length} Lessons</span>
+            <span>{course.level}</span>
+          </div>
+        </div>
+      </section>
 
-            <div className="course-meta">
+      {/* Main Layout */}
+      <div className="course-grid">
+        {/* Left Column: Overview & Details */}
+        <div className="course-details-column">
+          <section className="course-section overview">
+            <h3>What You'll Learn</h3>
+            <p>{course.description}</p>
+            <div className="feature-list">
+              <div className="feature-item">Master {course.category} skills</div>
+              <div className="feature-item">{course.lessons.length} hands-on lessons</div>
+              <div className="feature-item">Real-world projects</div>
+              <div className="feature-item">Certificate upon completion</div>
+            </div>
+          </section>
+
+          <section className="course-section details">
+            <h3>Course Details</h3>
+            <div className="details-grid">
               <p><strong>Price:</strong> ${course.price}</p>
               <p><strong>Level:</strong> {course.level}</p>
               <p><strong>Category:</strong> {course.category}</p>
-              <p><strong>Created At:</strong> {formatDate(course.createdAt)}</p>
-              <p><strong>Total Lessons:</strong> {course.lessons.length}</p>
+              <p><strong>Created:</strong> {formatDate(course.createdAt)}</p>
             </div>
-
             {course.tags.length > 0 && (
-              <div className="course-tags">
-                <h3>Tags</h3>
-                <div className="tags-list">
+              <div className="tags-section">
+                <h4>Tags</h4>
+                <div className="tags-cloud">
                   {course.tags.map((tag, index) => (
                     <span key={index} className="tag">{tag}</span>
                   ))}
                 </div>
               </div>
             )}
-
-            <button
-              className="btn-custom enroll-btn"
-              onClick={() => alert("Enrollment functionality coming soon!")}
-            >
-              Enroll Now
-            </button>
-            <button className="btn-custom back-btn" onClick={() => navigate("/courses")}>
-              Back to Courses
-            </button>
-          </div>
+          </section>
         </div>
 
-        {/* Lessons Sidebar */}
-        <div className="course-lessons-sidebar">
-          <h3>Course Content</h3>
-          <div className="lessons-list">
-            {course.lessons.map((lesson, index) => (
-              <div key={index} className="lesson-item">
-                <div className="lesson-thumbnail">
-                  <img
-                    src={lesson.thumbnailUrl || "https://via.placeholder.com/100x60.png?text=Lesson"}
-                    alt={lesson.title}
-                  />
-                  {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
-                    <FaPlayCircle className="play-icon" />
-                  )}
+        {/* Right Column: Lessons */}
+        <div className="course-lessons-column">
+          <section className="course-section lessons">
+            <h3>Course Curriculum</h3>
+            <div className="lessons-stack">
+              {course.lessons.map((lesson, index) => (
+                <div key={index} className="lesson-block">
+                  <div className="lesson-media">
+                    <img
+                      src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
+                      alt={lesson.title}
+                    />
+                    {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
+                      <FaPlayCircle className="play-overlay" />
+                    )}
+                  </div>
+                  <div className="lesson-text">
+                    <h4>{index + 1}. {lesson.title}</h4>
+                    <p>{lesson.content.substring(0, 80)}...</p>
+                  </div>
                 </div>
-                <div className="lesson-details">
-                  <h4>{lesson.title}</h4>
-                  <p>{lesson.content.substring(0, 50)}...</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </section>
         </div>
       </div>
+
+      {/* Footer Actions */}
+      <footer className="course-footer">
+        <button className="back-btn" onClick={() => navigate("/courses")}>
+          Back to Courses
+        </button>
+      </footer>
     </div>
   );
 };
