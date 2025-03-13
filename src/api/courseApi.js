@@ -108,6 +108,64 @@ export const addCourse = async (courseData) => {
   }
 };
 
+export const updateCourse = async (courseId, courseData) => {
+  try {
+    const formData = new FormData();
+    console.log("Sending to URL:", `/courses/${courseId}`); // تحقق من المسار
+    console.log("Course Data Title:", courseData.title); // تحقق من القيمة قبل الإرسال
+    formData.append("title", courseData.title);
+    formData.append("description", courseData.description);
+    formData.append("price", courseData.price);
+    formData.append("level", courseData.level);
+    formData.append("category", courseData.category);
+    formData.append("resources", JSON.stringify(courseData.resources));
+    formData.append("tags", JSON.stringify(courseData.tags || []));
+
+    if (courseData.featuredImage) {
+      formData.append("featuredImage", courseData.featuredImage);
+    }
+
+    // إضافة الأقسام مع الحلقات
+    courseData.sections.forEach((section) => {
+      const sectionData = {
+        title: section.title,
+        lessons: section.lessons.map((lesson) => ({
+          title: lesson.title,
+          content: lesson.content,
+          quiz: lesson.quiz || "",
+          videoUrl: lesson.videoUrl || "", // الاحتفاظ برابط الفيديو القديم إذا لم يتم تحديثه
+          thumbnailUrl: lesson.thumbnailUrl || "", // الاحتفاظ برابط الصورة المصغرة القديم إذا لم يتم تحديثه
+        })),
+      };
+      formData.append("sections", JSON.stringify(sectionData));
+
+      section.lessons.forEach((lesson) => {
+        if (lesson.video) {
+          formData.append("lessonVideos", lesson.video);
+        }
+        if (lesson.thumbnail) {
+          formData.append("lessonThumbnails", lesson.thumbnail);
+        }
+      });
+    });
+
+    const response = await axiosInstance.put(`/courses/${courseId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Failed to update course");
+    } else if (error.request) {
+      throw new Error("No response from the server");
+    } else {
+      throw new Error(error.message || "Something went wrong");
+    }
+  } }
+
 export const getAllCourses = async () => {
   try {
     const response = await axiosInstance.get('/courses');
