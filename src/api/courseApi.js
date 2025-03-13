@@ -98,3 +98,34 @@ export const addCourse = async (courseData) => {
     }
   }
 };
+
+
+export const getAllCourses = async () => {
+  try {
+    const response = await axiosInstance.get('/courses');
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Failed to fetch courses');
+    } else if (error.request) {
+      throw new Error('No response from the server');
+    } else {
+      throw new Error(error.message || 'Something went wrong');
+    }
+  }
+};
+
+export const getCourseById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/courses/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Failed to fetch course');
+    } else if (error.request) {
+      throw new Error('No response from the server');
+    } else {
+      throw new Error(error.message || 'Something went wrong');
+    }
+  }
+};
