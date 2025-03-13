@@ -67,18 +67,27 @@ export const addCourse = async (courseData) => {
       formData.append('featuredImage', courseData.featuredImage);
     }
 
-    courseData.lessons.forEach((lesson, index) => {
-      formData.append('lessons', JSON.stringify({
-        title: lesson.title,
-        content: lesson.content,
-        quiz: lesson.quiz || '',
-      }));
-      if (lesson.video) {
-        formData.append('lessonVideos', lesson.video);
-      }
-      if (lesson.thumbnail) {
-        formData.append('lessonThumbnails', lesson.thumbnail);
-      }
+    // إضافة الأقسام مع الحلقات
+    courseData.sections.forEach((section, sectionIndex) => {
+      const sectionData = {
+        title: section.title,
+        lessons: section.lessons.map((lesson) => ({
+          title: lesson.title,
+          content: lesson.content,
+          quiz: lesson.quiz || '',
+        })),
+      };
+      formData.append('sections', JSON.stringify(sectionData));
+
+      // إضافة الفيديوهات والصور المصغرة لكل حلقة
+      section.lessons.forEach((lesson, lessonIndex) => {
+        if (lesson.video) {
+          formData.append('lessonVideos', lesson.video);
+        }
+        if (lesson.thumbnail) {
+          formData.append('lessonThumbnails', lesson.thumbnail);
+        }
+      });
     });
 
     const response = await axiosInstance.post('/courses', formData, {
@@ -98,7 +107,6 @@ export const addCourse = async (courseData) => {
     }
   }
 };
-
 
 export const getAllCourses = async () => {
   try {

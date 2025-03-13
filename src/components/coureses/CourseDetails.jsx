@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getCourseById } from "../../api/courseApi";
-import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook } from "react-icons/fa";
+import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaChevronDown } from "react-icons/fa";
 import "../../styles/CourseDetails.css";
 
 const CourseDetails = () => {
@@ -11,6 +11,7 @@ const CourseDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [openSection, setOpenSection] = useState(null); // للتحكم في فتح/طي الأقسام
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,9 +45,16 @@ const CourseDetails = () => {
     alert("Course link copied to clipboard!");
   };
 
+  const toggleSection = (index) => {
+    setOpenSection(openSection === index ? null : index);
+  };
+
   if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
   if (error) return <div className="error-overlay">Error: {error}</div>;
   if (!course) return <div className="not-found-overlay">Course not found</div>;
+
+  // حساب إجمالي عدد الحلقات عبر جميع الأقسام
+  const totalLessons = course.sections.reduce((acc, section) => acc + section.lessons.length, 0);
 
   return (
     <div className="course-depth-page">
@@ -74,14 +82,14 @@ const CourseDetails = () => {
       {/* Hero Banner */}
       <section className="course-banner">
         <div className="banner-overlay">
-          <img src={course.featuredImage} alt={course.title} />
+          <img src={course.featuredImage || "https://via.placeholder.com/1200x400.png?text=Course+Banner"} alt={course.title} />
         </div>
         <div className="banner-content">
           <h2>{course.title}</h2>
           <p className="banner-description">{course.description.substring(0, 150)}...</p>
           <div className="banner-stats">
-            <span><FaClock /> {course.lessons.length * 2} Hours</span>
-            <span><FaBook /> {course.lessons.length} Lessons</span>
+            <span><FaClock /> {totalLessons * 2} Hours</span>
+            <span><FaBook /> {totalLessons} Lessons</span>
             <span>{course.level}</span>
           </div>
         </div>
@@ -96,7 +104,7 @@ const CourseDetails = () => {
             <p>{course.description}</p>
             <div className="feature-list">
               <div className="feature-item">Master {course.category} skills</div>
-              <div className="feature-item">{course.lessons.length} hands-on lessons</div>
+              <div className="feature-item">{totalLessons} hands-on lessons</div>
               <div className="feature-item">Real-world projects</div>
               <div className="feature-item">Certificate upon completion</div>
             </div>
@@ -123,25 +131,42 @@ const CourseDetails = () => {
           </section>
         </div>
 
-        {/* Right Column: Lessons */}
+        {/* Right Column: Sections */}
         <div className="course-lessons-column">
           <section className="course-section lessons">
             <h3>Course Curriculum</h3>
-            <div className="lessons-stack">
-              {course.lessons.map((lesson, index) => (
-                <div key={index} className="lesson-block">
-                  <div className="lesson-media">
-                    <img
-                      src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
-                      alt={lesson.title}
+            <div className="sections-stack">
+              {course.sections.map((section, sectionIndex) => (
+                <div key={sectionIndex} className="section-block">
+                  <div
+                    className="section-header"
+                    onClick={() => toggleSection(sectionIndex)}
+                  >
+                    <h4>{section.title} ({section.lessons.length} Lessons)</h4>
+                    <FaChevronDown
+                      className={`toggle-icon ${openSection === sectionIndex ? "open" : ""}`}
                     />
-                    {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
-                      <FaPlayCircle className="play-overlay" />
-                    )}
                   </div>
-                  <div className="lesson-text">
-                    <h4>{index + 1}. {lesson.title}</h4>
-                    <p>{lesson.content.substring(0, 80)}...</p>
+                  <div
+                    className={`section-lessons ${openSection === sectionIndex ? "open" : ""}`}
+                  >
+                    {section.lessons.map((lesson, lessonIndex) => (
+                      <div key={lessonIndex} className="lesson-block">
+                        <div className="lesson-media">
+                          <img
+                            src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
+                            alt={lesson.title}
+                          />
+                          {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
+                            <FaPlayCircle className="play-overlay" />
+                          )}
+                        </div>
+                        <div className="lesson-text">
+                          <h5>{sectionIndex + 1}.{lessonIndex + 1} {lesson.title}</h5>
+                          <p>{lesson.content.substring(0, 80)}...</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -149,7 +174,6 @@ const CourseDetails = () => {
           </section>
         </div>
       </div>
-
       {/* Footer Actions */}
       <footer className="course-footer">
         <button className="back-btn" onClick={() => navigate("/courses")}>
