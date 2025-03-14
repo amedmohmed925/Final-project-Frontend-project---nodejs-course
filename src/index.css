@@ -6,6 +6,9 @@
   --mutedText: #bbbbbb;
   --darkColor:#061e33
 }
+*{
+  font-family: sans-serif;
+}
 
 body {
     margin: 0;
@@ -78,3 +81,115 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(120deg, #47058f 30%, #2575fc 70%);
   }
+
+
+
+
+  /* button-Header */
+/* تنسيق زر Dive In الجديد والواضح ومستقر */
+.skewed-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 35px; /* حشوة كافية */
+  color: #fff !important; /* لون النص أبيض */
+  font-weight: 600; /* وزن نص متوسط */
+  letter-spacing: 1px;
+  font-size: 16px; /* حجم نص واضح */
+  border: none; /* إزالة الحدود الافتراضية */
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)); /* خلفية داكنة خفيفة للتباين */
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  gap: 10px; /* مسافة بين الأيقونة والنص */
+  border-radius: 8px; /* زوايا مدورة */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* ظل واضح */
+  transition: all 0.4s ease; /* انتقال سلس */
+  z-index: 1; /* التأكد من أن الزر فوق الطبقات الأخرى */
+}
+
+/* طبقة داخلية للنص والأيقونة */
+.skewed-button::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: linear-gradient(45deg, var(--mainColor), #e100ff); /* تدرج داخلي */
+  z-index: -1; /* تحت النص */
+  border-radius: 6px;
+  opacity: 0.85; /* شفافية للتوازن */
+}
+
+/* حافة متوهجة متحركة */
+.skewed-button::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(
+    45deg,
+    var(--mainColor),
+    #e100ff,
+    var(--mainColor)
+  );
+  z-index: -2; /* تحت الطبقة الداخلية */
+  filter: blur(10px); /* وهج خفيف */
+  animation: borderGlow 2s linear infinite; /* تحريك التدرج */
+  border-radius: 10px;
+  opacity: 0.7; /* تقليل الشفافية لتجنب الغموض */
+}
+
+/* تحريك التدرج (animation) */
+@keyframes borderGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* تأثير عند الـ hover */
+.skewed-button:hover {
+  color: #fff !important;
+  transform: translateY(-4px); /* رفع الزر */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* زيادة الظل */
+}
+
+.skewed-button:hover::before {
+  filter: blur(15px); /* زيادة الوهج */
+  opacity: 0.9; /* زيادة الوضوح عند الـ hover */
+  animation: borderGlow 2s linear infinite; /* تسريع التحريك */
+}
+
+/* تأثير عند الضغط */
+.skewed-button:active {
+  transform: translateY(2px) scale(0.97); /* انخفاض وتصغير */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* تنسيق الرابط النشط */
+.active-link.skewed-button {
+  color: #fff !important;
+}
+
+/* تحريك الأيقونة */
+.skewed-button svg {
+  transition: transform 0.3s ease;
+}
+
+.skewed-button:hover svg {
+  transform: scale(1.2); /* تكبير الأيقونة */
+}
+
+/* تنسيقات أخرى موجودة في Header.css */
+.header-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}

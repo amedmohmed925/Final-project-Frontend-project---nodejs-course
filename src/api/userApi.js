@@ -91,3 +91,28 @@ export const getCurrentUser = createAsyncThunk(
     }
   }
 );
+
+
+
+
+
+
+// api/teachersApi.js
+
+export const getAllTeachers = async () => {
+  try {
+    const response =  await axios.get(`${API_URL}/teachers`); // استبدل المسار حسب إعداداتك
+    const data = response.data;
+    if (data.success) {
+      return data.teachers.reduce((acc, teacher) => {
+        acc[teacher._id] = `${teacher.firstName} ${teacher.lastName}`;
+        return acc;
+      }, {});
+    }
+    return {};
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    return {};
+  }
+};
+

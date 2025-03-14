@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCourses } from "../../api/courseApi"; // استيراد الدالة
 import "../../styles/Courses.css";
-import HeaderPages from "../../components/HeaderPages";
 
 // قائمة الفئات
 const categories = [
@@ -67,11 +66,12 @@ const Courses = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="courses-continer">
-      
-      <HeaderPages title="Explore Our Courses"/>
+    <div className="courses-container">
+      <div className="title-container">
+        <h1 className="courses-title">Explore Our <span>Courses</span></h1>
+      </div>
 
-      <div className="categories pt-5">
+      <div className="categories">
         {categories.map((category) => (
           <button
             key={category}

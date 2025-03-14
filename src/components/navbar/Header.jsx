@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
+import { FaSignInAlt } from "react-icons/fa"; // استيراد الأيقونة
 
 import "../../styles/Header.css";
 import Logo from "../Logo";
@@ -13,11 +14,11 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isScrolled, setIsScrolled] = useState(false); // حالة لتتبع التمرير
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleLogout = () => {
-    dispatch(clearUser()); // حذف اليوزر من Redux
-    navigate("/login"); // تحويل المستخدم إلى صفحة login
+    dispatch(clearUser());
+    navigate("/login");
   };
 
   const isHomePage = location.pathname === "/";
@@ -26,32 +27,37 @@ const Header = () => {
     const handleScroll = () => {
       const heroSection = document.querySelector(".hero-section");
       if (heroSection) {
-        const heroSectionHeight = heroSection.offsetHeight; // ارتفاع الـ Hero Section
+        const heroSectionHeight = heroSection.offsetHeight;
         if (window.scrollY > heroSectionHeight) {
-          setIsScrolled(true); // إذا تم التمرير بعد الـ Hero Section
+          setIsScrolled(true);
         } else {
-          setIsScrolled(false); // إذا كان التمرير داخل الـ Hero Section
+          setIsScrolled(false);
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll); // استمع لحدث التمرير
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll); // نظف الحدث عند إلغاء التحميل
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <Navbar
-    style={{padding:"0", boxShadow:"0px 0px 9px -2px var(--mainColor)"}}
+      style={{
+        padding: "0",
+        boxShadow: "0px 0px 9px -2px var(--mainColor)",
+      }}
       bg={isHomePage && !isScrolled ? "transparent" : "light"}
       variant={isHomePage && !isScrolled ? "dark" : "light"}
       expand="lg"
-      className={`${isHomePage && !isScrolled ? "header-transparent" : ""} ${isHomePage ? "header-fixed" : ""}`}
-      fixed={isHomePage ? "top" : undefined} // تطبيق fixed فقط في الصفحة الرئيسية
+      className={`${isHomePage && !isScrolled ? "header-transparent" : ""} ${
+        isHomePage ? "header-fixed" : ""
+      }`}
+      fixed={isHomePage ? "top" : undefined}
     >
       <Container>
-      <Logo />
+        <Logo />
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav style={{ alignItems: "center" }} className="ms-auto">
@@ -88,25 +94,21 @@ const Header = () => {
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className={location.pathname === "/login" ? "active-link" : ""}
+                  className={`skewed-button ${
+                    location.pathname === "/login" ? "active-link" : ""
+                  }`}
                 >
-                  Login
+                  Explore Now
                 </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  to="/register"
-                  className={
-                    location.pathname === "/register" ? "active-link" : ""
-                  }
-                >
-                  Register
-                </Nav.Link>
+
               </>
             ) : (
               <Nav.Link
                 as={Link}
                 to="/profile"
-                className={location.pathname === "/profile" ? "active-link" : ""}
+                className={
+                  location.pathname === "/profile" ? "active-link" : ""
+                }
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -115,7 +117,6 @@ const Header = () => {
                   gap: "10px",
                 }}
               >
-
                 <span
                   style={{
                     width: "40px",
@@ -128,10 +129,13 @@ const Header = () => {
                   }}
                   className="text-light"
                 >
-                  <img className="w-100" src="https://courssat.com/assets/images/home/avatar.png" alt="user" />         
-
+                  <img
+                    className="w-100"
+                    src="https://courssat.com/assets/images/home/avatar.png"
+                    alt="user"
+                  />
                 </span>
-                <span>{user?.firstName + " " + user?.lastName}</span> {/* التحقق من وجود user */}
+                <span>{user?.firstName + " " + user?.lastName}</span>
               </Nav.Link>
             )}
           </Nav>
