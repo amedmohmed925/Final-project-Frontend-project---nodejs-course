@@ -15,6 +15,8 @@ import AllUsers from "./user/AllUsers/AllUsers";
 import AddCourse from "./components/coureses/AddCourse";
 import CourseDetails from "./components/coureses/CourseDetails";
 import EditCourse from "./components/coureses/EditCourse";
+import Blog from "./pages/Blog/Blog";
+import About from "./pages/About/About";
 const App = () => {
   return (
     <Router>
@@ -23,6 +25,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/About" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />

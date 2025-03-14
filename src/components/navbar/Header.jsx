@@ -43,9 +43,9 @@ const Header = () => {
 
   return (
     <Navbar
-    style={{padding:"0"}}
-      bg={isHomePage && !isScrolled ? "transparent" : "dark"}
-      variant={isHomePage && !isScrolled ? "light" : "dark"}
+    style={{padding:"0", boxShadow:"0px 0px 9px -2px var(--mainColor)"}}
+      bg={isHomePage && !isScrolled ? "transparent" : "light"}
+      variant={isHomePage && !isScrolled ? "dark" : "light"}
       expand="lg"
       className={`${isHomePage && !isScrolled ? "header-transparent" : ""} ${isHomePage ? "header-fixed" : ""}`}
       fixed={isHomePage ? "top" : undefined} // تطبيق fixed فقط في الصفحة الرئيسية
@@ -68,6 +68,20 @@ const Header = () => {
               className={location.pathname === "/courses" ? "active-link" : ""}
             >
               Courses
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/blog"
+              className={location.pathname === "/blog" ? "active-link" : ""}
+            >
+              Blog
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/about"
+              className={location.pathname === "/about" ? "active-link" : ""}
+            >
+              About Us
             </Nav.Link>
             {!user ? (
               <>

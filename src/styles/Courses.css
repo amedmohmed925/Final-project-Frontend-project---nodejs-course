@@ -120,15 +120,16 @@
 }
 
 .course-title {
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
   margin-bottom: 10px;
 }
 
 .course-description {
-  font-size: 0.95rem;
-  color: #666;
+  font-size: 0.65rem;
+  color: #666666db;
+  font-weight: 100;
   margin-bottom: 15px;
   line-height: 1.5;
 }

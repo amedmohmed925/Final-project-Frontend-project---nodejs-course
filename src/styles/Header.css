@@ -59,7 +59,7 @@
   
   /* الجزء الأول من اللوجو (Cour) */
   .logo-part-1 {
-    color: #ffffff; /* اللون الافتراضي أبيض */
+    color: black;
     background: linear-gradient(45deg, #ffffff, #f0f0f0); /* تدرج افتراضي للخلفيات الداكنة */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

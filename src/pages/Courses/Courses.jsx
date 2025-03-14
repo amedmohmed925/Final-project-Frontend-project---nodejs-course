@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCourses } from "../../api/courseApi"; // استيراد الدالة
 import "../../styles/Courses.css";
+import HeaderPages from "../../components/HeaderPages";
 
 // قائمة الفئات
 const categories = [
@@ -66,12 +67,11 @@ const Courses = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="courses-container">
-      <div className="title-container">
-        <h1 className="courses-title">Explore Our <span>Courses</span></h1>
-      </div>
+    <div className="courses-continer">
+      
+      <HeaderPages title="Explore Our Courses"/>
 
-      <div className="categories">
+      <div className="categories pt-5">
         {categories.map((category) => (
           <button
             key={category}
@@ -88,7 +88,7 @@ const Courses = () => {
           <div key={course._id} className="course-card">
             <div className="course-image">
               <img
-                src={course.featuredImage || fallbackImage}
+                src={course.featuredImage}
                 alt={course.title}
                 onError={handleImageError}
               />
