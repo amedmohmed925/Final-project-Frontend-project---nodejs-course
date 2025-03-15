@@ -3,7 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
-import { FaSignInAlt } from "react-icons/fa"; // استيراد الأيقونة
+import { FaCartPlus, FaSignInAlt } from "react-icons/fa"; // استيراد الأيقونة
 
 import "../../styles/Header.css";
 import Logo from "../Logo";
@@ -89,6 +89,10 @@ const Header = () => {
             >
               About Us
             </Nav.Link>
+
+           <div className="cartIcon">
+  <FaCartPlus />
+</div>
             {!user ? (
               <>
                 <Nav.Link
@@ -127,7 +131,6 @@ const Header = () => {
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                  className="text-light"
                 >
                   <img
                     className="w-100"
@@ -135,7 +138,13 @@ const Header = () => {
                     alt="user"
                   />
                 </span>
-                <span>{user?.firstName + " " + user?.lastName}</span>
+                <Nav.Link
+              as={Link}
+              to="/profile"
+              className={location.pathname === "/profile" ? "active-link" : ""}
+            >
+              profile
+            </Nav.Link>
               </Nav.Link>
             )}
           </Nav>

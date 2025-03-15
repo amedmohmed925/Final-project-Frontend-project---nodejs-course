@@ -81,19 +81,22 @@ const CourseDetails = () => {
 
       {/* Hero Banner */}
       <section className="course-banner">
-        <div className="banner-overlay">
-          <img src={course.featuredImage || "https://via.placeholder.com/1200x400.png?text=Course+Banner"} alt={course.title} />
-        </div>
-        <div className="banner-content">
-          <h2>{course.title}</h2>
-          <p className="banner-description">{course.description.substring(0, 150)}...</p>
-          <div className="banner-stats">
-            <span><FaClock /> {totalLessons * 2} Hours</span>
-            <span><FaBook /> {totalLessons} Lessons</span>
-            <span>{course.level}</span>
-          </div>
-        </div>
-      </section>
+  <div className="banner-overlay">
+    <img
+      src={course.featuredImage || "https://via.placeholder.com/1200x400.png?text=Course+Banner"}
+      alt={course.title}
+    />
+  </div>
+  <div className="banner-content">
+    <h2>{course.title}</h2>
+    <p className="banner-description">{course.description.substring(0, 150)}...</p>
+    <div className="banner-stats">
+      <span><FaClock /> {totalLessons * 2} Hours</span>
+      <span><FaBook /> {totalLessons} Lessons</span>
+      <span>{course.level}</span>
+    </div>
+  </div>
+</section>
 
       {/* Main Layout */}
       <div className="course-grid">

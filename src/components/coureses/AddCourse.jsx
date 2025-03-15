@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { addCourse } from "../../api/courseApi"; // تأكد من المسار الصحيح
 import Logo from "../Logo"; // افتراض أن لديك مكون Logo
+import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const AddCourse = () => {
   const [title, setTitle] = useState('');
@@ -20,6 +22,7 @@ const AddCourse = () => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -199,6 +202,18 @@ const AddCourse = () => {
   };
 
   return (
+    <div>
+ <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+      </button>
+
+      {/* Sidebar */}
+      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col xs={12} md={8} lg={10}>
@@ -467,6 +482,7 @@ const AddCourse = () => {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 };
 

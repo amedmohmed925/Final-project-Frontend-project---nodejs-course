@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCourses } from "../../api/courseApi"; // استيراد الدالة
 import "../../styles/Courses.css";
+import { FaStar } from "react-icons/fa";
 
 // قائمة الفئات
 const categories = [
@@ -92,19 +93,34 @@ const Courses = () => {
                 alt={course.title}
                 onError={handleImageError}
               />
-              <div className="course-price">${course.price}</div>
+              <span className="hourCourse"> <i className="fa-regular fa-clock"></i> 2 hour</span>
             </div>
             <div className="course-content">
               <h3 className="course-title">{course.title}</h3>
               <p className="course-description">{truncateDescription(course.description)}</p>
-              <div className="course-details">
+              {/* <div className="course-details">
                 <span className="course-level">{course.level}</span>
                 <span className="course-date">{formatDate(course.createdAt)}</span>
+              </div> */}
+              <div className="d-flex justify-content-between align-items-center">
+
+              <div className="course-rating">
+                    <FaStar className="star filled" />
+                    <FaStar className="star filled" />
+                    <FaStar className="star filled" />
+                    <FaStar className="star filled" />
+                    <FaStar className="star" />
+                    <span>(4.5)</span>
+                  </div>
+                  <span className="courseLevel">{course.level}</span>
+
               </div>
               <button
-                className="btn-custom enroll-btn"
+                className=" enroll-btn d-flex justify-content-center"
                 onClick={() => navigate(`/courses/${course._id}`)}
               >
+                              <div className="mx-2">${course.price}</div>
+
                 Enroll Now
               </button>
             </div>
