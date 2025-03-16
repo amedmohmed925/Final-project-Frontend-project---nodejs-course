@@ -17,7 +17,20 @@ import CourseDetails from "./components/coureses/CourseDetails";
 import EditCourse from "./components/coureses/EditCourse";
 import Blog from "./pages/Blog/Blog";
 import About from "./pages/About/About";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchCart } from "./features/cart/cartSlice";
 const App = () => {
+
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCart(user._id));
+    }
+  }, [user, dispatch]);
+
   return (
     <Router>
       <div>

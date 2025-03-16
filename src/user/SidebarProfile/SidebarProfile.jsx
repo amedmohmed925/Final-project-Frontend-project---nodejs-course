@@ -1,23 +1,34 @@
+// src/user/SidebarProfile/SidebarProfile.js
 import { FaUser, FaSignOutAlt, FaTimes, FaUsers } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
+import { clearCart } from "../../features/cart/cartSlice"; // استيراد clearCart
 import "../../styles/SidebarProfile.css";
 import "animate.css";
-import { useEffect } from "react"; // استيراد useEffect
+import { logout } from "../../api/authApi";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user); // جلب المستخدم الحالي
+  const { user } = useSelector((state) => state.user);
 
-console.log(user)
-  
+  console.log(user);
 
   const handleLogout = () => {
-    dispatch(clearUser());
-    navigate("/login");
-    onClose();
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        dispatch(clearUser()); // تنظيف الـ user state
+        dispatch(clearCart()); // تنظيف الـ cart state
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error("Logout failed:", error);
+        dispatch(clearUser()); // نظف الـ user حتى لو فشل
+        dispatch(clearCart()); // نظف الـ cart حتى لو فشل
+        navigate("/login");
+      });
   };
 
   return (
@@ -45,7 +56,7 @@ console.log(user)
               </Link>
             </li>
           )}
-            {user?.role === "teacher" && (
+          {user?.role === "teacher" && (
             <li>
               <Link to="/add-course" onClick={onClose}>
                 <FaUsers className="me-2" /> Add Course

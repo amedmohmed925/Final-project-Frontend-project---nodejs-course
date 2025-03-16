@@ -366,3 +366,17 @@
     font-size: 2rem;
   }
 }
+
+
+/* src/styles/CourseDetails.css */
+
+/* ... باقي الستايل ... */
+
+.action-icon.disabled {
+  opacity: 0.5; /* يخلي الأيقونة باهتة لما تكون معطلة */
+  cursor: not-allowed; /* يغير المؤشر لما يكون معطل */
+}
+
+.action-icon .text-success {
+  color: #28a745; /* لون علامة الصح الأخضر */
+}

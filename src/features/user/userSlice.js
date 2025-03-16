@@ -1,11 +1,13 @@
+
+// src/features/user/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { login, logout } from '../../api/authApi';
 import { editUserInfo, getCurrentUser } from '../../api/userApi';
-import { getAllUsers } from '../../api/userApi'; // استيراد getAllUsers
+import { getAllUsers } from '../../api/userApi';
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || null, // المستخدم الحالي
-  users: [], // قائمة كل المستخدمين
+  user: JSON.parse(localStorage.getItem('user')) || null,
+  users: [],
   loading: false,
   error: null,
 };
@@ -20,14 +22,13 @@ const userSlice = createSlice({
     },
     clearUser: (state) => {
       state.user = null;
-      state.users = []; // تصفير قائمة المستخدمين عند تسجيل الخروج
+      state.users = [];
       localStorage.removeItem('user');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
   },
   extraReducers: (builder) => {
-    // حالات تسجيل الدخول
     builder.addCase(login.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -44,16 +45,23 @@ const userSlice = createSlice({
       state.error = action.payload;
     });
 
-    // حالات تسجيل الخروج
     builder.addCase(logout.fulfilled, (state) => {
       state.user = null;
-      state.users = []; // تصفير قائمة المستخدمين
+      state.users = [];
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+    });
+    builder.addCase(logout.rejected, (state, action) => {
+      state.error = action.payload;
+      // حتى لو فشل الـ logout، نظف الـ localStorage
+      state.user = null;
+      state.users = [];
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
     });
 
-    // حالات جلب معلومات المستخدم الحالي
     builder.addCase(getCurrentUser.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -68,29 +76,27 @@ const userSlice = createSlice({
       state.error = action.payload;
     });
 
-    // حالات تحديث معلومات المستخدم
     builder.addCase(editUserInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
     builder.addCase(editUserInfo.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload; // تحديث بيانات المستخدم
-      localStorage.setItem('user', JSON.stringify(action.payload)); // تحديث localStorage
+      state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(action.payload));
     });
     builder.addCase(editUserInfo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
 
-    // حالات جلب كل المستخدمين
     builder.addCase(getAllUsers.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
     builder.addCase(getAllUsers.fulfilled, (state, action) => {
       state.loading = false;
-      state.users = action.payload; // تخزين قائمة المستخدمين
+      state.users = action.payload;
     });
     builder.addCase(getAllUsers.rejected, (state, action) => {
       state.loading = false;
@@ -100,8 +106,5 @@ const userSlice = createSlice({
 });
 
 export const { setUser, clearUser } = userSlice.actions;
-
-// تصدير editUserInfo كجزء من userSlice (اختياري، لو مش لازم ممكن تشيله)
 export { editUserInfo, getAllUsers };
-
 export default userSlice.reducer;

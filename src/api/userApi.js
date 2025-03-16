@@ -6,6 +6,29 @@ const API_URL2 = 'http://localhost:8080/auth';
 
 
 
+export const login = createAsyncThunk('user/login', async (credentials, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${API_URL}/login`, credentials);
+    return {
+      accessToken: response.data.accessToken,
+      refreshToken: response.data.refreshToken,
+      user: response.data.user,
+    };
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
+export const logout = createAsyncThunk('user/logout', async (_, { getState, rejectWithValue }) => {
+  try {
+    const refreshToken = localStorage.getItem("refreshToken");
+    const response = await axios.post(`${API_URL}/logout`, { token: refreshToken });
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data);
+  }
+});
+
 export const getAllUsers = createAsyncThunk(
   'user/getAllUsers',
   async (_, { rejectWithValue }) => {
@@ -33,14 +56,14 @@ export const getUserById = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
-      return response.data.user; // إرجاع بيانات المستخدم
+      return response.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user');
     }
   }
 );
 
-// جلب الكورسات الخاصة بالمستخدم حسب الـ ID
+
 export const getCoursesByUser = createAsyncThunk(
   'user/getCoursesByUser',
   async (id, { rejectWithValue }) => {
@@ -51,14 +74,14 @@ export const getCoursesByUser = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
-      return response.data.courses; // إرجاع الكورسات
+      return response.data.courses; 
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || 'Failed to fetch user courses');
     }
   }
 );
 
-// الدوال الموجودة عندك بالفعل
+
 export const editUserInfo = createAsyncThunk(
   'user/editUserInfo',
   async ({ id, updatedData }, { rejectWithValue }) => {
@@ -97,7 +120,6 @@ export const getCurrentUser = createAsyncThunk(
 
 
 
-// api/teachersApi.js
 
 export const getAllTeachers = async () => {
   try {
