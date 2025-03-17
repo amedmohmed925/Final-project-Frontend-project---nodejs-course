@@ -6,7 +6,7 @@ import { addItemToCart } from "../../features/cart/cartSlice";
 import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaChevronDown, FaCheck } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
-
+import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 const CourseDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
@@ -186,6 +186,10 @@ const CourseDetails = () => {
               ))}
             </div>
           </section>
+        </div>
+        <div>
+
+              <FeedbackSection courseId={id} />
         </div>
       </div>
 

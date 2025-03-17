@@ -81,7 +81,7 @@ const AdminCouponReport = () => {
         <table className="report-table">
           <thead>
             <tr>
-              <th>Advertiser Name</th>
+              <th>Advertiser userName</th>
               <th>Coupon Code</th>
               <th>Usage Count</th>
               <th>Total Purchases</th>

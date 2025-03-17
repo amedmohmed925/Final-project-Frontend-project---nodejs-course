@@ -68,6 +68,10 @@ const Header = () => {
                 About Us
               </Nav.Link>
 
+              <Nav.Link as={Link} to="/community" className={location.pathname === "/about" ? "active-link" : ""}>
+ community
+              </Nav.Link>
+
               <div className="cartIcon position-relative" onClick={() => dispatch(toggleCart())}>
                 <FaCartPlus />
                 {items.length > 0 && (
