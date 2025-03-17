@@ -33,7 +33,7 @@ export const removeItemFromCart = createAsyncThunk("cart/removeItem", async (cou
 export const applyCouponCode = createAsyncThunk("cart/applyCoupon", async (couponCode, { rejectWithValue }) => {
   try {
     const response = await applyCoupon(couponCode);
-    return response;
+    return response; // بنرجع الـ response كامل عشان نحدث الـ state كله
   } catch (error) {
     return rejectWithValue(error.response.data);
   }
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
     closeCart(state) {
       state.isCartOpen = false;
     },
-    clearCart(state) { // الـ action الجديدة
+    clearCart(state) {
       state.items = [];
       state.total = 0;
       state.discount = 0;
@@ -78,6 +78,7 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Fetch Cart
       .addCase(fetchCart.pending, (state) => {
         state.status = "loading";
       })
@@ -92,6 +93,7 @@ const cartSlice = createSlice({
         state.status = "failed";
         state.error = action.payload?.message || "Failed to fetch cart";
       })
+      // Add Item
       .addCase(addItemToCart.fulfilled, (state, action) => {
         state.items = action.payload.items;
         state.total = action.payload.total;
@@ -100,6 +102,7 @@ const cartSlice = createSlice({
       .addCase(addItemToCart.rejected, (state, action) => {
         state.error = action.payload?.message || "Failed to add item";
       })
+      // Remove Item
       .addCase(removeItemFromCart.fulfilled, (state, action) => {
         state.items = action.payload.items;
         state.total = action.payload.total;
@@ -109,26 +112,41 @@ const cartSlice = createSlice({
       .addCase(removeItemFromCart.rejected, (state, action) => {
         state.error = action.payload?.message || "Failed to remove item";
       })
+      // Apply Coupon
+      .addCase(applyCouponCode.pending, (state) => {
+        state.status = "loading"; // إضافة حالة التحميل
+      })
       .addCase(applyCouponCode.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.items = action.payload.cart.items; // تحديث كامل للسلة
+        state.total = action.payload.cart.total;
         state.discount = action.payload.cart.discount;
         state.finalTotal = action.payload.cart.finalTotal;
         state.error = null;
       })
       .addCase(applyCouponCode.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload?.message || "Failed to apply coupon";
       })
-      .addCase(checkout.fulfilled, (state) => {
+      // Checkout
+      .addCase(checkout.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(checkout.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = [];
         state.total = 0;
         state.discount = 0;
         state.finalTotal = 0;
         state.isCartOpen = false;
+        state.error = null;
       })
       .addCase(checkout.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload?.message || "Checkout failed";
       });
   },
 });
 
-export const { toggleCart, closeCart, clearCart } = cartSlice.actions; // تصدير الـ clearCart
+export const { toggleCart, closeCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -27,34 +27,34 @@ cartApi.interceptors.response.use(
     if (
       error.response?.status === 403 &&
       error.response?.data?.message === "Forbidden" &&
-      !originalRequest._retry // منع التكرار اللانهائي
+      !originalRequest._retry 
     ) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem("refreshToken");
 
       if (refreshToken) {
         try {
-          // طلب تجديد الـ Access Token
+
           const response = await axios.post("http://localhost:8080/auth/refresh", { token: refreshToken });
           const newAccessToken = response.data.accessToken;
 
-          // تحديث الـ Access Token في localStorage
+
           localStorage.setItem("accessToken", newAccessToken);
 
-          // تحديث رأس الطلب الأصلي بالتوكن الجديد
+
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-          // إعادة إرسال الطلب الأصلي
+
           return cartApi(originalRequest);
         } catch (refreshError) {
           console.error("Failed to refresh token:", refreshError);
-          // لو فشل التجديد، اعمل تسجيل خروج
+
           localStorage.clear();
           window.location.href = "/login";
           return Promise.reject(refreshError);
         }
       } else {
-        // لو مافيش Refresh Token، اعمل تسجيل خروج
+
         localStorage.clear();
         window.location.href = "/login";
       }

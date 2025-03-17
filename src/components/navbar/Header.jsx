@@ -19,11 +19,7 @@ const Header = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleLogout = () => {
-    dispatch(clearUser()); // تنظيف الـ user
-    dispatch(clearCart()); // تنظيف الـ cart
-    navigate("/login");
-  };
+ 
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {

@@ -20,6 +20,8 @@ import About from "./pages/About/About";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCart } from "./features/cart/cartSlice";
+import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard"
+import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport"
 const App = () => {
 
   const dispatch = useDispatch();
@@ -50,6 +52,8 @@ const App = () => {
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/courses/:id" element={<CourseDetails />} />
           <Route path="/edit-course/:id" element={<EditCourse />} />
+          <Route path="/AdvertiserDashboard" element={<AdvertiserDashboard />} />
+          <Route path="/AdminCouponReport" element={<AdminCouponReport />} />
         </Routes>
       </div>
     </Router>

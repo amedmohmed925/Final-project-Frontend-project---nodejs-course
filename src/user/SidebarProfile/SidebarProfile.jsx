@@ -49,6 +49,16 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <FaUser className="me-2" /> Update Info
             </Link>
           </li>
+          <li>
+            <Link to="/AdvertiserDashboard" onClick={onClose}>
+              <FaUser className="me-2" />Advertiser Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/AdminCouponReport" onClick={onClose}>
+              <FaUser className="me-2" />Admin Coupon Report
+            </Link>
+          </li>
           {user?.role === "admin" && (
             <li>
               <Link to="/all-users" onClick={onClose}>

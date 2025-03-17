@@ -1,0 +1,114 @@
+
+  .advertiser-dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f7fa;
+    padding: 20px;
+  }
+  
+  .sidebar-arrow-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: var(--mainColor);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .sidebar-arrow-toggle:hover {
+    background-color: #0056b3;
+  }
+  
+  .sidebar-open {
+    left: 260px; /* عرض الـ Sidebar */
+  }
+  
+  .dashboard-content {
+    flex: 1;
+    margin-left: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dashboard-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--mainColor);
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--mainColor);
+    padding-bottom: 10px;
+  }
+  
+  .create-coupon-btn {
+    display: block;
+    width: 200px;
+    margin: 0 auto 30px;
+    padding: 10px 20px;
+    background-color: var(--mainColor);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .create-coupon-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .create-coupon-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .coupon-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .coupon-table th,
+  .coupon-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .coupon-table th {
+    background-color: var(--mainColor);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  .coupon-table td {
+    background-color: #fafafa;
+    color: #333;
+  }
+  
+  .no-data {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+  }
+  
+  .coupon-table tr:hover td {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+  }
