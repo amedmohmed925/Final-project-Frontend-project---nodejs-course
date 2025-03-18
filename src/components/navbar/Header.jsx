@@ -1,4 +1,3 @@
-// src/components/Header.js
 import { useState, useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -60,10 +59,13 @@ const Header = () => {
         fixed={isHomePage ? "top" : undefined}
       >
         <Container>
-          <Logo />
+          <Navbar.Brand as={Link} to="/">
+            <Logo />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav style={{ alignItems: "center" }} className="ms-auto">
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
+            {/* الجزء الأوسط: الروابط */}
+            <Nav className="mx-auto">
               <Nav.Link
                 as={Link}
                 to="/"
@@ -94,14 +96,76 @@ const Header = () => {
               </Nav.Link>
               <Nav.Link
                 as={Link}
-                to="/Community"
+                to="/community"
                 className={location.pathname === "/community" ? "active-link" : ""}
               >
                 Community
               </Nav.Link>
 
+              {/* أيقونة السلة على الشاشات الصغيرة */}
               <div
-                className="cartIcon position-relative"
+                className="cartIcon position-relative me-3 d-lg-none"
+                onClick={() => dispatch(toggleCart())}
+              >
+                <FaCartPlus />
+                {items.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                    {items.length}
+                  </span>
+                )}
+              </div>
+
+              {/* صورة البروفايل على الشاشات الصغيرة */}
+              {!user ? (
+                <Nav.Link
+                  as={Link}
+                  to="/login"
+                  className={`skewed-button d-lg-none ${
+                    location.pathname === "/login" ? "active-link" : ""
+                  }`}
+                >
+                  Explore Now
+                </Nav.Link>
+              ) : (
+                <Nav.Link
+                  as={Link}
+                  to="/profile"
+                  className={`d-lg-none ${
+                    location.pathname === "/profile" ? "active-link" : ""
+                  }`}
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      fontSize: "20px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img
+                      className="w-100"
+                      src="https://courssat.com/assets/images/home/avatar.png"
+                      alt="user"
+                    />
+                  </span>
+                </Nav.Link>
+              )}
+            </Nav>
+
+            {/* الجزء الأيمن: أيقونة السلة وصورة البروفايل (على الشاشات الكبيرة) */}
+            <Nav className="align-items-center d-none d-lg-flex">
+              <div
+                className="cartIcon position-relative me-3"
                 onClick={() => dispatch(toggleCart())}
               >
                 <FaCartPlus />
@@ -116,7 +180,7 @@ const Header = () => {
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className={`skewed-button mx-3 ${
+                  className={`skewed-button ${
                     location.pathname === "/login" ? "active-link" : ""
                   }`}
                 >
@@ -155,8 +219,21 @@ const Header = () => {
                 </Nav.Link>
               )}
             </Nav>
+            
           </Navbar.Collapse>
+          
         </Container>
+        <div
+                className="cartIcon position-relative me-3"
+                onClick={() => dispatch(toggleCart())}
+              >
+                <FaCartPlus />
+                {items.length > 0 && (
+                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                    {items.length}
+                  </span>
+                )}
+              </div>
       </Navbar>
       <Cart /> {/* Render the Cart component */}
     </>

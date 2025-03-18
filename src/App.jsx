@@ -25,14 +25,7 @@ import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport"
 import Community from "./components/Community/Community";
 const App = () => {
 
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    if (user) {
-      dispatch(fetchCart(user._id));
-    }
-  }, [user, dispatch]);
+ 
 
   return (
     <Router>

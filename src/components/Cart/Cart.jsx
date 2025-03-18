@@ -201,7 +201,7 @@ const Cart = () => {
         <Modal.Header closeButton>
           <Modal.Title style={{ color: "#dc3545" }}>Error</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{error || "An unexpected error occurred. Please try again."}</Modal.Body>
+        <Modal.Body>{error+" " + "please Login agine" || "An unexpected error occurred. Please try again."}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseErrorModal}>
             Close
