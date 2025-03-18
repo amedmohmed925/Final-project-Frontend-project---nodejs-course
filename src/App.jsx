@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import { fetchCart } from "./features/cart/cartSlice";
 import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard"
 import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport"
+import Community from "./components/Community/Community";
 const App = () => {
 
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/edit-course/:id" element={<EditCourse />} />
           <Route path="/AdvertiserDashboard" element={<AdvertiserDashboard />} />
           <Route path="/AdminCouponReport" element={<AdminCouponReport />} />
+          <Route path="/Community" element={<Community />} />
         </Routes>
       </div>
     </Router>

@@ -94,7 +94,7 @@ const Header = () => {
               </Nav.Link>
               <Nav.Link
                 as={Link}
-                to="/community"
+                to="/Community"
                 className={location.pathname === "/community" ? "active-link" : ""}
               >
                 Community
