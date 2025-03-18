@@ -1,4 +1,3 @@
-// src/components/FeedbackSection.jsx
 import { useState, useEffect } from "react";
 import { FaStar, FaTrash, FaEdit } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -10,11 +9,12 @@ const FeedbackSection = ({ courseId }) => {
   const [newFeedback, setNewFeedback] = useState({ comment: "", rating: 0 });
   const [editingFeedback, setEditingFeedback] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { user } = useSelector((state) => state.user); // Adjust based on your Redux store
+  const [refresh, setRefresh] = useState(false);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (courseId) fetchFeedbacks();
-  }, [courseId]);
+  }, [courseId, refresh]);
 
   const fetchFeedbacks = async () => {
     setLoading(true);
@@ -29,8 +29,19 @@ const FeedbackSection = ({ courseId }) => {
   };
 
   const handleRating = (rating) => {
-    setNewFeedback({ ...newFeedback, rating });
-    if (editingFeedback) setEditingFeedback({ ...editingFeedback, rating });
+    if (editingFeedback) {
+      setEditingFeedback({ ...editingFeedback, rating });
+    } else {
+      setNewFeedback({ ...newFeedback, rating });
+    }
+  };
+
+  const handleCommentChange = (e) => {
+    if (editingFeedback) {
+      setEditingFeedback({ ...editingFeedback, comment: e.target.value });
+    } else {
+      setNewFeedback({ ...newFeedback, comment: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -46,14 +57,17 @@ const FeedbackSection = ({ courseId }) => {
           comment: editingFeedback.comment,
           rating: editingFeedback.rating,
         });
-        setFeedbacks(feedbacks.map((f) => (f._id === updatedFeedback._id ? updatedFeedback : f)));
+        console.log("Updated Feedback from API:", updatedFeedback);
         setEditingFeedback(null);
+        setNewFeedback({ comment: "", rating: 0 });
+        setRefresh(!refresh);
       } else {
         const feedbackData = { ...newFeedback, courseId };
         const addedFeedback = await addFeedback(feedbackData);
-        setFeedbacks([...feedbacks, addedFeedback]);
+        console.log("Added Feedback from API:", addedFeedback);
+        setNewFeedback({ comment: "", rating: 0 });
+        setRefresh(!refresh);
       }
-      setNewFeedback({ comment: "", rating: 0 });
     } catch (err) {
       console.error("Error submitting feedback:", err.message);
     }
@@ -67,7 +81,7 @@ const FeedbackSection = ({ courseId }) => {
   const handleDelete = async (feedbackId) => {
     try {
       await deleteFeedback(feedbackId);
-      setFeedbacks(feedbacks.filter((f) => f._id !== feedbackId));
+      setRefresh(!refresh);
     } catch (err) {
       console.error("Error deleting feedback:", err.message);
     }
@@ -84,6 +98,26 @@ const FeedbackSection = ({ courseId }) => {
     ));
   };
 
+  const getUserName = (feedback) => {
+    if (user && feedback.userId === user._id) {
+      return `${user.firstName || ""} ${user.lastName || ""}`.trim() || "Anonymous";
+    }
+    if (feedback.userId && typeof feedback.userId === "object") {
+      return `${feedback.userId.firstName || ""} ${feedback.userId.lastName || ""}`.trim() || "Anonymous";
+    }
+    return "Anonymous";
+  };
+
+  const getUserImage = (feedback) => {
+    if (user && feedback.userId === user._id && user.profileImage) {
+      return user.profileImage;
+    }
+    if (feedback.userId && typeof feedback.userId === "object" && feedback.userId.profileImage) {
+      return feedback.userId.profileImage;
+    }
+    return "https://courssat.com/assets/images/home/avatar.png";
+  };
+
   return (
     <section className="course-section feedback-section">
       <h3>Student Feedback</h3>
@@ -95,26 +129,28 @@ const FeedbackSection = ({ courseId }) => {
         <>
           <div className="feedback-list">
             {feedbacks.length === 0 ? (
-              <p>No feedback yet. Be the first to share your thoughts!</p>
+              <p className="no-feedback">No feedback yet. Be the first to share your thoughts!</p>
             ) : (
               feedbacks.map((feedback) => (
                 <div key={feedback._id} className="feedback-item">
-                  <div className="feedback-header">
-                    {/* Display firstName and lastName instead of username */}
-                    <span className="feedback-user">
-                      {feedback.userId && feedback.userId.firstName && feedback.userId.lastName
-                        ? `${feedback.userId.firstName} ${feedback.userId.lastName}`
-                        : "Anonymous"}
-                    </span>
-                    <div className="feedback-stars">{renderStars(feedback.rating)}</div>
+                  <div className="feedback-user-info">
+                    <img
+                      className="imageFeebackUser"
+                      src={getUserImage(feedback)}
+                      alt={getUserName(feedback)}
+                    />
+                    <div className="feedback-user-details">
+                      <span className="feedback-user">{getUserName(feedback)}</span>
+                      <div className="feedback-stars">{renderStars(feedback.rating)}</div>
+                    </div>
                   </div>
                   <p className="feedback-comment">{feedback.comment}</p>
-                  {user && user._id === feedback.userId?._id && (
+                  {user && user._id === (feedback.userId?._id || feedback.userId) && (
                     <div className="feedback-actions">
-                      <button className="action-icon" onClick={() => handleEdit(feedback)}>
+                      <button className="feedback-action-icon" onClick={() => handleEdit(feedback)}>
                         <FaEdit />
                       </button>
-                      <button className="action-icon" onClick={() => handleDelete(feedback._id)}>
+                      <button className="feedback-action-icon" onClick={() => handleDelete(feedback._id)}>
                         <FaTrash />
                       </button>
                     </div>
@@ -127,14 +163,16 @@ const FeedbackSection = ({ courseId }) => {
           <form className="feedback-form" onSubmit={handleSubmit}>
             <h4>{editingFeedback ? "Edit Your Feedback" : "Add Your Feedback"}</h4>
             <textarea
-              value={newFeedback.comment}
-              onChange={(e) => setNewFeedback({ ...newFeedback, comment: e.target.value })}
+              value={editingFeedback ? editingFeedback.comment : newFeedback.comment}
+              onChange={handleCommentChange}
               placeholder="Share your thoughts about this course..."
               required
             />
             <div className="rating-section">
               <span>Rate this course:</span>
-              <div className="stars">{renderStars(newFeedback.rating, true)}</div>
+              <div className="stars">
+                {renderStars(editingFeedback ? editingFeedback.rating : newFeedback.rating, true)}
+              </div>
             </div>
             <button type="submit" className="enroll-sticky-btn">
               {editingFeedback ? "Update Feedback" : "Submit Feedback"}

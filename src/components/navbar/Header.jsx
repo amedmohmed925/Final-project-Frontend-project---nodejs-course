@@ -9,6 +9,10 @@ import { FaCartPlus } from "react-icons/fa";
 import "../../styles/Header.css";
 import Logo from "../Logo";
 import Cart from "../Cart/Cart"; // Import the Cart component
+import ReactGA from "react-ga4"; // استخدام react-ga4 بدل react-ga
+
+// Initialize ReactGA4 (يفضل وضعه في index.js لكن هنا للتجربة)
+ReactGA.initialize("G-XXXXXXX"); // استبدل G-XXXXXXX بالـ Measurement ID بتاعك
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
@@ -19,9 +23,14 @@ const Header = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
 
- 
   const isHomePage = location.pathname === "/";
 
+  // تتبع الصفحات باستخدام ReactGA4
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
+  }, [location]);
+
+  // تتبع الـ Scroll لتغيير شكل الـ Navbar
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.querySelector(".hero-section");
@@ -55,24 +64,46 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav style={{ alignItems: "center" }} className="ms-auto">
-              <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "active-link" : ""}>
+              <Nav.Link
+                as={Link}
+                to="/"
+                className={location.pathname === "/" ? "active-link" : ""}
+              >
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to="/courses" className={location.pathname === "/courses" ? "active-link" : ""}>
+              <Nav.Link
+                as={Link}
+                to="/courses"
+                className={location.pathname === "/courses" ? "active-link" : ""}
+              >
                 Courses
               </Nav.Link>
-              <Nav.Link as={Link} to="/blog" className={location.pathname === "/blog" ? "active-link" : ""}>
+              <Nav.Link
+                as={Link}
+                to="/blog"
+                className={location.pathname === "/blog" ? "active-link" : ""}
+              >
                 Blog
               </Nav.Link>
-              <Nav.Link as={Link} to="/about" className={location.pathname === "/about" ? "active-link" : ""}>
+              <Nav.Link
+                as={Link}
+                to="/about"
+                className={location.pathname === "/about" ? "active-link" : ""}
+              >
                 About Us
               </Nav.Link>
-
-              <Nav.Link as={Link} to="/community" className={location.pathname === "/about" ? "active-link" : ""}>
- community
+              <Nav.Link
+                as={Link}
+                to="/community"
+                className={location.pathname === "/community" ? "active-link" : ""}
+              >
+                Community
               </Nav.Link>
 
-              <div className="cartIcon position-relative" onClick={() => dispatch(toggleCart())}>
+              <div
+                className="cartIcon position-relative"
+                onClick={() => dispatch(toggleCart())}
+              >
                 <FaCartPlus />
                 {items.length > 0 && (
                   <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
@@ -85,7 +116,9 @@ const Header = () => {
                 <Nav.Link
                   as={Link}
                   to="/login"
-                  className={`skewed-button mx-3 ${location.pathname === "/login" ? "active-link" : ""}`}
+                  className={`skewed-button mx-3 ${
+                    location.pathname === "/login" ? "active-link" : ""
+                  }`}
                 >
                   Explore Now
                 </Nav.Link>
@@ -94,7 +127,13 @@ const Header = () => {
                   as={Link}
                   to="/profile"
                   className={location.pathname === "/profile" ? "active-link" : ""}
-                  style={{ textDecoration: "none", color: "white", display: "flex", alignItems: "center", gap: "10px" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
                 >
                   <span
                     style={{

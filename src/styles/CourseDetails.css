@@ -383,108 +383,249 @@
 
 
 /* Feedback Section */
+/* Feedback Section */
 .feedback-section {
-  margin-top: 30px;
+  max-width: 1200px; /* تقليل العرض الأقصى */
+  margin: 40px auto 0; /* تقليل المسافة العلوية */
+  padding: 30px; /* تقليل الـ padding */
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.feedback-section:hover {
+  transform: translateY(-3px); /* تقليل تأثير الرفع */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-section h3 {
+  font-size: 1.8rem; /* تقليل حجم العنوان */
+  color: #1e3a8a;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .feedback-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 30px;
+  gap: 20px; /* تقليل المسافة بين التعليقات */
+  margin-bottom: 40px; /* تقليل المسافة السفلية */
+}
+
+.no-feedback {
+  font-size: 1rem; /* تقليل حجم النص */
+  color: #6b7280;
+  text-align: center;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 10px;
 }
 
 .feedback-item {
-  background: #f0f4f8;
-  padding: 15px 20px;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background: #f9fafb;
+  padding: 20px; /* تقليل الـ padding */
+  border-radius: 15px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .feedback-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px); /* تقليل تأثير الرفع */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
 }
 
-.feedback-header {
+.feedback-user-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 15px; /* تقليل المسافة بين الصورة والنص */
+  margin-bottom: 15px; /* تقليل المسافة السفلية */
+}
+
+.imageFeebackUser {
+  width: 45px; /* تقليل حجم الصورة */
+  height: 45px;
+  border: 3px solid #3b82f6; /* تقليل سمك الحدود */
+  border-radius: 50%;
+  background-color: #e0e7ee;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.feedback-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px; /* تقليل المسافة بين الاسم والنجوم */
 }
 
 .feedback-user {
   font-weight: 600;
-  color: #6a11cb;
+  font-size: 1rem; /* تقليل حجم الاسم */
+  color: #1e3a8a;
 }
 
 .feedback-stars {
   display: flex;
-  gap: 5px;
+  gap: 6px; /* تقليل المسافة بين النجوم */
 }
 
 .star {
-  color: #ccc;
-  font-size: 1.2rem;
+  color: #d1d5db;
+  font-size: 1.2rem; /* تقليل حجم النجوم */
+  transition: all 0.3s ease;
 }
 
 .star.active {
-  color: #ffcd00;
+  color: #facc15;
 }
 
 .feedback-comment {
-  font-size: 1rem;
-  color: #444;
+  font-size: 1rem; /* تقليل حجم التعليق */
+  color: #4b5563;
   line-height: 1.6;
+  margin: 0;
 }
 
 .feedback-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 10px; /* تقليل المسافة بين الأزرار */
+  margin-top: 15px; /* تقليل المسافة العلوية */
+  justify-content: flex-end;
+}
+
+.feedback-action-icon {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 8px; /* تقليل الـ padding */
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 35px; /* تقليل حجم الزر */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feedback-action-icon:hover {
+  background: rgba(59, 130, 246, 0.2);
+  transform: scale(1.05); /* تقليل تأثير التكبير */
 }
 
 .feedback-form {
-  margin-top: 30px;
+  background: #f1f5f9;
+  padding: 25px; /* تقليل الـ padding */
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .feedback-form h4 {
-  font-size: 1.5rem;
-  color: #2575fc;
-  margin-bottom: 15px;
+  font-size: 1.5rem; /* تقليل حجم العنوان */
+  color: #3b82f6;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .feedback-form textarea {
   width: 100%;
-  min-height: 100px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 1rem;
+  min-height: 120px; /* تقليل ارتفاع الـ textarea */
+  padding: 15px; /* تقليل الـ padding */
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 1rem; /* تقليل حجم النص */
   resize: vertical;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
 }
 
 .feedback-form textarea:focus {
   outline: none;
-  border-color: #6a11cb;
-  box-shadow: 0 0 5px rgba(106, 17, 203, 0.3);
+  border-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.2);
 }
 
 .rating-section {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 20px; /* تقليل المسافة */
+  margin-bottom: 25px;
+  justify-content: center;
 }
 
 .rating-section span {
-  font-size: 1rem;
-  color: #666;
+  font-size: 1rem; /* تقليل حجم النص */
+  color: #6b7280;
 }
 
 .rating-section .stars {
   display: flex;
-  gap: 5px;
+  gap: 6px; /* تقليل المسافة بين النجوم */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feedback-section {
+    padding: 20px;
+    margin: 30px auto 0;
+  }
+
+  .feedback-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .feedback-item {
+    padding: 15px;
+  }
+
+  .imageFeebackUser {
+    width: 40px;
+    height: 40px;
+    border-width: 2px;
+  }
+
+  .feedback-user {
+    font-size: 0.9rem;
+  }
+
+  .feedback-comment {
+    font-size: 0.9rem;
+  }
+
+  .feedback-stars .star {
+    font-size: 1rem;
+  }
+
+  .feedback-action-icon {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+  }
+
+  .feedback-form {
+    padding: 20px;
+  }
+
+  .feedback-form h4 {
+    font-size: 1.3rem;
+  }
+
+  .feedback-form textarea {
+    min-height: 100px;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .rating-section {
+    gap: 15px;
+  }
+
+  .rating-section span {
+    font-size: 0.9rem;
+  }
 }

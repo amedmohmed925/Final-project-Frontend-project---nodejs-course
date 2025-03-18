@@ -7,6 +7,11 @@ import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaC
 import { Modal, Button } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
+import ReactGA from "react-ga4"; // استبدال ReactGAImplementation بـ ReactGA
+
+// Initialize يفضل يكون في index.js، لكن هنا للتجربة
+ReactGA.initialize("G-XXXXXXX"); // استبدل G-XXXXXXX بالـ Measurement ID بتاعك
+
 const CourseDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
@@ -20,11 +25,13 @@ const CourseDetails = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
 
+  // تتبع زيارة صفحة الكورس
   useEffect(() => {
     const fetchCourse = async () => {
       try {
         const data = await getCourseById(id);
         setCourse(data);
+        ReactGA.send({ hitType: "pageview", page: `/course/${id}` }); // تتبع الصفحة
       } catch (err) {
         setError(err.message);
       } finally {
@@ -34,7 +41,7 @@ const CourseDetails = () => {
     fetchCourse();
   }, [id]);
 
-  // مراقبة تغيير items لتحديث الـ UI فورًا
+
   const isInCart = items.some((item) => item.courseId._id === id);
 
   const formatDate = (dateString) => {
@@ -43,16 +50,35 @@ const CourseDetails = () => {
 
   const handleFavoriteToggle = () => {
     setIsFavorite(!isFavorite);
+    ReactGA.event({
+      category: "Engagement",
+      action: "Toggle Favorite",
+      label: course?.title || "Unknown Course",
+      value: isFavorite ? 0 : 1, // 0 لإلغاء التفضيل، 1 للإضافة
+    });
   };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     alert("Course link copied to clipboard!");
+    ReactGA.event({
+      category: "Engagement",
+      action: "Share Course",
+      label: course?.title || "Unknown Course",
+    });
   };
 
   const handleAddToCart = () => {
     dispatch(addItemToCart(id))
       .unwrap()
+      .then(() => {
+        ReactGA.event({
+          category: "Cart",
+          action: "Add to Cart",
+          label: course.title,
+          value: course.price,
+        });
+      })
       .catch((err) => {
         setAddToCartError(err.message || "Failed to add course to cart");
         setShowErrorModal(true);
@@ -61,6 +87,12 @@ const CourseDetails = () => {
 
   const toggleSection = (index) => {
     setOpenSection(openSection === index ? null : index);
+    ReactGA.event({
+      category: "Engagement",
+      action: "Toggle Section",
+      label: `${course?.title || "Unknown Course"} - Section ${index + 1}`,
+      value: openSection === index ? 0 : 1, // 0 للإغلاق، 1 للفتح
+    });
   };
 
   const handleCloseModal = () => {
@@ -92,7 +124,7 @@ const CourseDetails = () => {
               disabled={isInCart}
               title={isInCart ? "Already in cart" : "Add to cart"}
             >
-              {isInCart ? <FaCheck className="text-sucئcess" style={{color: "#90EE90" }} /> : <FaShoppingCart />}
+              {isInCart ? <FaCheck className="text-success" style={{ color: "#90EE90" }} /> : <FaShoppingCart />}
             </button>
             <button className="enroll-sticky-btn" onClick={() => alert("Enrollment coming soon!")}>
               Enroll - ${course.price}
@@ -119,7 +151,7 @@ const CourseDetails = () => {
         </div>
       </section>
 
-      <div className="course-grid">
+      <div className="course-grid container">
         <div className="course-details-column">
           <section className="course-section overview">
             <h3>What You'll Learn</h3>
@@ -188,10 +220,9 @@ const CourseDetails = () => {
           </section>
         </div>
         <div>
-
-              <FeedbackSection courseId={id} />
         </div>
       </div>
+          <FeedbackSection courseId={id} />
 
       <footer className="course-footer">
         <button className="back-btn" onClick={() => navigate("/courses")}>
