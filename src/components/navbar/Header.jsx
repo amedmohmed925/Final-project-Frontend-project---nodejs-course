@@ -7,29 +7,25 @@ import { toggleCart, clearCart } from "../../features/cart/cartSlice";
 import { FaCartPlus } from "react-icons/fa";
 import "../../styles/Header.css";
 import Logo from "../Logo";
-import Cart from "../Cart/Cart"; // Import the Cart component
-import ReactGA from "react-ga4"; // استخدام react-ga4 بدل react-ga
+import Cart from "../Cart/Cart";
+import ReactGA from "react-ga4";
 
-// Initialize ReactGA4 (يفضل وضعه في index.js لكن هنا للتجربة)
-ReactGA.initialize("G-XXXXXXX"); // استبدل G-XXXXXXX بالـ Measurement ID بتاعك
+ReactGA.initialize("G-XXXXXXX"); // استبدل بـ Measurement ID الخاص بك
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
-  const { items } = useSelector((state) => state.cart); // Get cart items for badge
+  const { items } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [isScrolled, setIsScrolled] = useState(false);
-
   const isHomePage = location.pathname === "/";
 
-  // تتبع الصفحات باستخدام ReactGA4
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: location.pathname + location.search });
   }, [location]);
 
-  // تتبع الـ Scroll لتغيير شكل الـ Navbar
   useEffect(() => {
     const handleScroll = () => {
       const heroSection = document.querySelector(".hero-section");
@@ -38,7 +34,6 @@ const Header = () => {
         setIsScrolled(window.scrollY > heroSectionHeight);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -60,17 +55,12 @@ const Header = () => {
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <Logo />
+            <Logo isHomePage={isHomePage} isScrolled={isScrolled} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
-            {/* الجزء الأوسط: الروابط */}
             <Nav className="mx-auto">
-              <Nav.Link
-                as={Link}
-                to="/"
-                className={location.pathname === "/" ? "active-link" : ""}
-              >
+              <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "active-link" : ""}>
                 Home
               </Nav.Link>
               <Nav.Link
@@ -101,19 +91,13 @@ const Header = () => {
               >
                 Community
               </Nav.Link>
-
-              {/* أيقونة السلة على الشاشات الصغيرة */}
-              <div
-                className="cartIcon position-relative me-3 d-lg-none"
-                onClick={() => dispatch(toggleCart())}
+              <Nav.Link
+                as={Link}
+                to="/ContactPage"
+                className={location.pathname === "/ContactPage" ? "active-link" : ""}
               >
-                <FaCartPlus />
-                {items.length > 0 && (
-                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                    {items.length}
-                  </span>
-                )}
-              </div>
+                Contact 
+              </Nav.Link>
 
               {/* صورة البروفايل على الشاشات الصغيرة */}
               {!user ? (
@@ -165,7 +149,7 @@ const Header = () => {
             {/* الجزء الأيمن: أيقونة السلة وصورة البروفايل (على الشاشات الكبيرة) */}
             <Nav className="align-items-center d-none d-lg-flex">
               <div
-                className="cartIcon position-relative me-3"
+                className="cartIcon position-relative me-3 d-none d-lg-block" // تظهر فقط على الشاشات الكبيرة
                 onClick={() => dispatch(toggleCart())}
               >
                 <FaCartPlus />
@@ -219,23 +203,23 @@ const Header = () => {
                 </Nav.Link>
               )}
             </Nav>
-            
           </Navbar.Collapse>
-          
         </Container>
+
+        {/* أيقونة السلة الخارجية للشاشات الصغيرة */}
         <div
-                className="cartIcon position-relative me-3"
-                onClick={() => dispatch(toggleCart())}
-              >
-                <FaCartPlus />
-                {items.length > 0 && (
-                  <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                    {items.length}
-                  </span>
-                )}
-              </div>
+          className="cartIcon position-relative me-3 d-lg-none" // تظهر فقط على الشاشات الصغيرة
+          onClick={() => dispatch(toggleCart())}
+        >
+          <FaCartPlus />
+          {items.length > 0 && (
+            <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+              {items.length}
+            </span>
+          )}
+        </div>
       </Navbar>
-      <Cart /> {/* Render the Cart component */}
+      <Cart />
     </>
   );
 };

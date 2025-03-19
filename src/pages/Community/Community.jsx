@@ -8,6 +8,7 @@ import {
   getChatRooms, createChatRoom, getNotifications, getActivityStats
 } from "../../api/communityApi";
 import "../../styles/Community.css";
+import HeaderPages from "../../components/HeaderPages";
 
 const socket = io("http://localhost:8080", {
   reconnection: true,
@@ -170,6 +171,9 @@ const Community = () => {
   };
 
   return (
+    <div>
+      <HeaderPages title={"Community"} />
+
     <div className="community-page">
       <header className="community-header">
         <h1>Course Community</h1>
@@ -363,6 +367,7 @@ const Community = () => {
           </div>
         </section>
       </div>
+    </div>
     </div>
   );
 };

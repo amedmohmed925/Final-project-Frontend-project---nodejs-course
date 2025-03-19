@@ -1,0 +1,124 @@
+/* Why Choose Us Section */
+.why-choose-us-section {
+    padding: 40px 0;
+    background: #f8f9fa;
+    position: relative;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .feature-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00c4cc;
+    background: #e0f7fa;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+  
+  .feature-title {
+    font-size: 1.5rem;
+    color: #061e33;
+    margin-bottom: 10px;
+  }
+  
+  .feature-description {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .student-image-container {
+    position: relative;
+    display: inline-block;
+    width: 400px; /* الحجم الأساسي */
+    height: 500px; /* ارتفاع أكبر لإظهار الجزء السفلي */
+    overflow: hidden; /* لإظهار الجزء السفلي من الصورة */
+  }
+  .student-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* لضمان ظهور الصورة بكاملها */
+    position: relative;
+    z-index: 2;
+  }
+  
+  .wavy-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5); /* تكبير الخلفية */
+    width: 100%;
+    height: 100%;
+    background: #00c4cc;
+    clip-path: url(#wavy-ellipse); /* استخدام المسار المعدل */
+    z-index: 1;
+    animation: wave 6s infinite ease-in-out;
+  }
+  
+  @keyframes wave {
+    0% {
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.05) rotate(15deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+  }
+  
+  .cta-button {
+    background-color: #00c4cc;
+    border: none;
+    border-radius: 25px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #00a0a5;
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 2rem;
+      text-align: center;
+    }
+  
+    .section-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  
+    .feature-item {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .feature-number {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+  
+    .student-image-container {
+      width: 300px;
+      height: 400px; /* ارتفاع أصغر للشاشات الصغيرة */
+    }
+  
+    .wavy-background {
+      height: calc(100% - 80px); /* تقليل ارتفاع الخلفية للشاشات الصغيرة */
+    }
+  }

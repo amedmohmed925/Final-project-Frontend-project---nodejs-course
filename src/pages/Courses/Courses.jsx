@@ -4,6 +4,7 @@ import { getAllCourses } from "../../api/courseApi";
 import "../../styles/Courses.css";
 import { FaStar } from "react-icons/fa";
 import { Spinner } from "react-bootstrap";
+import HeaderPages from "../../components/HeaderPages";
 
 const categories = [
   "All", "Frontend", "Backend", "Full-Stack", "Mobile", "AI", "Cyber Security"
@@ -69,11 +70,11 @@ const Courses = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="courses-container">
-      <div className="title-container">
-        <h1 className="courses-title">Explore Our <span>Courses</span></h1>
-      </div>
+    <div>
+            <HeaderPages title="Explore Our Courses"/>
 
+    <div className="courses-container">
+     
       <div className="categories">
         {categories.map((category) => (
           <button
@@ -136,6 +137,7 @@ const Courses = () => {
         )}
       </div>
     </div>
+          </div>
   );
 };
 

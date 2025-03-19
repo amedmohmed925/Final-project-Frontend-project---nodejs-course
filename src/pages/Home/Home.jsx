@@ -12,7 +12,9 @@ import { Link } from "react-router-dom";
 import FeaturesSection from "./FeaturesSection";
 import AchievementsSection from "./AchievementsSection";
 import TeamSection from "./TeamSection";
-
+import WhyChooseUsSectios from './WhyChooseUsSection'
+import Gallery from "./Gallery";
+import ImageContentSection from "./ImageContentSection";
 // بيانات الكورسات مع روابط صور ثابتة من Unsplash
 const coursesData = [
   {
@@ -269,48 +271,12 @@ const Home = () => {
       <FeaturesSection />
 
       {/* Statistics Section */}
-      <AchievementsSection />
-
-      <section className="image-content-section">
-        <Container>
-          <Row className="align-items-center flex-column-reverse flex-md-row">
-            <Col xs={12} md={6} className="mb-4 mb-md-0">
-              <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
-                  alt="Learning Environment"
-                  className="content-image"
-                />
-              </motion.div>
-            </Col>
-            <Col xs={12} md={6}>
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <h2 className="section-title" style={{textAlign:"start"}}>Why Learn With Us?</h2>
-                <p className="section-text">
-                  Our platform offers the best learning experience with expert instructors, flexible schedules, and certified courses.
-                </p>
-                <ul className="section-list">
-                  <li>Expert Instructors</li>
-                  <li>Flexible Learning</li>
-                  <li>Certified Courses</li>
-                </ul>
-                <Button variant="primary" className="cta-button">
-                  Explore Courses
-                </Button>
-              </motion.div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
+      {/* <AchievementsSection /> */}
+          
+    
+      <ImageContentSection />
+            {/* <WhyChooseUsSectios /> */}
+            <Gallery />
       {/* Student Reviews Section */}
       <section className="student-reviews-section">
         <Container>
@@ -351,7 +317,7 @@ const Home = () => {
       </section>
 
       {/* Image Background Section */}
-      <section className="image-background-section">
+      {/* <section className="image-background-section">
         <div className="image-overlay">
           <Container>
             <Row className="justify-content-center align-items-center min-vh-70">
@@ -385,7 +351,7 @@ const Home = () => {
             </Row>
           </Container>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer Section */}
       <footer className="footer-section">
