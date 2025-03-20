@@ -29,7 +29,7 @@ const WhyChooseUsSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <h2 className="section-title">Why Choose Us?</h2>
+                <h2 className="section-title" style={{textAlign:"start"}}>Why Choose Us?</h2>
                 <div className="feature-item">
                   <span className="feature-number">01</span>
                   <div>

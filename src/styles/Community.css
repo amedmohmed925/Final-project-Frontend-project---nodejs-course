@@ -362,3 +362,147 @@
     margin-bottom: 30px;
   }
 }
+.comment-avatar {
+  width: 30px; /* حجم صغير للصورة */
+  height: 30px;
+  border-radius: 50%; /* جعل الصورة دائرية */
+  object-fit: cover; /* لضمان ملء الصورة داخل الدائرة */
+  margin-right: 10px; /* مسافة بين الصورة والنص */
+}
+
+
+/* تحسين الـ Chat Box */
+.chat-box {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 10px;
+  scrollbar-width: thin; /* لتقليل حجم السكرول بار */
+  scrollbar-color: #3b82f6 #e5e7eb; /* لون السكرول بار */
+}
+
+/* أنيميشن ظهور الرسائل */
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  animation: slideIn 0.3s ease-out; /* أنيميشن الدخول */
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* تحسين زر الإرسال */
+.chat-input button {
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.chat-input button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.chat-input button:hover::after {
+  width: 200px;
+  height: 200px;
+}
+
+.chat-input button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* تحسين مظهر التعليقات */
+.comments-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* تحسين مظهر البوستات */
+.post-card {
+  padding: 25px;
+  background: #f9fafb;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f9fafb;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.comment:hover {
+  background: #eef2ff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comment-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3b82f6;
+}
+
+.comment div {
+  flex: 1;
+}
+
+.comment span {
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.comment p {
+  margin: 5px 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
