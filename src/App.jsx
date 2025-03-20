@@ -24,6 +24,8 @@ import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard
 import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport"
 import Community from "./pages/Community/Community";
 import ContactPage from "./pages/ContactPage/ContactPage";
+import Footer from "./components/Footer";
+import LessonPage from "./components/coureses/LessonPage"; // Fixed typo in folder name
 const App = () => {
 
  
@@ -46,12 +48,15 @@ const App = () => {
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/add-course" element={<AddCourse />} />
           <Route path="/courses/:id" element={<CourseDetails />} />
+          <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
           <Route path="/edit-course/:id" element={<EditCourse />} />
           <Route path="/AdvertiserDashboard" element={<AdvertiserDashboard />} />
           <Route path="/AdminCouponReport" element={<AdminCouponReport />} />
           <Route path="/Community" element={<Community />} />
           <Route path="/ContactPage" element={<ContactPage />} />
         </Routes>
+            <Footer />
+        
       </div>
     </Router>
   );

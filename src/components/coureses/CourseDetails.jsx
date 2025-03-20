@@ -7,10 +7,10 @@ import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaC
 import { Modal, Button } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
-import ReactGA from "react-ga4"; // استبدال ReactGAImplementation بـ ReactGA
+import ReactGA from "react-ga4";
 
-// Initialize يفضل يكون في index.js، لكن هنا للتجربة
-ReactGA.initialize("G-XXXXXXX"); // استبدل G-XXXXXXX بالـ Measurement ID بتاعك
+// Initialize ReactGA (should ideally be in index.js)
+ReactGA.initialize("G-XXXXXXX");
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -25,13 +25,12 @@ const CourseDetails = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
 
-  // تتبع زيارة صفحة الكورس
   useEffect(() => {
     const fetchCourse = async () => {
       try {
         const data = await getCourseById(id);
         setCourse(data);
-        ReactGA.send({ hitType: "pageview", page: `/course/${id}` }); // تتبع الصفحة
+        ReactGA.send({ hitType: "pageview", page: `/course/${id}` });
       } catch (err) {
         setError(err.message);
       } finally {
@@ -40,7 +39,6 @@ const CourseDetails = () => {
     };
     fetchCourse();
   }, [id]);
-
 
   const isInCart = items.some((item) => item.courseId._id === id);
 
@@ -54,7 +52,7 @@ const CourseDetails = () => {
       category: "Engagement",
       action: "Toggle Favorite",
       label: course?.title || "Unknown Course",
-      value: isFavorite ? 0 : 1, // 0 لإلغاء التفضيل، 1 للإضافة
+      value: isFavorite ? 0 : 1,
     });
   };
 
@@ -91,13 +89,18 @@ const CourseDetails = () => {
       category: "Engagement",
       action: "Toggle Section",
       label: `${course?.title || "Unknown Course"} - Section ${index + 1}`,
-      value: openSection === index ? 0 : 1, // 0 للإغلاق، 1 للفتح
+      value: openSection === index ? 0 : 1,
     });
   };
 
   const handleCloseModal = () => {
     setShowErrorModal(false);
     setAddToCartError(null);
+  };
+
+  // Add navigation to LessonPage
+  const handleLessonClick = (sectionIndex, lessonIndex) => {
+    navigate(`/course/${id}/section/${sectionIndex}/lesson/${lessonIndex}`);
   };
 
   if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
@@ -197,7 +200,11 @@ const CourseDetails = () => {
                   </div>
                   <div className={`section-lessons ${openSection === sectionIndex ? "open" : ""}`}>
                     {section.lessons.map((lesson, lessonIndex) => (
-                      <div key={lessonIndex} className="lesson-block">
+                      <div
+                        key={lessonIndex}
+                        className="lesson-block"
+                        onClick={() => handleLessonClick(sectionIndex, lessonIndex)} // Add navigation on click
+                      >
                         <div className="lesson-media">
                           <img
                             src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
@@ -219,10 +226,9 @@ const CourseDetails = () => {
             </div>
           </section>
         </div>
-        <div>
-        </div>
+        <div></div>
       </div>
-          <FeedbackSection courseId={id} />
+      <FeedbackSection courseId={id} />
 
       <footer className="course-footer">
         <button className="back-btn" onClick={() => navigate("/courses")}>

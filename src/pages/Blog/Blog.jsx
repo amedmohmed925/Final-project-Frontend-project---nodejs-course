@@ -1,5 +1,4 @@
-import React from "react";
-import Footer from "../../components/Footer"; // استيراد مكون الـ Footer
+
 import HeaderPages from "../../components/HeaderPages";
 
 const Blog = () => {
@@ -55,8 +54,6 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* إضافة الـ Footer */}
-      <Footer />
     </div>
   );
 };
