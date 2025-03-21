@@ -241,3 +241,52 @@ export const getResources = async (courseId) => {
     }
   }
 };
+
+
+export const getAllCoursesPreview = async () => {
+  try {
+    const response = await axiosInstance.get('/courses/preview');
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'فشل في جلب معاينة الكورسات');
+    } else if (error.request) {
+      throw new Error('لا يوجد استجابة من السيرفر');
+    } else {
+      throw new Error(error.message || 'حدث خطأ ما');
+    }
+  }
+}
+
+
+
+export const getCoursePreviewById = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/courses/preview/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'فشل في جلب معاينة الكورس');
+    } else if (error.request) {
+      throw new Error('لا يوجد استجابة من السيرفر');
+    } else {
+      throw new Error(error.message || 'حدث خطأ ما');
+    }
+  }
+};
+
+export const getCourseDetailsWithoutVideos = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/courses/details/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'فشل في جلب تفاصيل الكورس');
+    } else if (error.request) {
+      throw new Error('لا يوجد استجابة من السيرفر');
+    } else {
+      throw new Error(error.message || 'حدث خطأ ما');
+    }
+  }
+};
+

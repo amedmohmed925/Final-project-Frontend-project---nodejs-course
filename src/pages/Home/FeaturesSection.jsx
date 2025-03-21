@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import '../../styles/FeaturesSection.css';
+import { Link } from 'react-router-dom';
 
 const FeaturesSection = () => {
   const sectionRef = useRef(null);
@@ -98,7 +99,9 @@ const FeaturesSection = () => {
         <p>
           Improve your development skills by training  EduQuest that continuously challenge and push your coding practice.
         </p>
+        <Link to={"/courses"}>
         <button className="get-started-btn">Get Started</button>
+        </Link>
       </div>
       <div className="icons-container">{renderIcons()}</div>
     </section>

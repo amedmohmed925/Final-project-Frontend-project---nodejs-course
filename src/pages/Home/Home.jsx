@@ -201,7 +201,7 @@ const Home = () => {
                   <h1
                     className="hero-title animate__animated animate__bounceInDown animate__delay-1"
                   >
-                    Welcome to Our Courses Platform
+                    Welcome to Our <span className="text-light">EduQuest</span>  Platform
                   </h1>
                 </div>
                 <p className="hero-subtitle animate__animated animate__bounceIn animate__delay-3">
