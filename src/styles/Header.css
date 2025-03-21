@@ -1,161 +1,159 @@
-
 .navbar {
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  /* تنسيق الـ Header في صفحة Home */
-  .header-transparent {
-    background-color: transparent !important; /* خلفية شفافة */
-    box-shadow: none !important; /* إزالة الظل */
-    position: absolute; /* لجعل الـ Header يظهر فوق المحتوى */
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000; 
-  }
-  
-  /* تنسيق الروابط في صفحة Home */
-  .header-transparent .nav-link {
-    color: white !important; /* لون النص أبيض */
-  }
-  
-  /* تنسيق Dropdown في صفحة Home */
-  .header-transparent .dropdown-toggle {
-    color: white !important; /* لون النص أبيض */
-  }
-  
-  /* تنسيق الـ Navbar Toggle في صفحة Home */
-  .header-transparent .navbar-toggler {
-    border-color: white !important; /* لون الحدود أبيض */
-  }
-  
-  .header-transparent .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important; /* لون الأيقونة أبيض */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* تنسيق الـ Header في صفحة Home */
+.header-transparent {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header-transparent .nav-link {
+  color: white !important;
+}
+
+.header-transparent .navbar-toggler {
+  border-color: white !important;
+}
+
+.header-transparent .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
+/* تنسيق اللوجو */
+.logo {
+  font-family: 'Poppins', 'Courier New', Courier, monospace;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -1.5px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.logo-part-1 {
+  color: black;
+  background: linear-gradient(45deg, #ffffff, #f0f0f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.logo-part-2 {
+  color: var(--mainColor);
+  background: linear-gradient(45deg, var(--mainColor), #e100ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease;
+}
+
+.logo-domain {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-left: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logo:hover .logo-domain {
+  transform: translateY(-2px);
+}
+
+.logoAuth .logo .logo-part-1 {
+  color: #0a3e6e;
+  background: linear-gradient(45deg, #0a3e6e, #1a5a9b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logoAuth .logo .logo-domain {
+  color: #0a3e6e;
+}
+
+.active-link {
+  color: var(--mainColor) !important;
+  font-weight: bold;
+}
+
+/* تنسيق أيقونة السلة */
+.cartIcon,
+.cartIconSmallScreen {
+  padding: 8px;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cartIcon svg,
+.cartIconSmallScreen svg {
+  font-size: 18px;
+  color: #2d3748;
+}
+
+.cartIcon:hover,
+.cartIconSmallScreen:hover {
+  background-color: #6a11cb;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2);
+  transform: translateY(-2px);
+}
+
+.cartIcon:hover svg,
+.cartIconSmallScreen:hover svg {
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .cartIconSmallScreen {
+    padding: 6px;
+    width: 36px;
+    height: 36px;
   }
 
-
-  
-  /* تنسيق اللوجو الرئيسي */
-  .logo {
-    font-family: 'Poppins', 'Courier New', Courier, monospace;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -1.5px;
-    display: flex;
-    align-items: center;
-    margin: 0;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
-  }
-  
-  /* تأثير عند الـ hover */
-  .logo:hover {
-    transform: scale(1.05);
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-  }
-  
-  /* الجزء الأول من اللوجو (Cour) */
-  .logo-part-1 {
-    color: black;
-    background: linear-gradient(45deg, #ffffff, #f0f0f0); /* تدرج افتراضي للخلفيات الداكنة */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: color 0.3s ease, background 0.3s ease;
-  }
-  
-  /* الجزء الثاني من اللوجو (ses) */
-  .logo-part-2 {
-    color: var(--mainColor);
-    background: linear-gradient(45deg, var(--mainColor), #e100ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background 0.3s ease;
-  }
-  
-  /* الـ .com */
-  .logo-domain {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #ffffff; /* اللون الافتراضي أبيض */
-    margin-left: 2px;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-  
-  /* تأثير الـ hover على الـ .com */
-  .logo:hover .logo-domain {
-    transform: translateY(-2px);
-  }
-  
-  /* تعديل اللوجو في صفحة الـ Register/Login عند تمرير لون داكن */
-  .logoAuth .logo .logo-part-1 {
-    color: #0a3e6e; /* اللون الداكن المطلوب */
-    background: linear-gradient(45deg, #0a3e6e, #1a5a9b); /* تدرج داكن متناسق */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .logoAuth .logo .logo-domain {
-    color: #0a3e6e; /* نفس اللون الداكن للـ .com */
-  }
-  
-  
-  
-
-  /* لضمان التوافق مع الخلفيات الداكنة (اختياري) */
-  @media (prefers-color-scheme: dark) {
-    .logo-part-1 {
-      color: #ffffff;
-    }
-    .logo-domain {
-      color: #ffffff;
-    }
+  .cartIconSmallScreen svg {
+    font-size: 16px;
   }
 
-  .active-link {
-    color: var(--mainColor) !important;
-    font-weight: bold;
+  .navbar-brand .logo {
+    font-size: 2rem; /* تقليل حجم اللوجو على الشاشات الصغيرة */
   }
-  
+}
 
+@media (max-width: 576px) {
+  .cartIconSmallScreen {
+    padding: 5px;
+    width: 32px;
+    height: 32px;
+  }
 
+  .cartIconSmallScreen svg {
+    font-size: 14px;
+  }
 
-  .cartIcon {
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.15); /* Very subtle border */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Soft shadow */
-    transition: all 0.3s ease;
-    cursor: pointer;
+  .navbar-brand .logo {
+    font-size: 1.8rem;
   }
-  
-  .cartIcon svg {
-    font-size: 18px; /* Slightly larger icon */
-    color: #2d3748; /* Professional dark gray */
-  }
-  
-  .cartIcon:hover {
-    background-color: #6a11cb; /* Accent color on hover */
-    border-color: transparent; /* Remove border on hover */
-    box-shadow: 0 4px 12px rgba(106, 17, 203, 0.2); /* Enhanced shadow */
-    transform: translateY(-2px); /* Lift effect */
-  }
-  
-  .cartIcon:hover svg {
-    color: white; /* White icon on colored background */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .cartIcon {
-      padding: 6px;
-    }
-  
-    .cartIcon svg {
-      font-size: 16px;
-    }
-  }
+}

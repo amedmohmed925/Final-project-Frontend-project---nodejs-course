@@ -57,7 +57,24 @@ const Header = () => {
           <Navbar.Brand as={Link} to="/">
             <Logo isHomePage={isHomePage} isScrolled={isScrolled} />
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+          <div className="d-flex align-items-center">
+            {/* أيقونة السلة في وضع الموبايل بجانب زر فتح القائمة */}
+            <div
+              className="cartIconSmallScreen position-relative me-2 d-lg-none"
+              onClick={() => dispatch(toggleCart())}
+            >
+              <FaCartPlus />
+              {items.length > 0 && (
+                <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                  {items.length}
+                </span>
+              )}
+            </div>
+
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          </div>
+
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-between">
             <Nav className="mx-auto">
               <Nav.Link as={Link} to="/" className={location.pathname === "/" ? "active-link" : ""}>
@@ -96,9 +113,8 @@ const Header = () => {
                 to="/ContactPage"
                 className={location.pathname === "/ContactPage" ? "active-link" : ""}
               >
-                Contact 
+                Contact
               </Nav.Link>
-
 
               {!user ? (
                 <Nav.Link
@@ -146,10 +162,10 @@ const Header = () => {
               )}
             </Nav>
 
-
             <Nav className="align-items-center d-none d-lg-flex">
+              {/* أيقونة السلة في الشاشات الكبيرة */}
               <div
-                className="cartIcon position-relative me-3 d-none d-lg-block" 
+                className="cartIcon position-relative me-3"
                 onClick={() => dispatch(toggleCart())}
               >
                 <FaCartPlus />
@@ -205,19 +221,6 @@ const Header = () => {
             </Nav>
           </Navbar.Collapse>
         </Container>
-
-        {/* أيقونة السلة الخارجية للشاشات الصغيرة */}
-        <div
-          className="cartIcon position-relative me-3 d-lg-none" // تظهر فقط على الشاشات الصغيرة
-          onClick={() => dispatch(toggleCart())}
-        >
-          <FaCartPlus />
-          {items.length > 0 && (
-            <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
-              {items.length}
-            </span>
-          )}
-        </div>
       </Navbar>
       <Cart />
     </>
