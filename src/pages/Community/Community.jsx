@@ -44,24 +44,24 @@ const Community = () => {
           getNotifications(),
           getActivityStats(),
         ]);
-        
+
         setPosts(postsData);
         setGroups(groupsData);
         setChatRooms(chatRoomsData);
         setNotifications(notificationsData);
         setStats(statsData);
 
-        const commentCounts = await Promise.all(
+        const commentData = await Promise.all(
           postsData.map(async (post) => {
-            const comments = await getComments(post._id);
-            return { postId: post._id, count: comments.length };
+            const commentsData = await getComments(post._id);
+            return { postId: post._id, comments: commentsData };
           })
         );
-        
+
         setComments((prev) => {
           const updatedComments = { ...prev };
-          commentCounts.forEach(({ postId, count }) => {
-            updatedComments[postId] = updatedComments[postId] || { length: count };
+          commentData.forEach(({ postId, comments }) => {
+            updatedComments[postId] = comments; // Set as array directly
           });
           return updatedComments;
         });
@@ -80,7 +80,7 @@ const Community = () => {
       setStats(statsData);
     };
     updateStats();
-    const statsInterval = setInterval(updateStats, 60000); // تحديث كل دقيقة
+    const statsInterval = setInterval(updateStats, 60000); // Update every minute
 
     socket.on("newMessage", ({ roomId, message }) => {
       if (roomId === "liveChat") {
@@ -106,7 +106,7 @@ const Community = () => {
       setLiveChatMessages((prev) => prev.filter((msg) => msg.timestamp > sevenDaysAgo));
     };
     cleanOldMessages();
-    const cleanInterval = setInterval(cleanOldMessages, 3600000); // تنظيف كل ساعة
+    const cleanInterval = setInterval(cleanOldMessages, 3600000); // Clean every hour
 
     return () => {
       clearInterval(statsInterval);
@@ -119,7 +119,7 @@ const Community = () => {
 
   const fetchComments = async (postId) => {
     const data = await getComments(postId);
-    setComments((prev) => ({ ...prev, [postId]: data }));
+    setComments((prev) => ({ ...prev, [postId]: Array.isArray(data) ? data : [] }));
     setShowComments((prev) => ({ ...prev, [postId]: true }));
   };
 
@@ -287,7 +287,7 @@ const Community = () => {
                   </div>
                   {showComments[post._id] && (
                     <div className="comments-section">
-                      {comments[post._id]?.map((comment) => (
+                      {(comments[post._id] || []).map((comment) => (
                         <div
                           key={comment._id}
                           className="comment"

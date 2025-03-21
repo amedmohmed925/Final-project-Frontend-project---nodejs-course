@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { addCourse } from "../../api/courseApi"; // تأكد من المسار الصحيح
-import Logo from "../Logo"; // افتراض أن لديك مكون Logo
+import { getCategories } from "../../api/categoryApi"; // استيراد دالة جلب الكاتيجوريز
+import Logo from "../Logo";
 import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -13,10 +14,14 @@ const AddCourse = () => {
   const [price, setPrice] = useState('');
   const [level, setLevel] = useState('Beginner');
   const [category, setCategory] = useState('');
+  const [categories, setCategories] = useState([]); // لتخزين الكاتيجوريز من API
   const [featuredImage, setFeaturedImage] = useState(null);
   const [sections, setSections] = useState([{ title: '', lessons: [{ title: '', content: '', video: null, thumbnail: null, quiz: '' }] }]);
   const [resources, setResources] = useState([{ name: '', type: 'video', url: '' }]);
   const [tags, setTags] = useState('');
+  const [whatYouWillLearn, setWhatYouWillLearn] = useState(['']);
+  const [requirements, setRequirements] = useState(['']);
+  const [targetAudience, setTargetAudience] = useState(['']);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [uploadStatus, setUploadStatus] = useState('');
@@ -25,6 +30,20 @@ const AddCourse = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  // جلب الكاتيجوريز باستخدام categoryApi
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getCategories();
+        setCategories(fetchedCategories);
+      } catch (err) {
+        setError(err.message);
+        setShowModal(true);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   // إضافة قسم جديد
   const handleAddSection = () => {
@@ -130,6 +149,36 @@ const AddCourse = () => {
     setFeaturedImage(file);
   };
 
+  // إضافة عنصر إلى whatYouWillLearn
+  const handleAddWhatYouWillLearn = () => {
+    setWhatYouWillLearn([...whatYouWillLearn, '']);
+  };
+
+  const handleWhatYouWillLearnChange = (index, value) => {
+    const updated = whatYouWillLearn.map((item, i) => (i === index ? value : item));
+    setWhatYouWillLearn(updated);
+  };
+
+  // إضافة عنصر إلى requirements
+  const handleAddRequirement = () => {
+    setRequirements([...requirements, '']);
+  };
+
+  const handleRequirementChange = (index, value) => {
+    const updated = requirements.map((item, i) => (i === index ? value : item));
+    setRequirements(updated);
+  };
+
+  // إضافة عنصر إلى targetAudience
+  const handleAddTargetAudience = () => {
+    setTargetAudience([...targetAudience, '']);
+  };
+
+  const handleTargetAudienceChange = (index, value) => {
+    const updated = targetAudience.map((item, i) => (i === index ? value : item));
+    setTargetAudience(updated);
+  };
+
   // إرسال النموذج
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -174,6 +223,9 @@ const AddCourse = () => {
         })),
         resources: resources.filter(r => r.name && r.url),
         tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
+        whatYouWillLearn: whatYouWillLearn.filter(item => item.trim() !== ''),
+        requirements: requirements.filter(item => item.trim() !== ''),
+        targetAudience: targetAudience.filter(item => item.trim() !== ''),
       };
 
       const newCourse = await addCourse(courseData);
@@ -191,6 +243,9 @@ const AddCourse = () => {
       setSections([{ title: '', lessons: [{ title: '', content: '', video: null, thumbnail: null, quiz: '' }] }]);
       setResources([{ name: '', type: 'video', url: '' }]);
       setTags('');
+      setWhatYouWillLearn(['']);
+      setRequirements(['']);
+      setTargetAudience(['']);
 
       setTimeout(() => navigate('/courses'), 7000);
     } catch (err) {
@@ -203,7 +258,7 @@ const AddCourse = () => {
 
   return (
     <div>
- <button
+      <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
         aria-label="Toggle Sidebar"
@@ -211,277 +266,334 @@ const AddCourse = () => {
         {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
       </button>
 
-      {/* Sidebar */}
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col xs={12} md={8} lg={10}>
-          <motion.div
-            className="course-form-container"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="py-4 logoAuth text-center">
-              <Logo colorText="#0a3e6e" />
-              <motion.h2
-                className="fs-4 fw-bold mb-0 mt-3 section-title"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                Add New Course
-              </motion.h2>
-            </div>
-
-            <Form onSubmit={handleSubmit} className="course-form">
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Course Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter course title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                  disabled={isLoading}
-                />
-              </Form.Group>
-
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Enter course description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                  disabled={isLoading}
-                />
-              </Form.Group>
-
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Price</Form.Label>
-                <Form.Control
-                  type="number"
-                  step="0.01"
-                  placeholder="Enter course price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  required
-                  min="0"
-                  disabled={isLoading}
-                />
-              </Form.Group>
-
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Level</Form.Label>
-                <Form.Select
-                  value={level}
-                  onChange={(e) => setLevel(e.target.value)}
-                  disabled={isLoading}
+      <Container className="py-5">
+        <Row className="justify-content-center">
+          <Col xs={12} md={8} lg={10}>
+            <motion.div
+              className="course-form-container"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="py-4 logoAuth text-center">
+                <Logo colorText="#0a3e6e" />
+                <motion.h2
+                  className="fs-4 fw-bold mb-0 mt-3 section-title"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <option value="Beginner">Beginner</option>
-                  <option value="Professional">Professional</option>
-                </Form.Select>
-              </Form.Group>
+                  Add New Course
+                </motion.h2>
+              </div>
 
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Category</Form.Label>
-                <Form.Select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                  disabled={isLoading}
-                >
-                  <option value="">Select a category</option>
-                  <option value="Programming">Programming</option>
-                  <option value="Design">Design</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Business">Business</option>
-                </Form.Select>
-              </Form.Group>
+              <Form onSubmit={handleSubmit} className="course-form">
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Course Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter course title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  />
+                </Form.Group>
 
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Featured Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  accept="image/jpeg,image/jpg,image/png"
-                  onChange={handleImageChange}
-                  disabled={isLoading}
-                />
-              </Form.Group>
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Enter course description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  />
+                </Form.Group>
 
-              {/* الأقسام */}
-              {sections.map((section, sectionIndex) => (
-                <div key={sectionIndex} className="section-group mb-4 p-3 border rounded">
-                  <Form.Group className="mb-3">
-                    <Form.Label>Section Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter section title (e.g., HTML Basics)"
-                      value={section.title}
-                      onChange={(e) => handleSectionTitleChange(sectionIndex, e.target.value)}
-                      required
-                      disabled={isLoading}
-                    />
-                  </Form.Group>
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Price</Form.Label>
+                  <Form.Control
+                    type="number"
+                    step="0.01"
+                    placeholder="Enter course price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                    min="0"
+                    disabled={isLoading}
+                  />
+                </Form.Group>
 
-                  {section.lessons.map((lesson, lessonIndex) => (
-                    <div key={lessonIndex} className="lesson-group mb-3 p-3 border rounded">
-                      <Form.Group className="mb-2">
-                        <Form.Label>Lesson Title</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter lesson title"
-                          value={lesson.title}
-                          onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'title', e.target.value)}
-                          required
-                          disabled={isLoading}
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Lesson Content</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          rows={2}
-                          placeholder="Enter lesson content"
-                          value={lesson.content}
-                          onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'content', e.target.value)}
-                          required
-                          disabled={isLoading}
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Lesson Video</Form.Label>
-                        <Form.Control
-                          type="file"
-                          accept="video/mp4,video/mov"
-                          onChange={(e) => handleVideoChange(sectionIndex, lessonIndex, e)}
-                          disabled={isLoading}
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Lesson Thumbnail</Form.Label>
-                        <Form.Control
-                          type="file"
-                          accept="image/jpeg,image/jpg,image/png"
-                          onChange={(e) => handleThumbnailChange(sectionIndex, lessonIndex, e)}
-                          disabled={isLoading}
-                        />
-                      </Form.Group>
-
-                      <Form.Group className="mb-2">
-                        <Form.Label>Quiz (Optional)</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Enter quiz title"
-                          value={lesson.quiz}
-                          onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'quiz', e.target.value)}
-                          disabled={isLoading}
-                        />
-                      </Form.Group>
-                    </div>
-                  ))}
-
-                  <Button
-                    variant="outline-primary"
-                    onClick={() => handleAddLesson(sectionIndex)}
-                    className="mb-3"
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Level</Form.Label>
+                  <Form.Select
+                    value={level}
+                    onChange={(e) => setLevel(e.target.value)}
                     disabled={isLoading}
                   >
-                    Add Lesson
-                  </Button>
-                </div>
-              ))}
+                    <option value="Beginner">Beginner</option>
+                    <option value="Professional">Professional</option>
+                  </Form.Select>
+                </Form.Group>
 
-              <Button variant="primary" onClick={handleAddSection} className="mb-4" disabled={isLoading}>
-                Add Section
-              </Button>
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Category</Form.Label>
+                  <Form.Select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    required
+                    disabled={isLoading}
+                  >
+                    <option value="">Select a category</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
 
-              {/* الموارد */}
-              {resources.map((resource, index) => (
-                <div key={index} className="resource-group mb-3 p-3 border rounded">
-                  <Form.Group className="mb-2">
-                    <Form.Label>Resource Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter resource name"
-                      value={resource.name}
-                      onChange={(e) => handleResourceChange(index, 'name', e.target.value)}
-                      required
-                      disabled={isLoading}
-                    />
-                  </Form.Group>
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Featured Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png"
+                    onChange={handleImageChange}
+                    disabled={isLoading}
+                  />
+                </Form.Group>
 
-                  <Form.Group className="mb-2">
-                    <Form.Label>Type</Form.Label>
-                    <Form.Select
-                      value={resource.type}
-                      onChange={(e) => handleResourceChange(index, 'type', e.target.value)}
+                {/* الأقسام */}
+                {sections.map((section, sectionIndex) => (
+                  <div key={sectionIndex} className="section-group mb-4 p-3 border rounded">
+                    <Form.Group className="mb-3">
+                      <Form.Label>Section Title</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter section title (e.g., HTML Basics)"
+                        value={section.title}
+                        onChange={(e) => handleSectionTitleChange(sectionIndex, e.target.value)}
+                        required
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+
+                    {section.lessons.map((lesson, lessonIndex) => (
+                      <div key={lessonIndex} className="lesson-group mb-3 p-3 border rounded">
+                        <Form.Group className="mb-2">
+                          <Form.Label>Lesson Title</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter lesson title"
+                            value={lesson.title}
+                            onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'title', e.target.value)}
+                            required
+                            disabled={isLoading}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2">
+                          <Form.Label>Lesson Content</Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={2}
+                            placeholder="Enter lesson content"
+                            value={lesson.content}
+                            onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'content', e.target.value)}
+                            required
+                            disabled={isLoading}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2">
+                          <Form.Label>Lesson Video</Form.Label>
+                          <Form.Control
+                            type="file"
+                            accept="video/mp4,video/mov"
+                            onChange={(e) => handleVideoChange(sectionIndex, lessonIndex, e)}
+                            disabled={isLoading}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2">
+                          <Form.Label>Lesson Thumbnail</Form.Label>
+                          <Form.Control
+                            type="file"
+                            accept="image/jpeg,image/jpg,image/png"
+                            onChange={(e) => handleThumbnailChange(sectionIndex, lessonIndex, e)}
+                            disabled={isLoading}
+                          />
+                        </Form.Group>
+
+                        <Form.Group className="mb-2">
+                          <Form.Label>Quiz (Optional)</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter quiz title"
+                            value={lesson.quiz}
+                            onChange={(e) => handleLessonChange(sectionIndex, lessonIndex, 'quiz', e.target.value)}
+                            disabled={isLoading}
+                          />
+                        </Form.Group>
+                      </div>
+                    ))}
+
+                    <Button
+                      variant="outline-primary"
+                      onClick={() => handleAddLesson(sectionIndex)}
+                      className="mb-3"
                       disabled={isLoading}
                     >
-                      <option value="video">Video</option>
-                      <option value="document">Document</option>
-                      <option value="link">Link</option>
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="mb-2">
-                    <Form.Label>URL</Form.Label>
-                    <Form.Control
-                      type="url"
-                      placeholder="Enter resource URL"
-                      value={resource.url}
-                      onChange={(e) => handleResourceChange(index, 'url', e.target.value)}
-                      required
-                      disabled={isLoading}
-                    />
-                  </Form.Group>
-                </div>
-              ))}
-
-              <Button variant="outline-primary" onClick={handleAddResource} className="mb-4" disabled={isLoading}>
-                Add Resource
-              </Button>
-
-              <Form.Group className="course-input-group mb-3">
-                <Form.Label>Tags (comma-separated)</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="e.g., HTML, CSS, Web"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  disabled={isLoading}
-                />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" disabled={isLoading}>
-                {isLoading ? 'Submitting...' : 'Add Course'}
-              </Button>
-
-              {/* Modal للرسائل */}
-              {showModal && (
-                <div className="modal-overlay">
-                  <div className="modal-content">
-                    {error && <p className="text-danger">{error}</p>}
-                    {success && <p className="text-success">{success}</p>}
-                    {uploadStatus && <p className="text-info">{uploadStatus}</p>}
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                      Close
+                      Add Lesson
                     </Button>
                   </div>
+                ))}
+
+                <Button variant="primary" onClick={handleAddSection} className="mb-4" disabled={isLoading}>
+                  Add Section
+                </Button>
+
+                {/* ماذا ستتعلم */}
+                <div className="mb-4">
+                  <h5>What You Will Learn</h5>
+                  {whatYouWillLearn.map((item, index) => (
+                    <Form.Group key={index} className="mb-2">
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter what students will learn"
+                        value={item}
+                        onChange={(e) => handleWhatYouWillLearnChange(index, e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+                  ))}
+                  <Button variant="outline-primary" onClick={handleAddWhatYouWillLearn} disabled={isLoading}>
+                    Add Item
+                  </Button>
                 </div>
-              )}
-            </Form>
-          </motion.div>
-        </Col>
-      </Row>
-    </Container>
+
+                {/* المتطلبات */}
+                <div className="mb-4">
+                  <h5>Requirements</h5>
+                  {requirements.map((item, index) => (
+                    <Form.Group key={index} className="mb-2">
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter course requirement"
+                        value={item}
+                        onChange={(e) => handleRequirementChange(index, e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+                  ))}
+                  <Button variant="outline-primary" onClick={handleAddRequirement} disabled={isLoading}>
+                    Add Requirement
+                  </Button>
+                </div>
+
+                {/* الجمهور المستهدف */}
+                <div className="mb-4">
+                  <h5>Target Audience</h5>
+                  {targetAudience.map((item, index) => (
+                    <Form.Group key={index} className="mb-2">
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter target audience"
+                        value={item}
+                        onChange={(e) => handleTargetAudienceChange(index, e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+                  ))}
+                  <Button variant="outline-primary" onClick={handleAddTargetAudience} disabled={isLoading}>
+                    Add Audience
+                  </Button>
+                </div>
+
+                {/* الموارد */}
+                {resources.map((resource, index) => (
+                  <div key={index} className="resource-group mb-3 p-3 border rounded">
+                    <Form.Group className="mb-2">
+                      <Form.Label>Resource Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter resource name"
+                        value={resource.name}
+                        onChange={(e) => handleResourceChange(index, 'name', e.target.value)}
+                        required
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+
+                    <Form.Group className="mb-2">
+                      <Form.Label>Type</Form.Label>
+                      <Form.Select
+                        value={resource.type}
+                        onChange={(e) => handleResourceChange(index, 'type', e.target.value)}
+                        disabled={isLoading}
+                      >
+                        <option value="video">Video</option>
+                        <option value="document">Document</option>
+                        <option value="link">Link</option>
+                      </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="mb-2">
+                      <Form.Label>URL</Form.Label>
+                      <Form.Control
+                        type="url"
+                        placeholder="Enter resource URL"
+                        value={resource.url}
+                        onChange={(e) => handleResourceChange(index, 'url', e.target.value)}
+                        required
+                        disabled={isLoading}
+                      />
+                    </Form.Group>
+                  </div>
+                ))}
+
+                <Button variant="outline-primary" onClick={handleAddResource} className="mb-4" disabled={isLoading}>
+                  Add Resource
+                </Button>
+
+                <Form.Group className="course-input-group mb-3">
+                  <Form.Label>Tags (comma-separated)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="e.g., HTML, CSS, Web"
+                    value={tags}
+                    onChange={(e) => setTags(e.target.value)}
+                    disabled={isLoading}
+                  />
+                </Form.Group>
+
+                <Button variant="primary" type="submit" disabled={isLoading}>
+                  {isLoading ? 'Submitting...' : 'Add Course'}
+                </Button>
+
+                {/* Modal للرسائل */}
+                {showModal && (
+                  <div className="modal-overlay">
+                    <div className="modal-content">
+                      {error && <p className="text-danger">{error}</p>}
+                      {success && <p className="text-success">{success}</p>}
+                      {uploadStatus && <p className="text-info">{uploadStatus}</p>}
+                      <Button variant="secondary" onClick={() => setShowModal(false)}>
+                        Close
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Form>
+            </motion.div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseById } from "../../api/courseApi";
+import { getUserById } from "../../api/userApi"; // دالة لجلب بيانات المعلم
 import { addItemToCart } from "../../features/cart/cartSlice";
-import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaChevronDown, FaCheck } from "react-icons/fa";
+import { FaHeart, FaShareAlt, FaShoppingCart, FaPlayCircle, FaClock, FaBook, FaChevronDown, FaCheck, FaArrowRight, FaUser, FaDollarSign, FaLevelUpAlt, FaFolder, FaCalendarAlt, FaTools, FaUsers } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 import ReactGA from "react-ga4";
+import HeaderPages from "../HeaderPages";
 
-// Initialize ReactGA (should ideally be in index.js)
 ReactGA.initialize("G-XXXXXXX");
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
+  const [teacher, setTeacher] = useState(null); // حالة لتخزين بيانات المعلم
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -26,10 +28,15 @@ const CourseDetails = () => {
   const { items } = useSelector((state) => state.cart);
 
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchCourseAndTeacher = async () => {
       try {
-        const data = await getCourseById(id);
-        setCourse(data);
+        const courseData = await getCourseById(id);
+        setCourse(courseData);
+
+        // جلب بيانات المعلم
+        const teacherData = await getUserById(courseData.teacherId);
+        setTeacher(teacherData);
+
         ReactGA.send({ hitType: "pageview", page: `/course/${id}` });
       } catch (err) {
         setError(err.message);
@@ -37,7 +44,7 @@ const CourseDetails = () => {
         setLoading(false);
       }
     };
-    fetchCourse();
+    fetchCourseAndTeacher();
   }, [id]);
 
   const isInCart = items.some((item) => item.courseId._id === id);
@@ -48,35 +55,19 @@ const CourseDetails = () => {
 
   const handleFavoriteToggle = () => {
     setIsFavorite(!isFavorite);
-    ReactGA.event({
-      category: "Engagement",
-      action: "Toggle Favorite",
-      label: course?.title || "Unknown Course",
-      value: isFavorite ? 0 : 1,
-    });
+    ReactGA.event({ category: "Engagement", action: "Toggle Favorite", label: course?.title, value: isFavorite ? 0 : 1 });
   };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     alert("Course link copied to clipboard!");
-    ReactGA.event({
-      category: "Engagement",
-      action: "Share Course",
-      label: course?.title || "Unknown Course",
-    });
+    ReactGA.event({ category: "Engagement", action: "Share Course", label: course?.title });
   };
 
   const handleAddToCart = () => {
     dispatch(addItemToCart(id))
       .unwrap()
-      .then(() => {
-        ReactGA.event({
-          category: "Cart",
-          action: "Add to Cart",
-          label: course.title,
-          value: course.price,
-        });
-      })
+      .then(() => ReactGA.event({ category: "Cart", action: "Add to Cart", label: course.title, value: course.price }))
       .catch((err) => {
         setAddToCartError(err.message || "Failed to add course to cart");
         setShowErrorModal(true);
@@ -85,12 +76,7 @@ const CourseDetails = () => {
 
   const toggleSection = (index) => {
     setOpenSection(openSection === index ? null : index);
-    ReactGA.event({
-      category: "Engagement",
-      action: "Toggle Section",
-      label: `${course?.title || "Unknown Course"} - Section ${index + 1}`,
-      value: openSection === index ? 0 : 1,
-    });
+    ReactGA.event({ category: "Engagement", action: "Toggle Section", label: `${course?.title} - Section ${index + 1}`, value: openSection === index ? 0 : 1 });
   };
 
   const handleCloseModal = () => {
@@ -98,7 +84,6 @@ const CourseDetails = () => {
     setAddToCartError(null);
   };
 
-  // Add navigation to LessonPage
   const handleLessonClick = (sectionIndex, lessonIndex) => {
     navigate(`/course/${id}/section/${sectionIndex}/lesson/${lessonIndex}`);
   };
@@ -111,14 +96,15 @@ const CourseDetails = () => {
 
   return (
     <div className="course-depth-page">
+      <HeaderPages title={course.title}/>
       <header className="course-sticky-header">
         <div className="header-content">
           <h1 className="course-title text-light">{course.title}</h1>
           <div className="quick-actions">
-            <button className="action-icon" onClick={handleFavoriteToggle}>
+            <button className="action-icon" onClick={handleFavoriteToggle} title="Add to Favorites">
               <FaHeart className={isFavorite ? "active" : ""} />
             </button>
-            <button className="action-icon" onClick={handleShare}>
+            <button className="action-icon" onClick={handleShare} title="Share Course">
               <FaShareAlt />
             </button>
             <button
@@ -138,10 +124,7 @@ const CourseDetails = () => {
 
       <section className="course-banner">
         <div className="banner-overlay">
-          <img
-            src={course.featuredImage || "https://via.placeholder.com/1200x400.png?text=Course+Banner"}
-            alt={course.title}
-          />
+          <img src={course.featuredImage || "https://via.placeholder.com/1200x400.png?text=Course+Banner"} alt={course.title} />
         </div>
         <div className="banner-content">
           <h2>{course.title}</h2>
@@ -150,6 +133,7 @@ const CourseDetails = () => {
             <span><FaClock /> {totalLessons * 2} Hours</span>
             <span><FaBook /> {totalLessons} Lessons</span>
             <span>{course.level}</span>
+            <span>By {teacher ? teacher.name : "Loading..."}</span>
           </div>
         </div>
       </section>
@@ -160,19 +144,61 @@ const CourseDetails = () => {
             <h3>What You'll Learn</h3>
             <p>{course.description}</p>
             <div className="feature-list">
-              <div className="feature-item">Master {course.category} skills</div>
-              <div className="feature-item">{totalLessons} hands-on lessons</div>
+              {course.whatYouWillLearn.map((item, index) => (
+                <div key={index} className="feature-item">
+                  <FaArrowRight className="feature-icon" /> {item}
+                </div>
+              ))}
             </div>
           </section>
 
           <section className="course-section details">
-            <h3>Course Details</h3>
-            <div className="details-grid">
-              <p><strong>Price:</strong> ${course.price}</p>
-              <p><strong>Level:</strong> {course.level}</p>
-              <p><strong>Category:</strong> {course.category}</p>
-              <p><strong>Created:</strong> {formatDate(course.createdAt)}</p>
-            </div>
+          <h3>Course Details</h3>
+  <div className="details-grid">
+    <h4>
+      <FaUser className="detail-icon" /> <span>Instructor:</span> {teacher ? teacher.name : "Loading..."}
+    </h4>
+    <h4>
+      <FaDollarSign className="detail-icon" /> <span>Price:</span> ${course.price}
+    </h4>
+    <h4>
+      <FaLevelUpAlt className="detail-icon" /> <span>Level:</span> {course.level}
+    </h4>
+    <h4>
+      <FaFolder className="detail-icon" /> <span>Category:</span> {course.category}
+    </h4>
+    <h4>
+      <FaCalendarAlt className="detail-icon" /> <span>Created:</span> {formatDate(course.createdAt)}
+    </h4>
+  </div>
+  <div className="d-flex justify-content-between">
+    <div className="requirements-section">
+      <h4>
+        <FaTools className="section-icon" /> Requirements
+      </h4>
+      <ul className="requirements-list">
+        {course.requirements.map((item, index) => (
+          <li key={index}>
+            <FaArrowRight className="requirement-icon" /> {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+            <div className="audience-section">
+      <h4>
+        <FaUsers className="section-icon" /> Target Audience
+      </h4>
+      <ul className="audience-list">
+        {course.targetAudience.map((item, index) => (
+          <li key={index}>
+            <FaArrowRight className="audience-icon" /> {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+</div>
+
             {course.tags.length > 0 && (
               <div className="tags-section">
                 <h4>Tags</h4>
@@ -194,22 +220,17 @@ const CourseDetails = () => {
                 <div key={sectionIndex} className="section-block">
                   <div className="section-header" onClick={() => toggleSection(sectionIndex)}>
                     <h4>{section.title} ({section.lessons.length} Lessons)</h4>
-                    <FaChevronDown
-                      className={`toggle-icon ${openSection === sectionIndex ? "open" : ""}`}
-                    />
+                    <FaChevronDown className={`toggle-icon ${openSection === sectionIndex ? "open" : ""}`} />
                   </div>
                   <div className={`section-lessons ${openSection === sectionIndex ? "open" : ""}`}>
                     {section.lessons.map((lesson, lessonIndex) => (
                       <div
                         key={lessonIndex}
                         className="lesson-block"
-                        onClick={() => handleLessonClick(sectionIndex, lessonIndex)} // Add navigation on click
+                        onClick={() => handleLessonClick(sectionIndex, lessonIndex)}
                       >
                         <div className="lesson-media">
-                          <img
-                            src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
-                            alt={lesson.title}
-                          />
+                          <img src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"} alt={lesson.title} />
                           {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
                             <FaPlayCircle className="play-overlay" />
                           )}
@@ -226,8 +247,8 @@ const CourseDetails = () => {
             </div>
           </section>
         </div>
-        <div></div>
       </div>
+
       <FeedbackSection courseId={id} />
 
       <footer className="course-footer">
@@ -242,9 +263,7 @@ const CourseDetails = () => {
         </Modal.Header>
         <Modal.Body>{addToCartError || "An unexpected error occurred."}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
+          <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
         </Modal.Footer>
       </Modal>
     </div>

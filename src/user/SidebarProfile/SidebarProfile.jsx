@@ -7,6 +7,7 @@ import { clearCart } from "../../features/cart/cartSlice"; // استيراد cle
 import "../../styles/SidebarProfile.css";
 import "animate.css";
 import { logout } from "../../api/authApi";
+import { TbCategoryPlus } from "react-icons/tb";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -63,6 +64,13 @@ const SidebarProfile = ({ isOpen, onClose }) => {
             <li>
               <Link to="/all-users" onClick={onClose}>
                 <FaUsers className="me-2" /> All Users
+              </Link>
+            </li>
+          )}
+          {user?.role === "admin" && (
+            <li>
+              <Link to="/CategoryManager" onClick={onClose}>
+                <TbCategoryPlus className="me-2" /> Category Manager
               </Link>
             </li>
           )}

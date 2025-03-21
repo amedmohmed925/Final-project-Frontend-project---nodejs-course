@@ -16,7 +16,7 @@ api.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     } else if (config.url !== '/login' && config.url !== '/register') {
-      // If no token and not a login/register request, throw error
+
       throw new Error('No access token found');
     }
     return config;

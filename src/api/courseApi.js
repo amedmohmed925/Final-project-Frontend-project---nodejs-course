@@ -59,9 +59,12 @@ export const addCourse = async (courseData) => {
     formData.append('description', courseData.description);
     formData.append('price', courseData.price);
     formData.append('level', courseData.level);
-    formData.append('category', courseData.category);
+    formData.append('category', courseData.category); // الآن هو ObjectId
     formData.append('resources', JSON.stringify(courseData.resources));
     formData.append('tags', JSON.stringify(courseData.tags || []));
+    formData.append('whatYouWillLearn', JSON.stringify(courseData.whatYouWillLearn || []));
+    formData.append('requirements', JSON.stringify(courseData.requirements || []));
+    formData.append('targetAudience', JSON.stringify(courseData.targetAudience || []));
 
     if (courseData.featuredImage) {
       formData.append('featuredImage', courseData.featuredImage);
@@ -90,7 +93,7 @@ export const addCourse = async (courseData) => {
       });
     });
 
-    const response = await axiosInstance.post('/courses', formData, {
+    const response = await axiosInstance.post('/courses', formData, { // تأكد من تعديل المسار إلى '/courses/add'
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -107,7 +110,6 @@ export const addCourse = async (courseData) => {
     }
   }
 };
-
 export const updateCourse = async (courseId, courseData) => {
   try {
     const formData = new FormData();
