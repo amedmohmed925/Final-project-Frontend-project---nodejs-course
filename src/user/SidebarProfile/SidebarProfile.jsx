@@ -1,5 +1,5 @@
 // src/user/SidebarProfile/SidebarProfile.js
-import { FaUser, FaSignOutAlt, FaTimes, FaUsers } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaTimes, FaUsers, FaBookOpen, FaEdit } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
@@ -8,6 +8,8 @@ import "../../styles/SidebarProfile.css";
 import "animate.css";
 import { logout } from "../../api/authApi";
 import { TbCategoryPlus } from "react-icons/tb";
+import { RiAdvertisementFill, RiFunctionAddFill } from "react-icons/ri";
+import { MdAdminPanelSettings, MdSchool } from "react-icons/md";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -47,17 +49,17 @@ const SidebarProfile = ({ isOpen, onClose }) => {
           </li>
           <li>
             <Link to="/update-info" onClick={onClose}>
-              <FaUser className="me-2" /> Update Info
+              <FaEdit className="me-2" /> Update Info
             </Link>
           </li>
           <li>
             <Link to="/AdvertiserDashboard" onClick={onClose}>
-              <FaUser className="me-2" />Advertiser Dashboard
+              <RiAdvertisementFill className="me-2" />Advertiser Dashboard
             </Link>
           </li>
           <li>
             <Link to="/AdminCouponReport" onClick={onClose}>
-              <FaUser className="me-2" />Admin Coupon Report
+              <MdAdminPanelSettings className="me-2" />Admin Coupon Report
             </Link>
           </li>
           {user?.role === "admin" && (
@@ -77,14 +79,14 @@ const SidebarProfile = ({ isOpen, onClose }) => {
           {user?.role === "teacher" && (
             <li>
               <Link to="/add-course" onClick={onClose}>
-                <FaUsers className="me-2" /> Add Course
+                <RiFunctionAddFill className="me-2" /> Add Course
               </Link>
             </li>
           )}
           {user?.role === "teacher" && (
             <li>
               <Link to="/CoursesTeacher" onClick={onClose}>
-                <FaUsers className="me-2" /> My Courses
+                <MdSchool className="me-2" /> My Courses
               </Link>
             </li>
           )}

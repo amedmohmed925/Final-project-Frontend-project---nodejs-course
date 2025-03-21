@@ -105,10 +105,10 @@ const Profile = () => {
               </Col>
             </Row>
             <div className="text-center mt-4">
-              <Button className="btn-custom" onClick={() => navigate("/update-info")}>
+              <Button className="btn" onClick={() => navigate("/update-info")}>
                 <FaEdit className="me-2" /> Update Info
               </Button>
-              <Button className="btn-custom ms-3" variant="danger" onClick={handleLogout}>
+              <Button className="btn ms-3" variant="danger" onClick={handleLogout}>
                 <FaSignOutAlt className="me-2" /> Logout
               </Button>
             </div>

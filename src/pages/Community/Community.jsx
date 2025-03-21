@@ -244,13 +244,10 @@ const Community = () => {
       <HeaderPages title={"Community"} />
 
       <div className="community-page">
-        <header className="community-header">
-          <h1>Course Community</h1>
-          <div className="notifications">
+      <div className="notifications">
             <FaBell />
             <span>{notifications.filter((n) => !n.isRead).length}</span>
           </div>
-        </header>
 
         <div className="community-grid">
           <section className="posts-section">
@@ -261,7 +258,7 @@ const Community = () => {
                 <option value="question">Question</option>
                 <option value="resource">Resource</option>
               </select>
-              <button type="submit"><FaPlus /> Share</button>
+              <button className="btn" type="submit"><FaPlus /> Share</button>
             </form>
 
             <div className="posts-list">
@@ -277,13 +274,13 @@ const Community = () => {
                   <p>{post.content}</p>
                   {post.media && <img src={post.media} alt="Media" />}
                   <div className="post-actions">
-                    <button onClick={() => handleLike(post._id)}>
+                    <button className="btn" onClick={() => handleLike(post._id)}>
                       <FaHeart className={post.likes.includes(user._id) ? "liked" : ""} /> {post.likes.filter(id => id !== null).length}
                     </button>
-                    <button onClick={() => toggleComments(post._id)}>
+                    <button className="btn" onClick={() => toggleComments(post._id)}>
                       <FaComment /> {comments[post._id]?.length || 0}
                     </button>
-                    <button><FaShare /></button>
+                    <button className="btn"><FaShare /></button>
                   </div>
                   {showComments[post._id] && (
                     <div className="comments-section">
@@ -336,7 +333,7 @@ const Community = () => {
                 onChange={(e) => setLiveChatInput(e.target.value)}
                 placeholder="Type your message..."
               />
-              <button onClick={handleLiveChatSubmit}>
+              <button className="btn" onClick={handleLiveChatSubmit}>
                 <FaPaperPlane /> Send
               </button>
             </div>
@@ -349,7 +346,7 @@ const Community = () => {
                 <input value={newGroup.name} onChange={(e) => setNewGroup({ ...newGroup, name: e.target.value })} placeholder="Group Name" />
                 <textarea value={newGroup.description} onChange={(e) => setNewGroup({ ...newGroup, description: e.target.value })} placeholder="Description" />
                 <input value={newGroup.invitedMembers.join(",")} onChange={(e) => setNewGroup({ ...newGroup, invitedMembers: e.target.value.split(",") })} placeholder="Invite users (comma-separated IDs)" />
-                <button type="submit"><FaUsers /> Create</button>
+                <button className="btn" type="submit"><FaUsers /> Create</button>
               </form>
               <div className="groups-list">
                 {groups.map((group) => (
@@ -358,14 +355,14 @@ const Community = () => {
                     <p>{group.description}</p>
                     <small>{group.members.length} Members</small>
                     {group.pendingInvites.includes(user._id) && (
-                      <button onClick={() => handleAcceptInvite(group._id)}>Accept Invite</button>
+                      <button className="btn" onClick={() => handleAcceptInvite(group._id)}>Accept Invite</button>
                     )}
                     {group.creatorId.toString() === user._id && (
-                      <button onClick={() => handleAddMember(group._id, "USER_ID_HERE")}>Add Member</button>
+                      <button className="btn" onClick={() => handleAddMember(group._id, "USER_ID_HERE")}>Add Member</button>
                     )}
                     <div className="group-chat">
                       {!joinedRooms.has(`group_${group._id}`) ? (
-                        <button onClick={() => joinGroupChat(group._id)}>Join Chat</button>
+                        <button className="btn" onClick={() => joinGroupChat(group._id)}>Join Chat</button>
                       ) : (
                         <>
                           <p className="join-notice">You have joined the chat</p>
@@ -397,7 +394,7 @@ const Community = () => {
               <h3>Live Chat Rooms</h3>
               <form className="new-chatroom-form" onSubmit={handleChatRoomSubmit}>
                 <input value={newChatRoom} onChange={(e) => setNewChatRoom(e.target.value)} placeholder="Chat Room Name" />
-                <button type="submit"><FaPlus /> Create</button>
+                <button className="btn" type="submit"><FaPlus /> Create</button>
               </form>
               <div className="chatrooms-list">
                 {chatRooms.map((room) => (
@@ -405,7 +402,7 @@ const Community = () => {
                     <h4>{room.name}</h4>
                     <div className="chatroom-messages">
                       {!joinedRooms.has(`chatroom_${room._id}`) ? (
-                        <button onClick={() => joinChatRoom(room._id)}>Join Chat</button>
+                        <button className="btn" onClick={() => joinChatRoom(room._id)}>Join Chat</button>
                       ) : (
                         <>
                           <p className="join-notice">You have joined the chat</p>

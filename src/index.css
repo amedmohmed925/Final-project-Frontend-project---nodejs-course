@@ -1,11 +1,20 @@
 
 :root {
-  --mainColor: #7226eb;
   --darkBackground: #1a1a1a;
   --lightText: #ffffff;
   --mutedText: #bbbbbb;
-  --darkColor:#061e33
+  --darkColor:#061e33;
+  --mainColor: #6a11cb;
+  --secondaryColor: #2575fc;
+  --light-bg: #f5f7fa;
+  --white: #ffffff;
+  --text-dark: #444;
+  --text-muted: #666;
+  --gradient-start: #e0f7fa;
+  --gradient-end: #c380ea;
 }
+
+
 *{
   font-family: sans-serif;
 }
@@ -65,7 +74,21 @@ body {
   }
 
 
+.btn{
+  background-color: #061a3d !important;
+  border: none;
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 5px !important;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn:hover{
 
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+}
   ::-webkit-scrollbar {
     width: 12px;
   }

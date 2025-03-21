@@ -99,7 +99,7 @@ const Header = () => {
                 Contact 
               </Nav.Link>
 
-              {/* صورة البروفايل على الشاشات الصغيرة */}
+
               {!user ? (
                 <Nav.Link
                   as={Link}
@@ -146,10 +146,10 @@ const Header = () => {
               )}
             </Nav>
 
-            {/* الجزء الأيمن: أيقونة السلة وصورة البروفايل (على الشاشات الكبيرة) */}
+
             <Nav className="align-items-center d-none d-lg-flex">
               <div
-                className="cartIcon position-relative me-3 d-none d-lg-block" // تظهر فقط على الشاشات الكبيرة
+                className="cartIcon position-relative me-3 d-none d-lg-block" 
                 onClick={() => dispatch(toggleCart())}
               >
                 <FaCartPlus />

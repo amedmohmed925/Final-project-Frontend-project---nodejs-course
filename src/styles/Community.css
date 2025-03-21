@@ -25,10 +25,11 @@
 .notifications {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: end;
   font-size: 1.2rem;
-  color: #3b82f6;
+  color: #061a3d;
   cursor: pointer;
+  margin: 15px 45px;
 }
 
 .community-grid {
@@ -95,6 +96,7 @@
 .chat-message span {
   font-weight: bold;
   color: #1e3a8a;
+  font-family:monospace;
 }
 
 .chat-message p {
@@ -121,23 +123,7 @@
   font-size: 1rem;
 }
 
-.chat-input button {
-  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-}
 
-.chat-input button:hover {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  transform: translateY(-2px);
-}
 
 .new-post-form {
   display: flex;
@@ -167,23 +153,6 @@
   border-radius: 12px;
 }
 
-.new-post-form button {
-  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-}
-
-.new-post-form button:hover {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  transform: translateY(-2px);
-}
 
 .posts-list {
   display: flex;
@@ -402,44 +371,6 @@
   }
 }
 
-/* تحسين زر الإرسال */
-.chat-input button {
-  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
-  color: #fff;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.chat-input button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease;
-}
-
-.chat-input button:hover::after {
-  width: 200px;
-  height: 200px;
-}
-
-.chat-input button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-}
 
 /* تحسين مظهر التعليقات */
 .comments-section {

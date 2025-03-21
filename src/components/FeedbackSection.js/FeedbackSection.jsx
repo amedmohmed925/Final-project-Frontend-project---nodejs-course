@@ -174,7 +174,7 @@ const FeedbackSection = ({ courseId }) => {
                 {renderStars(editingFeedback ? editingFeedback.rating : newFeedback.rating, true)}
               </div>
             </div>
-            <button type="submit" className="feedback-sticky-btn">
+            <button type="submit" className="btn">
               {editingFeedback ? "Update Feedback" : "Submit Feedback"}
             </button>
           </form>

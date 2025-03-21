@@ -7,7 +7,7 @@ import { getCategories } from "../../api/categoryApi"; // استيراد دال�
 import Logo from "../Logo";
 import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-
+import '../../styles/AddCourse.css'
 const AddCourse = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -268,8 +268,8 @@ const AddCourse = () => {
 
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <Container className="py-5">
-        <Row className="justify-content-center">
+      <Container className="py-5 ">
+        <Row className="justify-content-center course-form-containe">
           <Col xs={12} md={8} lg={10}>
             <motion.div
               className="course-form-container"

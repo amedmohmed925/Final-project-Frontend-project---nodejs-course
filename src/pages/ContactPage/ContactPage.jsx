@@ -123,7 +123,7 @@ const ContactPage = () => {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="submit-btn">
+            <button type="submit" className="btn">
               Send Message
             </button>
           </form>

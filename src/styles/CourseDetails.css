@@ -1,13 +1,3 @@
-:root {
-  --mainColor: #6a11cb;
-  --secondaryColor: #2575fc;
-  --light-bg: #f5f7fa;
-  --white: #ffffff;
-  --text-dark: #444;
-  --text-muted: #666;
-  --gradient-start: #e0f7fa;
-  --gradient-end: #c380ea;
-}
 
 .course-details-page {
   background: var(--white);
@@ -20,6 +10,8 @@
   max-width: 100%;
   margin: 0 auto;
   /* padding: 0 20px; */
+  min-height: 100vh;
+
 }
 
 /* Banner Section */
@@ -130,10 +122,10 @@
   margin: 0;
 }
 
-.days-left {
-  font-size: 1rem;
-  color: #ff4d4d;
-  background: rgba(255, 77, 77, 0.1);
+.days-passed {
+  font-size: .8rem;
+  color: var(--gradient-end);
+  background: rgba(252, 77, 255, 0.1);
   padding: 5px 10px;
   border-radius: 15px;
 }
@@ -168,10 +160,9 @@
 .course-meta p {
   font-size: 0.9rem;
   color: #555;
-  margin: 5px 0;
+  margin: 15px 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 5px;
 }
 

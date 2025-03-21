@@ -41,6 +41,8 @@ const CourseDetails = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
 
+  console.log("Dispatch:", dispatch);
+
   useEffect(() => {
     const fetchCourseAndTeacher = async () => {
       try {
@@ -49,7 +51,9 @@ const CourseDetails = () => {
 
         if (courseData.teacherId) {
           const teacherId = courseData.teacherId._id || courseData.teacherId;
-          const teacherData = await getUserById(teacherId);
+          console.log("Teacher ID:", teacherId);
+          const teacherData = await dispatch(getUserById(teacherId)).unwrap();
+          console.log("Teacher Data:", teacherData);
           setTeacher(
             teacherData || { firstName: "Unknown", lastName: "Instructor" }
           );
@@ -65,7 +69,7 @@ const CourseDetails = () => {
       }
     };
     fetchCourseAndTeacher();
-  }, [id]);
+  }, [id, dispatch]);
 
   const isInCart = items.some((item) => item.courseId._id === id);
 
@@ -77,14 +81,12 @@ const CourseDetails = () => {
     });
   };
 
-  // حساب الأيام المتبقية بناءً على تاريخ الإنشاء
-  const calculateDaysLeft = (createdAt) => {
+  const calculateDaysPassed = (createdAt) => {
     const createdDate = new Date(createdAt);
     const currentDate = new Date();
     const diffTime = Math.abs(currentDate - createdDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    const daysLeft = 30 - diffDays; // افتراض أن العرض لمدة 30 يومًا
-    return daysLeft > 0 ? daysLeft : 0;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
   };
 
   const handleFavoriteToggle = () => {
@@ -108,6 +110,13 @@ const CourseDetails = () => {
   };
 
   const handleAddToCart = () => {
+    if (typeof dispatch !== "function") {
+      console.error("Dispatch is not a function:", dispatch);
+      setAddToCartError("Failed to add course to cart: Redux dispatch error");
+      setShowErrorModal(true);
+      return;
+    }
+
     dispatch(addItemToCart(id))
       .unwrap()
       .then(() =>
@@ -156,34 +165,21 @@ const CourseDetails = () => {
     (acc, section) => acc + section.lessons.length,
     0
   );
-  const daysLeft = course.createdAt ? calculateDaysLeft(course.createdAt) : 0;
+  const daysPassed = course.createdAt ? calculateDaysPassed(course.createdAt) : 0;
 
- const renderStars = (rating) => {
+  const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating); // عدد النجوم الكاملة
-    const hasHalfStar = rating % 1 >= 0.5; // تحقق مما إذا كان هناك نصف نجمة (مثل 3.5 أو 4.7)
-  
-    // إضافة النجوم الكاملة
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
     for (let i = 1; i <= fullStars; i++) {
-      stars.push(
-        <FaStar
-          key={i}
-          className="star filled"
-        />
-      );
+      stars.push(<FaStar key={i} className="star filled" />);
     }
-  
-    // إضافة نصف نجمة إذا كان موجودًا
+
     if (hasHalfStar && fullStars < 5) {
-      stars.push(
-        <FaStarHalfAlt
-          key={fullStars + 1}
-          className="star filled"
-        />
-      );
+      stars.push(<FaStarHalfAlt key={fullStars + 1} className="star filled" />);
     }
-  
-    // إضافة النجوم الفارغة لاستكمال 5 نجوم
+
     const remainingStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
     for (let i = 1; i <= remainingStars; i++) {
       stars.push(
@@ -193,13 +189,12 @@ const CourseDetails = () => {
         />
       );
     }
-  
+
     return stars;
   };
- 
+
   return (
     <div className="course-details-page">
-      {/* <HeaderPages title={course.title} /> */}
       <main className="course-main">
         <section className="course-banner-section">
           <div className="banner-content container">
@@ -208,11 +203,10 @@ const CourseDetails = () => {
               <p className="banner-description">{course.description}</p>
               <div className="banner-meta">
                 <div className="rating">
-                  <span>{course.averageRating}</span>
                   <div className="course-rating">
-  {renderStars(course.averageRating)}
-  <span>({course.averageRating})</span>
-</div>
+                    <span>({course.averageRating || 0})</span>
+                    {renderStars(course.averageRating || 0)}
+                  </div>
                 </div>
                 <span className="created-date">
                   Created: {formatDate(course.createdAt)}
@@ -234,11 +228,11 @@ const CourseDetails = () => {
           className="d-flex justify-content-center"
           style={{ flexDirection: "row-reverse" }}
         >
-          <section className="pricing-section ">
+          <section className="pricing-section">
             <div className="pricing-card">
               <div className="pricing-header">
                 <h3 className="price">${course.price}</h3>
-                <p className="days-left">{daysLeft} Days Left</p>
+                <p className="days-passed">Created {daysPassed} days ago</p>
               </div>
               <button
                 className={`add-to-cart-btn ${isInCart ? "disabled" : ""}`}
@@ -279,7 +273,7 @@ const CourseDetails = () => {
             }}
           >
             {/* What You'll Learn */}
-            <section className="course-section ">
+            <section className="course-section">
               <h3>What You'll Learn</h3>
               <div className="feature-list">
                 {course.whatYouWillLearn.map((item, index) => (
@@ -291,7 +285,7 @@ const CourseDetails = () => {
             </section>
 
             {/* Course Content */}
-            <section className="course-section ">
+            <section className="course-section">
               <h3>Course Content</h3>
               <div className="course-content-meta">
                 <p>

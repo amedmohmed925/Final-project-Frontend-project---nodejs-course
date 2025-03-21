@@ -4,6 +4,7 @@ import { getCourseById } from "../../api/courseApi";
 import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress } from "react-icons/fa";
 import ReactPlayer from "react-player";
 import "../../styles/LessonPage.css";
+import Logo from "../Logo";
 
 const LessonPage = () => {
   const { courseId, sectionIndex, lessonIndex } = useParams();
@@ -39,11 +40,11 @@ const LessonPage = () => {
   // تحريك العلامة المائية بشكل عشوائي كل ثانيتين
   useEffect(() => {
     const moveWatermark = () => {
-      const maxTop = 80;
-      const maxLeft = 80;
-      const newTop = Math.random() * maxTop + "%";
-      const newLeft = Math.random() * maxLeft + "%";
-      setWatermarkPosition({ top: newTop, left: newLeft });
+      const maxTop = 10;
+      const maxLeft = 10;
+      // const newTop = Math.random() * maxTop + "%";
+      // const newLeft = Math.random() * maxLeft + "%";
+      setWatermarkPosition({ top: maxTop, left: maxLeft });
     };
 
     const interval = setInterval(moveWatermark, 2000);
@@ -238,7 +239,7 @@ const LessonPage = () => {
                   left: watermarkPosition.left,
                 }}
               >
-                Protected Content - Do Not Copy
+                <Logo />
               </div>
               {/* أدوات التحكم المخصصة */}
               <div className="custom-controls">
