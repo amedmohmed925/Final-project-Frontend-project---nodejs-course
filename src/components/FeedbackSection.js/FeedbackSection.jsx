@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FaStar, FaTrash, FaEdit } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { getFeedbacksByCourseId, addFeedback, deleteFeedback, updateFeedback } from "../../api/feedbackApi";
-import "../../styles/CourseDetails.css";
+import "../../styles/FeedbackCourse.css";
 
 const FeedbackSection = ({ courseId }) => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -91,7 +91,7 @@ const FeedbackSection = ({ courseId }) => {
     return [1, 2, 3, 4, 5].map((star) => (
       <FaStar
         key={star}
-        className={star <= rating ? "star active" : "star"}
+        className={star <= rating ? "star filled" : "star"}
         onClick={isEditable ? () => handleRating(star) : null}
         style={{ cursor: isEditable ? "pointer" : "default" }}
       />
@@ -174,7 +174,7 @@ const FeedbackSection = ({ courseId }) => {
                 {renderStars(editingFeedback ? editingFeedback.rating : newFeedback.rating, true)}
               </div>
             </div>
-            <button type="submit" className="enroll-sticky-btn">
+            <button type="submit" className="feedback-sticky-btn">
               {editingFeedback ? "Update Feedback" : "Submit Feedback"}
             </button>
           </form>

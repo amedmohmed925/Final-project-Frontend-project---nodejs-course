@@ -81,6 +81,13 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               </Link>
             </li>
           )}
+          {user?.role === "teacher" && (
+            <li>
+              <Link to="/CoursesTeacher" onClick={onClose}>
+                <FaUsers className="me-2" /> My Courses
+              </Link>
+            </li>
+          )}
           <li>
             <button className="logout-button" onClick={handleLogout}>
               <FaSignOutAlt className="me-2" /> Logout

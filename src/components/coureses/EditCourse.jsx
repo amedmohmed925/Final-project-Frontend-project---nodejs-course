@@ -1,56 +1,75 @@
-// src/components/EditCourse.js
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { getCourseById, updateCourse } from "../../api/courseApi"; // تأكد من المسار الصحيح
-import Logo from "../Logo"; // افتراض أن لديك مكون Logo
-import "../../styles/CourseDetails.css"; // تأكد من أن المسار يشمل الـ CSS المحدث
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import { getCourseById, updateCourse, getResources } from "../../api/courseApi"; // إضافة getResources
+import { getCategories } from "../../api/categoryApi"; // إضافة getResources
+import Logo from "../Logo";
+import "../../styles/CourseDetails.css";
+import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const EditCourse = () => {
-  const { id } = useParams(); // معرف الكورس من الـ URL
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [level, setLevel] = useState("Beginner");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [featuredImage, setFeaturedImage] = useState(null);
   const [sections, setSections] = useState([]);
   const [resources, setResources] = useState([]);
   const [tags, setTags] = useState("");
+  const [whatYouWillLearn, setWhatYouWillLearn] = useState([]);
+  const [requirements, setRequirements] = useState([]);
+  const [targetAudience, setTargetAudience] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // جلب بيانات الكورس عند تحميل المكون
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchCourseAndData = async () => {
       try {
         setIsLoading(true);
+
+        // جلب بيانات الكورس
         const course = await getCourseById(id);
         setTitle(course.title);
         setDescription(course.description);
         setPrice(course.price.toString());
         setLevel(course.level);
         setCategory(course.category);
-        setSections(course.sections.map((section) => ({
-          title: section.title,
-          lessons: section.lessons.map((lesson) => ({
-            title: lesson.title,
-            content: lesson.content,
-            videoUrl: lesson.videoUrl,
-            thumbnailUrl: lesson.thumbnailUrl,
-            quiz: lesson.quiz || "",
-            video: null, // لرفع فيديو جديد
-            thumbnail: null, // لرفع صورة مصغرة جديدة
-          })),
-        })));
-        setResources(course.resources);
+        setSections(
+          course.sections.map((section) => ({
+            title: section.title,
+            lessons: section.lessons.map((lesson) => ({
+              title: lesson.title,
+              content: lesson.content,
+              videoUrl: lesson.videoUrl,
+              thumbnailUrl: lesson.thumbnailUrl,
+              quiz: lesson.quiz || "",
+              video: null,
+              thumbnail: null,
+            })),
+          }))
+        );
         setTags(course.tags.join(", "));
+        setWhatYouWillLearn(course.whatYouWillLearn || []);
+        setRequirements(course.requirements || []);
+        setTargetAudience(course.targetAudience || []);
+
+        // جلب الفئات
+        const categoriesData = await getCategories();
+        setCategories(categoriesData);
+
+        // جلب الموارد الخاصة بالكورس
+        const resourcesData = await getResources(id);
+        setResources(resourcesData);
       } catch (err) {
         setError(err.message);
         setShowModal(true);
@@ -58,7 +77,7 @@ const EditCourse = () => {
         setIsLoading(false);
       }
     };
-    fetchCourse();
+    fetchCourseAndData();
   }, [id]);
 
   const handleAddSection = () => {
@@ -146,6 +165,14 @@ const EditCourse = () => {
     setResources(updatedResources);
   };
 
+  const handleAddListItem = (setter) => {
+    setter((prev) => [...prev, ""]);
+  };
+
+  const handleListItemChange = (setter, index, value) => {
+    setter((prev) => prev.map((item, i) => (i === index ? value : item)));
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file && !["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
@@ -162,21 +189,21 @@ const EditCourse = () => {
     setSuccess("");
     setUploadStatus("");
     setIsLoading(true);
-  
+
     if (!title || !description || !price || !category) {
       setError("Title, description, price, and category are required");
       setShowModal(true);
       setIsLoading(false);
       return;
     }
-  
+
     if (isNaN(price) || parseFloat(price) < 0) {
       setError("Price must be a valid positive number");
       setShowModal(true);
       setIsLoading(false);
       return;
     }
-  
+
     const totalVideos = sections.reduce((acc, section) => acc + section.lessons.filter((lesson) => lesson.video).length, 0);
     if (totalVideos > 30) {
       setError("Maximum 30 lesson videos are allowed");
@@ -184,7 +211,7 @@ const EditCourse = () => {
       setIsLoading(false);
       return;
     }
-  
+
     try {
       const courseData = {
         title,
@@ -207,19 +234,21 @@ const EditCourse = () => {
         })),
         resources: resources.filter((r) => r.name && r.url).map((r) => ({
           name: r.name,
-          type: r.type || "link", // تأكد من وجود type
+          type: r.type || "video",
           url: r.url,
         })),
         tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
+        whatYouWillLearn,
+        requirements,
+        targetAudience,
       };
-  
-      console.log("Submitting Course Data:", courseData); // تحقق من البيانات قبل الإرسال
+
       const updatedCourse = await updateCourse(id, courseData);
       setSuccess("Course updated successfully!");
       setUploadStatus(updatedCourse.message || "Videos and thumbnails are being uploaded in the background");
       setShowModal(true);
-  
-      setTimeout(() => navigate("/courses"), 7000);
+
+      setTimeout(() => navigate("/CoursesTeacher"), 2000);
     } catch (err) {
       setError(err.message);
       setShowModal(true);
@@ -229,11 +258,25 @@ const EditCourse = () => {
   };
 
   if (isLoading && !title) {
-    return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
   }
 
   return (
     <div className="course-creation-page">
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+      </button>
+
+      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
       <Container className="py-5">
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={10}>
@@ -262,11 +305,8 @@ const EditCourse = () => {
                     type="text"
                     placeholder="Enter course title"
                     value={title}
-                    
-                    onChange={(e) => {
-                        console.log("New Title:", e.target.value);
-                        setTitle(e.target.value);
-                      }}                    required
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
                     disabled={isLoading}
                   />
                 </Form.Group>
@@ -319,10 +359,11 @@ const EditCourse = () => {
                     disabled={isLoading}
                   >
                     <option value="">Select a category</option>
-                    <option value="Programming">Programming</option>
-                    <option value="Design">Design</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Business">Business</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.name}
+                      </option>
+                    ))}
                   </Form.Select>
                 </Form.Group>
 
@@ -334,6 +375,75 @@ const EditCourse = () => {
                     onChange={handleImageChange}
                     disabled={isLoading}
                   />
+                </Form.Group>
+
+                {/* What You Will Learn */}
+                <Form.Group className="course-input-group">
+                  <Form.Label>What You Will Learn</Form.Label>
+                  {whatYouWillLearn.map((item, index) => (
+                    <Form.Control
+                      key={index}
+                      type="text"
+                      placeholder="Enter what students will learn"
+                      value={item}
+                      onChange={(e) => handleListItemChange(setWhatYouWillLearn, index, e.target.value)}
+                      className="mb-2"
+                      disabled={isLoading}
+                    />
+                  ))}
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => handleAddListItem(setWhatYouWillLearn)}
+                    disabled={isLoading}
+                  >
+                    Add Item
+                  </Button>
+                </Form.Group>
+
+                {/* Requirements */}
+                <Form.Group className="course-input-group">
+                  <Form.Label>Requirements</Form.Label>
+                  {requirements.map((item, index) => (
+                    <Form.Control
+                      key={index}
+                      type="text"
+                      placeholder="Enter requirement"
+                      value={item}
+                      onChange={(e) => handleListItemChange(setRequirements, index, e.target.value)}
+                      className="mb-2"
+                      disabled={isLoading}
+                    />
+                  ))}
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => handleAddListItem(setRequirements)}
+                    disabled={isLoading}
+                  >
+                    Add Requirement
+                  </Button>
+                </Form.Group>
+
+                {/* Target Audience */}
+                <Form.Group className="course-input-group">
+                  <Form.Label>Target Audience</Form.Label>
+                  {targetAudience.map((item, index) => (
+                    <Form.Control
+                      key={index}
+                      type="text"
+                      placeholder="Enter target audience"
+                      value={item}
+                      onChange={(e) => handleListItemChange(setTargetAudience, index, e.target.value)}
+                      className="mb-2"
+                      disabled={isLoading}
+                    />
+                  ))}
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => handleAddListItem(setTargetAudience)}
+                    disabled={isLoading}
+                  >
+                    Add Audience
+                  </Button>
                 </Form.Group>
 
                 {/* الأقسام */}
@@ -351,7 +461,7 @@ const EditCourse = () => {
                       />
                     </Form.Group>
 
-                    {section.lessons.map((lesson, lessonplantsNumberedSectionIndexlessonIndex, lessonIndex) => (
+                    {section.lessons.map((lesson, lessonIndex) => (
                       <div key={lessonIndex} className="lesson-group mb-3 p-3 border rounded">
                         <Form.Group className="course-input-group">
                           <Form.Label>Lesson Title</Form.Label>
@@ -433,50 +543,57 @@ const EditCourse = () => {
                 </Button>
 
                 {/* الموارد */}
-                {resources.map((resource, index) => (
-                  <div key={index} className="resource-group mb-3 p-3 border rounded">
-                    <Form.Group className="course-input-group">
-                      <Form.Label>Resource Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter resource name"
-                        value={resource.name}
-                        onChange={(e) => handleResourceChange(index, "name", e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                    </Form.Group>
+                <Form.Group className="course-input-group">
+                  <Form.Label>Resources</Form.Label>
+                  {resources.map((resource, index) => (
+                    <div key={index} className="resource-group mb-3 p-3 border rounded">
+                      <Form.Group className="course-input-group">
+                        <Form.Label>Resource Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder="Enter resource name"
+                          value={resource.name}
+                          onChange={(e) => handleResourceChange(index, "name", e.target.value)}
+                          required
+                          disabled={isLoading}
+                        />
+                      </Form.Group>
 
-                    <Form.Group className="course-input-group">
-                      <Form.Label>Type</Form.Label>
-                      <Form.Select
-                        value={resource.type}
-                        onChange={(e) => handleResourceChange(index, "type", e.target.value)}
-                        disabled={isLoading}
-                      >
-                        <option value="video">Video</option>
-                        <option value="document">Document</option>
-                        <option value="link">Link</option>
-                      </Form.Select>
-                    </Form.Group>
+                      <Form.Group className="course-input-group">
+                        <Form.Label>Type</Form.Label>
+                        <Form.Select
+                          value={resource.type}
+                          onChange={(e) => handleResourceChange(index, "type", e.target.value)}
+                          disabled={isLoading}
+                        >
+                          <option value="video">Video</option>
+                          <option value="article">Article</option>
+                          <option value="pdf">PDF</option>
+                        </Form.Select>
+                      </Form.Group>
 
-                    <Form.Group className="course-input-group">
-                      <Form.Label>URL</Form.Label>
-                      <Form.Control
-                        type="url"
-                        placeholder="Enter resource URL"
-                        value={resource.url}
-                        onChange={(e) => handleResourceChange(index, "url", e.target.value)}
-                        required
-                        disabled={isLoading}
-                      />
-                    </Form.Group>
-                  </div>
-                ))}
-
-                <Button variant="outline-primary" onClick={handleAddResource} className="course-add-btn mb-4" disabled={isLoading}>
-                  Add Resource
-                </Button>
+                      <Form.Group className="course-input-group">
+                        <Form.Label>URL</Form.Label>
+                        <Form.Control
+                          type="url"
+                          placeholder="Enter resource URL"
+                          value={resource.url}
+                          onChange={(e) => handleResourceChange(index, "url", e.target.value)}
+                          required
+                          disabled={isLoading}
+                        />
+                      </Form.Group>
+                    </div>
+                  ))}
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleAddResource}
+                    className="course-add-btn mb-4"
+                    disabled={isLoading}
+                  >
+                    Add Resource
+                  </Button>
+                </Form.Group>
 
                 <Form.Group className="course-input-group">
                   <Form.Label>Tags (comma-separated)</Form.Label>
@@ -492,7 +609,7 @@ const EditCourse = () => {
                 <Button type="submit" className="course-submit-btn" disabled={isLoading}>
                   {isLoading ? (
                     <span>
-                      Updating... <span className="course-spinner">⟳</span>
+                      Updating... <Spinner animation="border" size="sm" />
                     </span>
                   ) : (
                     "Update Course"

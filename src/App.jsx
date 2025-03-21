@@ -27,6 +27,7 @@ import ContactPage from "./pages/ContactPage/ContactPage";
 import Footer from "./components/Footer";
 import LessonPage from "./components/coureses/LessonPage"; // Fixed typo in folder name
 import CategoryManager from "./components/CategoryManager.js/CategoryManager";
+import TeacherCourses from "./components/coureses/TeacherCourses";
 const App = () => {
 
  
@@ -56,6 +57,7 @@ const App = () => {
           <Route path="/Community" element={<Community />} />
           <Route path="/ContactPage" element={<ContactPage />} />
           <Route path="/CategoryManager" element={<CategoryManager />} />
+          <Route path="/CoursesTeacher" element={<TeacherCourses />} />
         </Routes>
             <Footer />
         

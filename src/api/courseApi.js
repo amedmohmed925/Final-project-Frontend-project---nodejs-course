@@ -197,3 +197,47 @@ export const getCourseById = async (id) => {
     }
   }
 };
+
+export const deleteCourse = async (courseId) => {
+  try {
+    const response = await axiosInstance.delete(`/courses/${courseId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || "Failed to delete course");
+    } else if (error.request) {
+      throw new Error("No response from the server");
+    } else {
+      throw new Error(error.message || "Something went wrong");
+    }
+  }
+};
+export const getCoursesByTeacher = async (teacherId) => {
+  try {
+    const response = await axiosInstance.get(`/courses/teacher/${teacherId}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Failed to fetch teacher courses');
+    } else if (error.request) {
+      throw new Error('No response from the server');
+    } else {
+      throw new Error(error.message || 'Something went wrong');
+    }
+  }
+};
+
+export const getResources = async (courseId) => {
+  try {
+    const response = await axiosInstance.get(`/courses/${courseId}/resources`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Failed to fetch resources');
+    } else if (error.request) {
+      throw new Error('No response from the server');
+    } else {
+      throw new Error(error.message || 'Something went wrong');
+    }
+  }
+};
