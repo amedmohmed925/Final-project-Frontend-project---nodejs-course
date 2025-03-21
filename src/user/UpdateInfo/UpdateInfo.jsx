@@ -6,7 +6,8 @@ import { FaSpinner, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import "../../styles/UpdateInfo.css";
-
+import { motion } from "framer-motion";
+import Logo from '../../components/Logo'
 const UpdateInfo = () => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -98,11 +99,18 @@ const UpdateInfo = () => {
       {/* Main Content */}
       <div className={`update-info-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div className="update-info-container profile-card">
-          <button className="back-btn" onClick={() => navigate(-1)} aria-label="Go Back">
-            <FaArrowLeft /> <span>Back to Profile</span>
-          </button>
+        <div className="py-4 logoAuth text-center">
+                <Logo colorText="#0a3e6e" />
+                <motion.h2
+                  className="fs-4 fw-bold mb-0 mt-3 section-title"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  Update Your Information
+                </motion.h2>
+              </div>
 
-          <h2 className="update-title">Update Your Information</h2>
           <form onSubmit={handleSubmit} className="update-form">
             <div className="info-section">
               <div className="form-group">
@@ -176,7 +184,7 @@ const UpdateInfo = () => {
                 />
               </div>
             </div>
-            <button type="submit" className="btn-custom" disabled={isUpdating}>
+            <button type="submit" className="btn" disabled={isUpdating}>
               {isUpdating ? <FaSpinner className="spinner" /> : "Update Profile"}
             </button>
           </form>
