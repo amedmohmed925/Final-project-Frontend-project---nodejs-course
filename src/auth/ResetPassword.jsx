@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaLock, FaSpinner } from 'react-icons/fa';
 import { resetPassword } from '../api/authApi';
-import '../styles/register.css'; // استخدام أسلوب التصميم من register.css
+import '../styles/Register.css'; // استخدام أسلوب التصميم من register.css
 import Logo from '../components/Logo';
 
 const ResetPassword = () => {

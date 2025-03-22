@@ -5,7 +5,7 @@ import { FaUser, FaLock, FaSpinner } from "react-icons/fa";
 import { Form, Button, Modal, Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import "../styles/register.css"; // تأكدي من أن المسار صحيح
+import "../styles/Register.css"; // تأكدي من أن المسار صحيح
 import Logo from "../components/Logo";
 
 const Login = () => {

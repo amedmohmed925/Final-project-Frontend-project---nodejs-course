@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaSpinner } from 'react-icons/fa';
 import { forgetPassword } from '../api/authApi';
-import '../styles/register.css';
+import '../styles/Register.css';
 import Logo from '../components/Logo';
 
 const ForgotPassword = () => {

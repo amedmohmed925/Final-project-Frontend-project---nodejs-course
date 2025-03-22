@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { Form, Button, Row, Col, Modal, Container } from "react-bootstrap";
 import { motion } from "framer-motion";
-import "../styles/register.css";
+import "../styles/Register.css";
 import Logo from "../components/Logo";
 
 const Register = () => {
