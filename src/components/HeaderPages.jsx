@@ -1,13 +1,14 @@
-import React from 'react'
 
 function HeaderPages({title}) {
   return (
+
     <div>  <div
     className="header-section"
     style={{
       width: '100%',
       height: '165px',
-      background: 'linear-gradient(to right, rgba(14, 42, 70, 0.14), rgba(252, 99, 65, 0.18))',
+      // background: 'linear-gradient(to right, rgba(14, 42, 70, 0.14), rgba(252, 99, 65, 0.18))',
+      background: 'rgb(14, 42, 70)',
       position: 'relative',
       overflow: 'hidden',
     }}
@@ -75,7 +76,7 @@ function HeaderPages({title}) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        color: '#0E2A46',
+        color: 'white',
         fontSize: '48px',
         fontWeight: 'bold',
       }}
@@ -83,9 +84,7 @@ function HeaderPages({title}) {
       {title}
     </div>
 
-   {/* <div className="title-container">
-        <h1 className="courses-title">Explore Our <span>Courses</span></h1>
-      </div> */}
+  
   </div>
 </div>
   )

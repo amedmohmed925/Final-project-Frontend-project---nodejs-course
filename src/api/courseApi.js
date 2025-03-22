@@ -290,3 +290,19 @@ export const getCourseDetailsWithoutVideos = async (id) => {
   }
 };
 
+
+
+export const getMostViewedCourses = async (limit = 10) => {
+  try {
+    const response = await axiosInstance.get(`/courses/most-viewed?limit=${limit}`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'فشل في جلب الكورسات الأكثر مشاهدة');
+    } else if (error.request) {
+      throw new Error('لا يوجد استجابة من السيرفر');
+    } else {
+      throw new Error(error.message || 'حدث خطأ ما');
+    }
+  }
+};

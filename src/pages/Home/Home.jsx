@@ -6,15 +6,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../../styles/Home.css";
 import "animate.css";
-import Logo from "../../components/Logo";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import FeaturesSection from "./FeaturesSection";
-import AchievementsSection from "./AchievementsSection";
 import TeamSection from "./TeamSection";
-import WhyChooseUsSectios from './WhyChooseUsSection'
 import Gallery from "./Gallery";
 import ImageContentSection from "./ImageContentSection";
+import MostViewedCoursesSlider from "../../components/coureses/MostViewedCoursesSlider.jsx";
+
 // بيانات الكورسات مع روابط صور ثابتة من Unsplash
 const coursesData = [
   {
@@ -228,7 +225,7 @@ const Home = () => {
       <TeamSection />
 
       {/* Most Viewed Courses Section */}
-      <section className="most-viewed-courses">
+      {/* <section className="most-viewed-courses">
         <Container>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -266,8 +263,8 @@ const Home = () => {
             ))}
           </Slider>
         </Container>
-      </section>
-
+      </section> */}
+<MostViewedCoursesSlider />
       <FeaturesSection />
 
   
