@@ -12,99 +12,8 @@ import Gallery from "./Gallery";
 import ImageContentSection from "./ImageContentSection";
 import MostViewedCoursesSlider from "../../components/coureses/MostViewedCoursesSlider.jsx";
 
-// بيانات الكورسات مع روابط صور ثابتة من Unsplash
-const coursesData = [
-  {
-    title: "JavaScript Fundamentals",
-    category: "Frontend",
-    price: 49.99,
-    duration: "4 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/435aadaa-8b58-4df2-957e-f1d087693da7_2-%20%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%B4%D8%A7%D9%85%D9%84%20%D9%84%D8%AA%D8%B9%D9%84%D9%85%20%D8%A7%D9%84%D8%A8%D8%B1%D9%85%D8%AC%D8%A9%20-%20Python%20Programming.jpg",
-  },
-  {
-    title: "React for Beginners",
-    category: "Frontend",
-    price: 59.99,
-    duration: "6 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/6a7342d4-f6d2-4830-b08b-4a741e483537_1f3c1225-1895-408e-8083-543b018e4ee8.jpg",
-  },
-  {
-    title: "Advanced Node.js",
-    category: "Backend",
-    price: 69.99,
-    duration: "8 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/756ee1d8-822a-4548-a89c-1dbfbe5f8a1f_Untitled%20design.png",
-  },
-  {
-    title: "Full-Stack Web Development",
-    category: "Full-Stack",
-    price: 99.99,
-    duration: "12 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/a9d9bfa9-580b-4c65-aeaf-d49931cee9ab_Untitled%20design.png",
-  },
-  {
-    title: "Python for Data Science",
-    category: "AI",
-    price: 79.99,
-    duration: "10 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/1d8f8f80-cc23-4d0b-8a8b-89f4721bbfbf_Untitled%20design.png",
-  },
-  {
-    title: "Machine Learning with TensorFlow",
-    category: "AI",
-    price: 89.99,
-    duration: "10 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/ec3717a6-a9d2-4c56-a8f8-5ea683993564_%D8%A7%D9%84%D9%88%D8%A7%D9%8A%D8%AA%20%D8%A8%D9%88%D8%B1%D8%AF%20%D8%A7%D9%86%D9%8A%D9%85%D9%8A%D8%B4%D9%86750.png",
-  },
-  {
-    title: "Mobile App Development with Flutter",
-    category: "Mobile",
-    price: 74.99,
-    duration: "8 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/5056d5cc-c8ce-41a2-961f-52cd7d9a48e0_20-%20%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D8%B9%20%D8%A7%D9%84%D8%B1%D9%88%D8%A8%D9%88%D8%AA%D8%A7%D8%AA.jpg",
-  },
-  {
-    title: "Introduction to Cyber Security",
-    category: "Cyber Security",
-    price: 64.99,
-    duration: "6 weeks",
-    image: "https://api.courssat.com/api/FileManage/Image/1/true/50d74c88-5338-497f-9ed8-ca7cc46c89ab_%D9%85%D9%81%D8%A7%D8%AA%D9%8A%D8%AD%20%D8%A7%D9%84%D8%AA%D9%81%D9%88%D9%82%20%D8%A7%D9%84%D8%AF%D8%B1%D8%A7%D8%B3%D9%8A%20!%20(1).png",
-  },
-];
-
-// صورة افتراضية في حالة فشل تحميل الصورة
-const fallbackImage = "https://via.placeholder.com/300x200.png?text=Course+Image";
-
 const Home = () => {
-  // إضافة وصف لكل كورس
-  const coursesWithDescription = coursesData.map((course) => ({
-    ...course,
-    description: `Master ${course.title} with hands-on projects and expert guidance.`,
-  }));
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
+ 
 
   const reviewSliderSettings = {
     dots: true,
@@ -181,10 +90,6 @@ const Home = () => {
     },
   ];
 
-  // دالة للتعامل مع فشل تحميل الصورة
-  const handleImageError = (e) => {
-    e.target.src = fallbackImage;
-  };
 
   return (
     <div className="home-page">

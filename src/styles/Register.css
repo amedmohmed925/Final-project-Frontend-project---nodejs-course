@@ -1,5 +1,5 @@
 .auth-container {
-  background-image: url('./background.d202d53710b4a383.jpg');
+  background-image: url('/background.d202d53710b4a383.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100vh;
@@ -131,7 +131,7 @@ button.auth-button:disabled {
 
 
 .auth-container {
-  background-image: url('./background.d202d53710b4a383.jpg');
+  background-image: url('/background.d202d53710b4a383.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100vh;

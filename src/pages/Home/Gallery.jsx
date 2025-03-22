@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../../styles/Gallery.css";
-
+import { motion } from "framer-motion";
 const Gallery = ({
+  // eslint-disable-next-line react/prop-types
   images = [
     "https://plus.unsplash.com/premium_vector-1720623229280-dc0e64e2a760?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://plus.unsplash.com/premium_vector-1720549705253-89c513c71d0f?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -10,11 +11,13 @@ const Gallery = ({
     "https://plus.unsplash.com/premium_vector-1720549705368-538ce455742a?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://plus.unsplash.com/premium_vector-1720710527301-367d09920932?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   ],
+  // eslint-disable-next-line react/prop-types
   columns = 3,
+  // eslint-disable-next-line react/prop-types
   height = 200,
+  // eslint-disable-next-line react/prop-types
   width = 300,
 }) => {
-  const [loaded, setLoaded] = useState(false);
   const [activeImage, setActiveImage] = useState(null);
   const [show, setShow] = useState(false);
   const [rotations, setRotations] = useState({});
@@ -147,22 +150,17 @@ const Gallery = ({
       className={`gallery py-5 ${show ? "gallery-display" : ""}`}
       onMouseLeave={hideGallery}
     >
-         <h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          viewport={{ once: true }}
-          className="section-title"
-        >
-            Success Exhibition
-          
-          <span
-           
-            className="subtitle text-light"
+
+<motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="section-title"
           >
-            Pictures of stories of excellence
-          </span>
-        </h2>
+            Success Exhibition
+            <h4 className="text-light"> Pictures of stories of excellence</h4>
+          </motion.h2>
+         
       <div>
         {imageRows.map((imageRow, i) => (
           <div key={i} className="gallery__row">
