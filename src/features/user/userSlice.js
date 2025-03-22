@@ -2,7 +2,7 @@
 // src/features/user/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 import { login, logout } from '../../api/authApi';
-import { editUserInfo, getCurrentUser } from '../../api/userApi';
+import { editUserInfo, getCurrentUser, updateProfileImage } from '../../api/userApi';
 import { getAllUsers } from '../../api/userApi';
 
 const initialState = {
@@ -54,7 +54,7 @@ const userSlice = createSlice({
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.error = action.payload;
-      // حتى لو فشل الـ logout، نظف الـ localStorage
+
       state.user = null;
       state.users = [];
       localStorage.removeItem('accessToken');
@@ -89,6 +89,19 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     });
+    builder.addCase(updateProfileImage.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateProfileImage.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user.profileImage = action.payload.profileImage;
+      localStorage.setItem('user', JSON.stringify(state.user));
+    });
+    builder.addCase(updateProfileImage.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
 
     builder.addCase(getAllUsers.pending, (state) => {
       state.loading = true;
@@ -106,5 +119,5 @@ const userSlice = createSlice({
 });
 
 export const { setUser, clearUser } = userSlice.actions;
-export { editUserInfo, getAllUsers };
+export { editUserInfo, getAllUsers, updateProfileImage };
 export default userSlice.reducer;

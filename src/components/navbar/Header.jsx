@@ -150,11 +150,13 @@ const Header = () => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
+                      overflow:"hidden"
+
                     }}
                   >
                     <img
                       className="w-100"
-                      src="https://courssat.com/assets/images/home/avatar.png"
+                      src={user.profileImage || "https://courssat.com/assets/images/home/avatar.png"}
                       alt="user"
                     />
                   </span>
@@ -163,7 +165,6 @@ const Header = () => {
             </Nav>
 
             <Nav className="align-items-center d-none d-lg-flex">
-              {/* أيقونة السلة في الشاشات الكبيرة */}
               <div
                 className="cartIcon position-relative me-3"
                 onClick={() => dispatch(toggleCart())}
@@ -208,11 +209,12 @@ const Header = () => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
+                      overflow:"hidden"
                     }}
                   >
                     <img
                       className="w-100"
-                      src="https://courssat.com/assets/images/home/avatar.png"
+                      src={user.profileImage || "https://courssat.com/assets/images/home/avatar.png"}
                       alt="user"
                     />
                   </span>

@@ -115,7 +115,8 @@ const FeedbackSection = ({ courseId }) => {
     if (feedback.userId && typeof feedback.userId === "object" && feedback.userId.profileImage) {
       return feedback.userId.profileImage;
     }
-    return "https://courssat.com/assets/images/home/avatar.png";
+    return user.profileImage || "https://courssat.com/assets/images/home/avatar.png"
+    ;
   };
 
   return (

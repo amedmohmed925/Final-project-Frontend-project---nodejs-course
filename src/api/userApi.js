@@ -63,6 +63,39 @@ export const getUserById = createAsyncThunk(
   }
 );
 
+export const updateProfileImage = createAsyncThunk(
+  'user/updateProfileImage',
+  async ({ id, imageFile }, { rejectWithValue }) => {
+    if (!id) {
+      return rejectWithValue({ message: "معرف المستخدم غير متاح" });
+    }
+    if (!imageFile) {
+      return rejectWithValue({ message: "لم يتم اختيار صورة" });
+    }
+
+    const token = localStorage.getItem('accessToken');
+    const formData = new FormData();
+    formData.append('image', imageFile); // تأكد من أن 'image' هو اسم الحقل المتوقع في الـ backend
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+
+    try {
+      const response = await axios.put(
+        `${API_URL}/${id}/profile-image`,
+        formData,
+        config
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+);
 
 export const getCoursesByUser = createAsyncThunk(
   'user/getCoursesByUser',

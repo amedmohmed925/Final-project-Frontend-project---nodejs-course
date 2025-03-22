@@ -1,35 +1,76 @@
-// src/components/Profile.js
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
-import { clearCart } from "../../features/cart/cartSlice"; // استيراد clearCart
+import { clearCart } from "../../features/cart/cartSlice";
 import { logout } from "../../api/authApi";
+import { updateProfileImage } from "../../api/userApi";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaEnvelope, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { Card, Row, Col, Button } from "react-bootstrap";
+import { FaUser, FaUserShield, FaCheckCircle, FaTimesCircle, FaEdit, FaSpinner, FaSignOutAlt, FaBars, FaEnvelope, FaArrowLeft, FaArrowRight, FaCamera } from "react-icons/fa";
+import { Card, Row, Col, Button, Modal } from "react-bootstrap";
 import "animate.css";
 import SidebarProfile from "../../user/SidebarProfile/SidebarProfile";
 import "../../styles/Profile.css";
 
 const Profile = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogout = () => {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        dispatch(clearUser()); // تنظيف الـ user state
-        dispatch(clearCart()); // تنظيف الـ cart state
+        dispatch(clearUser());
+        dispatch(clearCart());
         navigate("/login");
       })
       .catch((error) => {
         console.error("Logout failed:", error);
-        dispatch(clearUser()); // نظف الـ user حتى لو فشل
-        dispatch(clearCart()); // نظف الـ cart حتى لو فشل
+        dispatch(clearUser());
+        dispatch(clearCart());
         navigate("/login");
+      });
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedImage(file);
+      // Create a preview URL for the selected image
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    }
+  };
+
+  const handleImageUpload = () => {
+    if (!user || !user._id) {
+      setErrorMessage("User ID is not available. Please log in again.");
+      setShowErrorModal(true);
+      return;
+    }
+    if (!selectedImage) {
+      setErrorMessage("Please select an image first.");
+      setShowErrorModal(true);
+      return;
+    }
+
+    dispatch(updateProfileImage({ id: user._id, imageFile: selectedImage }))
+      .unwrap()
+      .then(() => {
+        setSelectedImage(null);
+        setImagePreview(null);
+        setShowSuccessModal(true);
+      })
+      .catch((error) => {
+        console.error("Image upload failed:", error);
+        setErrorMessage(error.message || "An unknown error occurred");
+        setShowErrorModal(true);
       });
   };
 
@@ -43,7 +84,6 @@ const Profile = () => {
 
   return (
     <div className="profile-container animate__animated animate__fadeIn">
-      {/* زر فتح السايدبار */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
@@ -53,12 +93,34 @@ const Profile = () => {
 
       <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      {/* محتوى البروفايل */}
       <div className={`profile-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
-        <div className="profile-header text-center mb-5 animate__animated ">
-          <div className="profile-image-placeholder">
-            <img className="w-100" src="https://courssat.com/assets/images/home/avatar.png" alt="user" />
+        <div className="profile-header text-center mb-5 animate__animated">
+          <div className="profile-image-placeholder position-relative">
+            <img
+              className="w-100"
+              src={imagePreview || user.profileImage || "https://courssat.com/assets/images/home/avatar.png"}
+              alt="user"
+            />
+            <label htmlFor="profileImage" className="camera-icon">
+              <FaCamera />
+            </label>
+            <input
+              type="file"
+              id="profileImage"
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+            />
           </div>
+          {selectedImage && (
+            <Button
+              className="mt-2"
+              onClick={handleImageUpload}
+              disabled={loading}
+            >
+              {loading ? <FaSpinner className="spinner" /> : "Upload Image"}
+            </Button>
+          )}
           <h1 className="profile-title">Profile</h1>
           <p className="profile-description">
             Welcome to your profile page! Manage your personal and account information here.
@@ -115,6 +177,32 @@ const Profile = () => {
           </Card.Body>
         </Card>
       </div>
+
+      {/* Success Modal */}
+      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Success</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Profile image updated successfully!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Error Modal */}
+      <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Failed to update profile image: {errorMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={() => setShowErrorModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
