@@ -15,42 +15,7 @@
     opacity: 0.1;
   }
   
-  .wavy-overlay {
-    position: absolute;
-    top: 20px;
-    left: -50px;
-    width: 150%;
-    height: 150%;
-    background: linear-gradient(45deg, #8b00cc, #5b00a5);
-    clip-path: polygon(
-      0% 0%,
-      10% 20%,
-      20% 0%,
-      30% 20%,
-      40% 0%,
-      50% 20%,
-      60% 0%,
-      70% 20%,
-      80% 0%,
-      90% 20%,
-      100% 0%,
-      100% 100%,
-      0% 100%
-    );
-    animation: wave 10s infinite ease-in-out;
-  }
-  
-  @keyframes wave {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(-20%);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
+ 
   
 
   

@@ -32,6 +32,7 @@ const Community = () => {
   const [roomParticipants, setRoomParticipants] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [stats, setStats] = useState(null);
+  const [showSidebar, setShowSidebar] = useState(false); // حالة الـ Sidebar
   const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const Community = () => {
         setComments((prev) => {
           const updatedComments = { ...prev };
           commentData.forEach(({ postId, comments }) => {
-            updatedComments[postId] = comments; // Set as array directly
+            updatedComments[postId] = comments;
           });
           return updatedComments;
         });
@@ -80,7 +81,7 @@ const Community = () => {
       setStats(statsData);
     };
     updateStats();
-    const statsInterval = setInterval(updateStats, 60000); // Update every minute
+    const statsInterval = setInterval(updateStats, 60000);
 
     socket.on("newMessage", ({ roomId, message }) => {
       if (roomId === "liveChat") {
@@ -106,7 +107,7 @@ const Community = () => {
       setLiveChatMessages((prev) => prev.filter((msg) => msg.timestamp > sevenDaysAgo));
     };
     cleanOldMessages();
-    const cleanInterval = setInterval(cleanOldMessages, 3600000); // Clean every hour
+    const cleanInterval = setInterval(cleanOldMessages, 3600000);
 
     return () => {
       clearInterval(statsInterval);
@@ -244,10 +245,10 @@ const Community = () => {
       <HeaderPages title={"Community"} />
 
       <div className="community-page">
-      <div className="notifications">
-            <FaBell />
-            <span>{notifications.filter((n) => !n.isRead).length}</span>
-          </div>
+        <div className="notifications">
+          <FaBell />
+          <span>{notifications.filter((n) => !n.isRead).length}</span>
+        </div>
 
         <div className="community-grid">
           <section className="posts-section">
@@ -339,7 +340,7 @@ const Community = () => {
             </div>
           </section>
 
-          <section className="sidebar">
+          <section className={`sidebar ${showSidebar ? "active" : ""}`}>
             <div className="groups-section">
               <h3>Study Groups</h3>
               <form className="new-group-form" onSubmit={handleGroupSubmit}>
@@ -444,6 +445,8 @@ const Community = () => {
             </div>
           </section>
         </div>
+
+      
       </div>
     </div>
   );

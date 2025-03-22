@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { clearUser } from "../features/user/userSlice";
 
-// const API_URL = 'http://localhost:8080/auth';
-const API_URL = 'final-project-nodejs-4cz1wevnk-amedmohmed925s-projects.vercel.app/auth';
+const API_URL = 'http://localhost:8080/auth';
+// const API_URL = 'final-project-nodejs-4cz1wevnk-amedmohmed925s-projects.vercel.app/auth';
 
 // Create an Axios instance
 export const api = axios.create({

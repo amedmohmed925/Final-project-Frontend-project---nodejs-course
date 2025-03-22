@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getCourseById } from "../../api/courseApi";
 import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress } from "react-icons/fa";
+import { Modal, Button } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import "../../styles/LessonPage.css";
 import Logo from "../Logo";
@@ -12,15 +14,17 @@ const LessonPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openSection, setOpenSection] = useState(parseInt(sectionIndex));
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [watermarkPosition, setWatermarkPosition] = useState({ top: "10%", left: "10%" });
   const [progress, setProgress] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false); // حالة ملء الشاشة
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const playerRef = useRef(null);
-  const videoContainerRef = useRef(null); // ريفرنس للـ div بتاع الفيديو
+  const videoContainerRef = useRef(null);
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user); // جلب حالة المستخدم من Redux
 
   // جلب بيانات الكورس
   useEffect(() => {
@@ -42,8 +46,6 @@ const LessonPage = () => {
     const moveWatermark = () => {
       const maxTop = 10;
       const maxLeft = 10;
-      // const newTop = Math.random() * maxTop + "%";
-      // const newLeft = Math.random() * maxLeft + "%";
       setWatermarkPosition({ top: maxTop, left: maxLeft });
     };
 
@@ -158,6 +160,9 @@ const LessonPage = () => {
     return <div className="not-found-overlay">Lesson not found</div>;
   }
 
+  // التحقق من إذا كان المستخدم يمكنه مشاهدة الحلقة
+  const canViewLesson = user || (sectionIndex === "0" && lessonIndex === "0");
+
   return (
     <div className="lesson-page">
       <header className="lesson-page-header">
@@ -177,30 +182,39 @@ const LessonPage = () => {
                   />
                 </div>
                 <div className={`section-lessons ${openSection === sIndex ? "open" : ""}`}>
-                  {section.lessons.map((lesson, lIndex) => (
-                    <div
-                      key={lIndex}
-                      className={`lesson-block ${
-                        sIndex === parseInt(sectionIndex) && lIndex === parseInt(lessonIndex)
-                          ? "active"
-                          : ""
-                      }`}
-                      onClick={() => handleLessonClick(sIndex, lIndex)}
-                    >
-                      <div className="lesson-media">
-                        <img
-                          src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
-                          alt={lesson.title}
-                        />
-                        {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
-                          <FaPlayCircle className="play-overlay" />
-                        )}
+                  {section.lessons.map((lesson, lIndex) => {
+                    const isLessonAccessible = user || (sIndex === 0 && lIndex === 0);
+                    return (
+                      <div
+                        key={lIndex}
+                        className={`lesson-block ${
+                          sIndex === parseInt(sectionIndex) && lIndex === parseInt(lessonIndex)
+                            ? "active"
+                            : ""
+                        } ${!isLessonAccessible ? "disabled" : ""}`}
+                        onClick={() => {
+                          if (isLessonAccessible) {
+                            handleLessonClick(sIndex, lIndex);
+                          } else {
+                            setShowLoginModal(true);
+                          }
+                        }}
+                      >
+                        <div className="lesson-media">
+                          <img
+                            src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
+                            alt={lesson.title}
+                          />
+                          {lesson.videoUrl && !lesson.videoUrl.startsWith("pending") && (
+                            <FaPlayCircle className="play-overlay" />
+                          )}
+                        </div>
+                        <div className="lesson-text">
+                          <h5>{sIndex + 1}.{lIndex + 1} {lesson.title}</h5>
+                        </div>
                       </div>
-                      <div className="lesson-text">
-                        <h5>{sIndex + 1}.{lIndex + 1} {lesson.title}</h5>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -209,78 +223,87 @@ const LessonPage = () => {
 
         <main className="lesson-content">
           <h2>{currentLesson.title}</h2>
-          {currentLesson.videoUrl && !currentLesson.videoUrl.startsWith("pending") ? (
-            <div className="lesson-video" ref={videoContainerRef} onContextMenu={handleContextMenu}>
-              <ReactPlayer
-                ref={playerRef}
-                url={currentLesson.videoUrl}
-                controls={false}
-                width="100%"
-                height="100%"
-                className="react-player"
-                playing={playing}
-                volume={volume}
-                muted={muted}
-                onProgress={(state) => {
-                  if (!playerRef.current) return;
-                  const newProgress = state.played * 100;
-                  setProgress(newProgress);
-                }}
-                onPlay={() => setPlaying(true)}
-                onPause={() => setPlaying(false)}
-                onReady={() => console.log("Video is ready to play")}
-                onError={(e) => console.log("Error loading video:", e)}
-              />
-              <div className="video-overlay"></div>
-              <div
-                className="watermark"
-                style={{
-                  top: watermarkPosition.top,
-                  left: watermarkPosition.left,
-                }}
-              >
-                <Logo />
-              </div>
-              {/* أدوات التحكم المخصصة */}
-              <div className="custom-controls">
-                <button onClick={handleRewind} className="control-button">
-                  <FaBackward />
-                </button>
-                <button onClick={togglePlayPause} className="play-pause-button">
-                  {playing ? <FaPause /> : <FaPlay />}
-                </button>
-                <button onClick={handleFastForward} className="control-button">
-                  <FaForward />
-                </button>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  step={0.1}
-                  value={progress}
-                  onChange={handleProgressChange}
-                  className="custom-progress-bar"
-                  style={{ "--progress": progress }}
+          {canViewLesson ? (
+            currentLesson.videoUrl && !currentLesson.videoUrl.startsWith("pending") ? (
+              <div className="lesson-video" ref={videoContainerRef} onContextMenu={handleContextMenu}>
+                <ReactPlayer
+                  ref={playerRef}
+                  url={currentLesson.videoUrl}
+                  controls={false}
+                  width="100%"
+                  height="100%"
+                  className="react-player"
+                  playing={playing}
+                  volume={volume}
+                  muted={muted}
+                  onProgress={(state) => {
+                    if (!playerRef.current) return;
+                    const newProgress = state.played * 100;
+                    setProgress(newProgress);
+                  }}
+                  onPlay={() => setPlaying(true)}
+                  onPause={() => setPlaying(false)}
+                  onReady={() => console.log("Video is ready to play")}
+                  onError={(e) => console.log("Error loading video:", e)}
                 />
-                <button onClick={toggleMute} className="control-button">
-                  {muted || volume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
-                </button>
-                <input
-                  type="range"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="volume-slider"
-                />
-                <button onClick={toggleFullscreen} className="control-button">
-                  {isFullscreen ? <FaCompress /> : <FaExpand />}
-                </button>
+                <div className="video-overlay"></div>
+                <div
+                  className="watermark"
+                  style={{
+                    top: watermarkPosition.top,
+                    left: watermarkPosition.left,
+                  }}
+                >
+                  <Logo />
+                </div>
+                {/* أدوات التحكم المخصصة */}
+                <div className="custom-controls">
+                  <button onClick={handleRewind} className="control-button">
+                    <FaBackward />
+                  </button>
+                  <button onClick={togglePlayPause} className="play-pause-button">
+                    {playing ? <FaPause /> : <FaPlay />}
+                  </button>
+                  <button onClick={handleFastForward} className="control-button">
+                    <FaForward />
+                  </button>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={0.1}
+                    value={progress}
+                    onChange={handleProgressChange}
+                    className="custom-progress-bar"
+                    style={{ "--progress": progress }}
+                  />
+                  <button onClick={toggleMute} className="control-button">
+                    {muted || volume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
+                  </button>
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    value={volume}
+                    onChange={handleVolumeChange}
+                    className="volume-slider"
+                  />
+                  <button onClick={toggleFullscreen} className="control-button">
+                    {isFullscreen ? <FaCompress /> : <FaExpand />}
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <p>No video available for this lesson.</p>
+            )
           ) : (
-            <p>No video available for this lesson.</p>
+            <div className="lesson-restricted">
+              <p>This lesson is restricted. Please log in to view this content.</p>
+              <Button variant="primary" onClick={() => navigate("/login")}>
+                Login
+              </Button>
+            </div>
           )}
           <div className="lesson-details">
             <h3>Lesson Content</h3>
@@ -294,6 +317,23 @@ const LessonPage = () => {
           </div>
         </main>
       </div>
+
+      <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Login Required</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          You must be logged in to view this lesson. Please log in to continue.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowLoginModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={() => navigate("/login")}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

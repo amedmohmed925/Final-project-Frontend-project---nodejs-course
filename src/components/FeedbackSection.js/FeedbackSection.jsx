@@ -115,10 +115,9 @@ const FeedbackSection = ({ courseId }) => {
     if (feedback.userId && typeof feedback.userId === "object" && feedback.userId.profileImage) {
       return feedback.userId.profileImage;
     }
-    return user.profileImage || "https://courssat.com/assets/images/home/avatar.png"
-    ;
+    // التحقق من user قبل استخدام user.profileImage
+    return (user && user.profileImage) || "https://courssat.com/assets/images/home/avatar.png";
   };
-
   return (
     <section className="course-section feedback-section">
       <h3>Student Feedback</h3>

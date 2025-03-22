@@ -37,9 +37,11 @@ const CourseDetails = () => {
   const [openSection, setOpenSection] = useState(null);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [addToCartError, setAddToCartError] = useState(null);
+  const [isLoginError, setIsLoginError] = useState(false); // State جديد للتحقق من نوع الخطأ
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user); // جلب حالة المستخدم من Redux
 
   console.log("Dispatch:", dispatch);
 
@@ -110,13 +112,24 @@ const CourseDetails = () => {
   };
 
   const handleAddToCart = () => {
-    if (typeof dispatch !== "function") {
-      console.error("Dispatch is not a function:", dispatch);
-      setAddToCartError("Failed to add course to cart: Redux dispatch error");
+    // التحقق من حالة تسجيل الدخول
+    if (!user) {
+      setAddToCartError("You must be logged in to add this course to your cart.");
+      setIsLoginError(true);
       setShowErrorModal(true);
       return;
     }
 
+    // التحقق من أن dispatch هو دالة
+    if (typeof dispatch !== "function") {
+      console.error("Dispatch is not a function:", dispatch);
+      setAddToCartError("Failed to add course to cart: Redux dispatch error");
+      setIsLoginError(false);
+      setShowErrorModal(true);
+      return;
+    }
+
+    // إضافة الكورس للسلة
     dispatch(addItemToCart(id))
       .unwrap()
       .then(() =>
@@ -129,8 +142,20 @@ const CourseDetails = () => {
       )
       .catch((err) => {
         setAddToCartError(err.message || "Failed to add course to cart");
+        setIsLoginError(false);
         setShowErrorModal(true);
       });
+  };
+
+  const handleCloseModal = () => {
+    setShowErrorModal(false);
+    setAddToCartError(null);
+    setIsLoginError(false);
+  };
+
+  const handleLoginRedirect = () => {
+    handleCloseModal();
+    navigate("/login");
   };
 
   const toggleSection = (index) => {
@@ -141,11 +166,6 @@ const CourseDetails = () => {
       label: `${course?.title} - Section ${index + 1}`,
       value: openSection === index ? 0 : 1,
     });
-  };
-
-  const handleCloseModal = () => {
-    setShowErrorModal(false);
-    setAddToCartError(null);
   };
 
   const handleLessonClick = (sectionIndex, lessonIndex) => {
@@ -367,9 +387,20 @@ const CourseDetails = () => {
           {addToCartError || "An unexpected error occurred."}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
+          {isLoginError ? (
+            <>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleLoginRedirect}>
+                Login
+              </Button>
+            </>
+          ) : (
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Close
+            </Button>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

@@ -27,14 +27,18 @@
 
 .camera-icon {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 5px;
+  right: 16px;
   background: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 8px;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .camera-icon:hover {

@@ -1,0 +1,119 @@
+/* HeaderPages.css */
+.header-section {
+    width: 100%;
+    min-height: 20vh; /* ارتفاع نسبي بناءً على ارتفاع الشاشة */
+    background: rgb(14, 42, 70);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://source.unsplash.com/1920x365/?abstract');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+  }
+  
+  .pattern {
+    position: absolute;
+  }
+  
+  /* Pattern 1 */
+  .pattern-1 {
+    left: 2vw; /* نسبي بناءً على عرض الشاشة */
+    top: 60%;
+    width: 77px;
+    height: 85px;
+  }
+  
+  /* Pattern 2 */
+  .pattern-2 {
+    left: 22vw;
+    top: 50%;
+    width: 85px;
+    height: 24px;
+  }
+  
+  /* Pattern 4 */
+  .pattern-4 {
+    right: 6vw;
+    top: 30%;
+    width: 66px;
+    height: 65px;
+  }
+  
+  .header-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 3rem; /* حجم نسبي */
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Media Queries للشاشات المتوسطة (Tablets: 768px - 1024px) */
+  @media (max-width: 1024px) {
+    .header-section {
+      min-height: 15vh; /* تقليل الارتفاع على التابلت */
+    }
+  
+    .header-title {
+      font-size: 2.5rem; /* تقليل حجم النص */
+    }
+  
+    .pattern-1 {
+      left: 1vw;
+      top: 55%;
+      width: 60px;
+      height: 66px;
+    }
+  
+    .pattern-2 {
+      left: 20vw;
+      top: 45%;
+      width: 70px;
+      height: 20px;
+    }
+  
+    .pattern-4 {
+      right: 5vw;
+      top: 25%;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  /* Media Queries للشاشات الصغيرة (Mobiles: < 768px) */
+  @media (max-width: 768px) {
+    .header-section {
+      min-height: 12vh; /* تقليل الارتفاع على الهواتف */
+    }
+  
+    .header-title {
+      font-size: 1.5rem; /* تقليل حجم النص أكتر */
+      padding: 0 10px; /* مسافات جانبية عشان النص ما يطلعش برا */
+    }
+  
+    /* إخفاء الصور الصغيرة على الهواتف (اختياري) */
+    .pattern {
+      display: none;
+    }
+  }
+  
+  /* Media Queries للشاشات الصغيرة جدًا (Mobiles: < 480px) */
+  @media (max-width: 480px) {
+    .header-section {
+      min-height: 10vh; /* تقليل الارتفاع أكتر */
+    }
+  
+    .header-title {
+      font-size: 1.2rem; /* تقليل حجم النص أكتر */
+    }
+  }

@@ -196,19 +196,6 @@ const Cart = () => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {/* مودال الخطأ */}
-      <Modal show={showErrorModal} onHide={handleCloseErrorModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title style={{ color: "#dc3545" }}>Error</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{error+" " + "please Login agine" || "An unexpected error occurred. Please try again."}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseErrorModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
       {/* مودال نجاح الكوبون */}
       <Modal show={showSuccessModal} onHide={handleCloseSuccessModal} centered>
         <Modal.Header closeButton>

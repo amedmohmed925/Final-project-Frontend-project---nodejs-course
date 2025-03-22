@@ -1,4 +1,3 @@
-// components/MostViewedCoursesSlider.js
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -35,7 +34,7 @@ const MostViewedCoursesSlider = () => {
   useEffect(() => {
     const fetchMostViewedCourses = async () => {
       try {
-        const data = await getMostViewedCourses(10); // جلب أعلى 10 كورسات
+        const data = await getMostViewedCourses(10);
         setCourses(data);
         setLoading(false);
       } catch (err) {
@@ -55,17 +54,27 @@ const MostViewedCoursesSlider = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    centerPadding: "20px",
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+          centerPadding: "15px",
         },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
+          centerPadding: "10px",
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "5px",
         },
       },
     ],
@@ -101,6 +110,10 @@ const MostViewedCoursesSlider = () => {
                       alt={course.title}
                       onError={handleImageError}
                     />
+                    {/* إضافة مدة الكورس لو موجودة */}
+                    {course.duration && (
+                      <span className="hourCourse">{course.duration}</span>
+                    )}
                   </div>
                   <div className="course-content">
                     <h3 className="course-title">{course.title}</h3>
