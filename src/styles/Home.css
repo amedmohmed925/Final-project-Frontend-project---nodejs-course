@@ -11,7 +11,7 @@
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background-image: url('./index.webp');
+  background-image: url('/index.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
