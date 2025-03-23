@@ -57,39 +57,43 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <RiAdvertisementFill className="me-2" />Advertiser Dashboard
             </Link>
           </li>
-          <li>
+         
+          {user?.role === "admin" && (
+            <>
+             <li>
             <Link to="/AdminCouponReport" onClick={onClose}>
               <MdAdminPanelSettings className="me-2" />Admin Coupon Report
             </Link>
           </li>
-          {user?.role === "admin" && (
             <li>
               <Link to="/all-users" onClick={onClose}>
                 <FaUsers className="me-2" /> All Users
               </Link>
             </li>
-          )}
-          {user?.role === "admin" && (
-            <li>
+              <li>
               <Link to="/CategoryManager" onClick={onClose}>
                 <TbCategoryPlus className="me-2" /> Category Manager
               </Link>
             </li>
+            </>
           )}
+         
           {user?.role === "teacher" && (
-            <li>
+          <>
+          
+          <li>
               <Link to="/add-course" onClick={onClose}>
                 <RiFunctionAddFill className="me-2" /> Add Course
               </Link>
             </li>
+             <li>
+             <Link to="/CoursesTeacher" onClick={onClose}>
+               <MdSchool className="me-2" /> My Courses
+             </Link>
+           </li>
+          </>
           )}
-          {user?.role === "teacher" && (
-            <li>
-              <Link to="/CoursesTeacher" onClick={onClose}>
-                <MdSchool className="me-2" /> My Courses
-              </Link>
-            </li>
-          )}
+         
           <li>
             <button className="logout-button" onClick={handleLogout}>
               <FaSignOutAlt className="me-2" /> Logout
