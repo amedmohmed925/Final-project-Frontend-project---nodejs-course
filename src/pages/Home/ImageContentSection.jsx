@@ -23,7 +23,7 @@ const ImageContentSection = () => {
               className="image-container"
             >
               <img
-                src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop"
+                src="public\Best-online-course-platforms.webp"
                 alt="Learning Environment"
                 className="content-image"
                 onError={handleImageError}

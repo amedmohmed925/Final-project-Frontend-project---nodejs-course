@@ -1,0 +1,225 @@
+/* MostViewedCourses.css */
+:root {
+    --mainColor: #6a11cb; /* Define mainColor here, adjust as needed */
+    --secondaryColor: #2575fc;
+    --backgroundGradient: linear-gradient(135deg, #f0f4f8, #e0e7ee);
+  }
+  
+  .most-viewed-section {
+    padding: 40px 20px;
+    background: var(--backgroundGradient);
+    font-family: "Poppins", sans-serif;
+    min-height: 50vh;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: linear-gradient(120deg, var(--mainColor) 30%, var(--secondaryColor) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  /* Slider Item */
+  .slider-item {
+    padding: 0 15px; /* Adjusted padding for slider spacing */
+  }
+  
+  /* Course Card */
+  .course-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 300px; /* Fixed width to match original */
+    margin: 0 auto; /* Center in slider */
+  }
+  
+  .course-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Course Image */
+  .course-img-wrapper {
+    position: relative;
+  }
+  
+  .course-img-wrapper img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .course-item:hover .course-img-wrapper img {
+    transform: scale(1.05);
+  }
+  
+  .course-duration {
+    position: absolute;
+    bottom: 3px;
+    right: 0;
+    background-color: rgba(6, 26, 61, 0.5);
+    color: white;
+    padding: 3px 5px;
+    text-align: center;
+  }
+  
+  /* Course Details */
+  .course-details {
+    padding: 20px;
+  }
+  
+  .course-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .course-desc {
+    font-size: 0.75rem;
+    color: #666666db;
+    font-weight: 100;
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+  
+  .course-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  .star {
+    color: #e2e8f0;
+    font-size: 0.9rem;
+  }
+  
+  .star.filled {
+    color: #f6ad55;
+  }
+  
+  .star.half-filled {
+    color: #f6ad55;
+    position: relative;
+  }
+  
+  .star.half-filled::before {
+    content: "★";
+    position: absolute;
+    color: #e2e8f0;
+    clip-path: polygon(50% 0%, 50% 100%, 100% 100%, 100% 0%);
+  }
+  
+  .rating span {
+    font-size: 1.2rem;
+    color: #718096;
+    margin-left: 4px;
+  }
+  
+  .course-level {
+    font-size: 14px;
+  }
+  
+  /* Enroll Button */
+  .enroll-button {
+    background-color: #061a3d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .enroll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+  }
+  
+  .price {
+    margin-left: 8px;
+  }
+  
+  /* Custom Slider Arrows */
+  .custom-arrow {
+    background: var(--mainColor);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+  
+  .custom-arrow:hover {
+    background: var(--secondaryColor);
+  }
+  
+  .slick-prev {
+    left: -50px;
+  }
+  
+  .slick-next {
+    right: -50px;
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .course-item {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 2rem;
+    }
+  
+    .course-name {
+      font-size: 1.2rem;
+    }
+  
+    .course-desc {
+      font-size: 0.9rem;
+    }
+  
+    .course-img-wrapper img {
+      height: 150px;
+    }
+  
+    .slick-prev {
+      left: -30px;
+    }
+  
+    .slick-next {
+      right: -30px;
+    }
+  }
