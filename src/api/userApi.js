@@ -148,10 +148,20 @@ export const getCurrentUser = createAsyncThunk(
   }
 );
 
-
-
-
-
+export const deleteUser = async (userId, password) => {
+  try {
+    const response = await axios.delete(`${API_URL}/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      data: { password }, // الباسوورد بيتبعت في الـ body
+    });
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to delete user" };
+  }
+};
 
 
 export const getAllTeachers = async () => {

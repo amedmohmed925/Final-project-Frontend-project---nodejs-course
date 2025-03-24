@@ -151,7 +151,7 @@ const Profile = () => {
                   <FaUserShield className="info-icon" />
                   <h5>Account Status</h5>
                   <p><strong>Role:</strong> {user.role}</p>
-                  <p>
+                  <p className="d-flex justify-content-center">
                     <strong>Verification Status:</strong>
                     {user.isVerified ? (
                       <span className="text-success ms-2">

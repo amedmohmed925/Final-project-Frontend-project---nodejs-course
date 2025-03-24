@@ -50,30 +50,33 @@ const Cart = () => {
   const handleCheckout = async () => {
     try {
       const token = localStorage.getItem("accessToken");
-
+  
       if (!token) {
         console.log("Unauthorized. Please log in.");
         return;
-      }      
-      const response = await axios.post("http://localhost:8080/payment/create-payment", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      }
+  
+      const response = await axios.post(
+        "http://localhost:8080/payment/create-payment",
+        {
+          amount: finalTotal,
+          items: items.map((item) => ({
+            name: item.courseId.title,
+            amount: item.courseId.price * 100,
+            quantity: 1,
+          })),
+          email: user.email,
         },
-
-      }, {
-        amount: finalTotal,
-        items: items.map((item) => ({
-          name: item.courseId.title,
-          amount: item.courseId.price * 100,
-          quantity: 1,
-        })),
-        email: user.email, 
-      });
-
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
       const { paymentKey } = response.data;
-
-
+  
       const paymentModal = document.createElement("div");
       paymentModal.style.position = "fixed";
       paymentModal.style.top = "0";
@@ -85,7 +88,7 @@ const Cart = () => {
       paymentModal.style.display = "flex";
       paymentModal.style.justifyContent = "center";
       paymentModal.style.alignItems = "center";
-
+  
       const iframe = document.createElement("iframe");
       iframe.src = `https://accept.paymob.com/api/acceptance/iframes/YOUR_IFRAME_ID?payment_token=${paymentKey}`;
       iframe.style.width = "80%";
@@ -96,15 +99,18 @@ const Cart = () => {
       iframe.style.backgroundColor = "white";
       paymentModal.appendChild(iframe);
       document.body.appendChild(paymentModal);
-
-      // إغلاق الـ Modal بعد الدفع (محاكاة نجاح الدفع)
+  
+      // انتظار نجاح الدفع (بديل مؤقت)
       iframe.onload = () => {
         setTimeout(() => {
           document.body.removeChild(paymentModal);
           setShowPaymentSuccessModal(true);
-          dispatch(checkout()); // تفريغ السلة بعد الدفع
-          dispatch(closeCart()); // إغلاق الـ Offcanvas
-        }, 2000); // تأخير 2 ثانية لمحاكاة نجاح الدفع (بديل لـ Webhook)
+          dispatch(checkout()).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(closeCart());
+            }
+          });
+        }, 2000); // تأخير 2 ثانية لمحاكاة نجاح الدفع
       };
     } catch (error) {
       setShowErrorModal(true);

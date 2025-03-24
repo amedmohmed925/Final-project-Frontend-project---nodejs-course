@@ -70,7 +70,7 @@ const AdminCouponReport = () => {
           <FaSearch className="search-icon" />
           <input
             type="text"
-            placeholder="Search by advertiser name or coupon code..."
+            placeholder="  Search by advertiser name or coupon code..."
             value={searchQuery}
             onChange={handleSearch}
             className="search-input"

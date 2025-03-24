@@ -1,225 +1,299 @@
-/* MostViewedCourses.css */
 :root {
-    --mainColor: #6a11cb; /* Define mainColor here, adjust as needed */
-    --secondaryColor: #2575fc;
-    --backgroundGradient: linear-gradient(135deg, #f0f4f8, #e0e7ee);
+  --secondaryColor: #ad25fc;
+  --backgroundGradient: linear-gradient(135deg, #f0f4f8, #e0e7ee);
+}
+.mvc-section {
+  padding: 40px 20px;
+  background: var(--backgroundGradient);
+  font-family: "Poppins", sans-serif;
+  min-height: 50vh;
+}
+
+.mvc-section-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background: linear-gradient(120deg, var(--mainColor) 30%, var(--secondaryColor) 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Swiper Container */
+.mvc-swiper {
+  width: 100%;
+  padding: 20px 50px; /* زيادة المسافة لظهور الأسهم */
+  position: relative;
+}
+
+/* Swiper Slide */
+.mvc-slider-item {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Course Card */
+.mvc-course-item {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.mvc-course-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Course Image */
+.mvc-img-wrapper {
+  position: relative;
+}
+
+.mvc-img-wrapper img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.mvc-course-item:hover .mvc-img-wrapper img {
+  transform: scale(1.05);
+}
+
+.mvc-course-duration {
+  position: absolute;
+  bottom: 3px;
+  right: 0;
+  background-color: rgba(6, 26, 61, 0.5);
+  color: white;
+  padding: 3px 5px;
+  text-align: center;
+}
+
+/* Course Details */
+.mvc-course-details {
+  padding: 20px;
+}
+
+.mvc-course-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.mvc-course-desc {
+  font-size: 0.75rem;
+  color: #666666db;
+  font-weight: 100;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.mvc-course-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mvc-rating {
+  display: flex;
+  align-items: center;
+}
+
+.mvc-star {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.mvc-star.mvc-filled {
+  color: #f6ad55;
+}
+
+.mvc-star.mvc-half-filled {
+  color: #f6ad55;
+  position: relative;
+}
+
+.mvc-star.mvc-half-filled::before {
+  content: "★";
+  position: absolute;
+  color: #e2e8f0;
+  clip-path: polygon(50% 0%, 50% 100%, 100% 100%, 100% 0%);
+}
+
+.mvc-rating span {
+  font-size: 1.2rem;
+  color: #718096;
+  margin-left: 4px;
+}
+
+.mvc-course-level {
+  font-size: 14px;
+}
+
+/* Enroll Button */
+.mvc-enroll-btn {
+  background-color: #061a3d;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mvc-enroll-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+}
+
+.mvc-price {
+  margin-left: 8px;
+}
+
+/* Swiper Navigation Arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  background: var(--mainColor);
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex !important; /* ضمان الظهور */
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: background 0.3s ease;
+  opacity: 1 !important; /* ضمان الظهور */
+  z-index: 10; /* للتأكد من أنها فوق السلايدر */
+}
+
+.swiper-button-prev:hover{
+  margin-right:5px;
+
+}
+.swiper-button-next:hover {
+  margin-left:5px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 24px; /* حجم الأسهم */
+}
+
+.swiper-button-prev {
+  left: 10px !important; /* تعديل الموقع للظهور داخل السلايدر */
+}
+
+.swiper-button-next {
+  right: 10px !important; /* تعديل الموقع للظهور داخل السلايدر */
+}
+
+/* Swiper Pagination */
+.swiper-pagination {
+  position: relative;
+  bottom: 0;
+  margin-top: 20px;
+}
+
+.swiper-pagination-bullet {
+  background: var(--mainColor);
+  opacity: 0.5;
+  width: 10px;
+  height: 10px;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--mainColor);
+  opacity: 1;
+}
+
+/* Animation */
+@keyframes mvc-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mvc-course-item {
+  animation: mvc-fade-in 0.5s ease forwards;
+  opacity: 0;
+}
+
+/* Hover Effect to Pause Autoplay */
+.mvc-swiper:hover .swiper-autoplay {
+  /* Swiper لا يحتاج كلاس إضافي، الـ disableOnInteraction كافي */
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .mvc-slider-item {
+    padding: 0 10px;
   }
-  
-  .most-viewed-section {
-    padding: 40px 20px;
-    background: var(--backgroundGradient);
-    font-family: "Poppins", sans-serif;
-    min-height: 50vh;
+  .mvc-course-item {
+    width: 280px;
   }
-  
-  .section-title {
-    font-size: 2.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    background: linear-gradient(120deg, var(--mainColor) 30%, var(--secondaryColor) 70%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    margin-bottom: 40px;
+  .swiper-button-prev {
+    left: 5px !important;
   }
-  
-  /* Slider Item */
-  .slider-item {
-    padding: 0 15px; /* Adjusted padding for slider spacing */
+  .swiper-button-next {
+    right: 5px !important;
   }
-  
-  /* Course Card */
-  .course-item {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 300px; /* Fixed width to match original */
-    margin: 0 auto; /* Center in slider */
+}
+
+@media (max-width: 768px) {
+  .mvc-section-title {
+    font-size: 2rem;
   }
-  
-  .course-item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  .mvc-course-name {
+    font-size: 1.2rem;
   }
-  
-  /* Course Image */
-  .course-img-wrapper {
-    position: relative;
-  }
-  
-  .course-img-wrapper img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-  }
-  
-  .course-item:hover .course-img-wrapper img {
-    transform: scale(1.05);
-  }
-  
-  .course-duration {
-    position: absolute;
-    bottom: 3px;
-    right: 0;
-    background-color: rgba(6, 26, 61, 0.5);
-    color: white;
-    padding: 3px 5px;
-    text-align: center;
-  }
-  
-  /* Course Details */
-  .course-details {
-    padding: 20px;
-  }
-  
-  .course-name {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .course-desc {
-    font-size: 0.75rem;
-    color: #666666db;
-    font-weight: 100;
-    margin-bottom: 15px;
-    line-height: 1.5;
-  }
-  
-  .course-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-  
-  .rating {
-    display: flex;
-    align-items: center;
-  }
-  
-  .star {
-    color: #e2e8f0;
+  .mvc-course-desc {
     font-size: 0.9rem;
   }
-  
-  .star.filled {
-    color: #f6ad55;
+  .mvc-img-wrapper img {
+    height: 150px;
   }
-  
-  .star.half-filled {
-    color: #f6ad55;
-    position: relative;
+  .swiper-button-prev {
+    left: 0 !important;
   }
-  
-  .star.half-filled::before {
-    content: "★";
-    position: absolute;
-    color: #e2e8f0;
-    clip-path: polygon(50% 0%, 50% 100%, 100% 100%, 100% 0%);
+  .swiper-button-next {
+    right: 0 !important;
   }
-  
-  .rating span {
-    font-size: 1.2rem;
-    color: #718096;
-    margin-left: 4px;
-  }
-  
-  .course-level {
-    font-size: 14px;
-  }
-  
-  /* Enroll Button */
-  .enroll-button {
-    background-color: #061a3d;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
+  .mvc-course-item {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
-  .enroll-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+}
+
+@media (max-width: 480px) {
+  .mvc-course-item {
+    width: 100%;
   }
-  
-  .price {
-    margin-left: 8px;
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
   }
-  
-  /* Custom Slider Arrows */
-  .custom-arrow {
-    background: var(--mainColor);
-    color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    z-index: 1;
-    transition: background 0.3s ease;
-  }
-  
-  .custom-arrow:hover {
-    background: var(--secondaryColor);
-  }
-  
-  .slick-prev {
-    left: -50px;
-  }
-  
-  .slick-next {
-    right: -50px;
-  }
-  
-  /* Animation */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .course-item {
-    animation: fadeIn 0.5s ease forwards;
-    opacity: 0;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .section-title {
-      font-size: 2rem;
-    }
-  
-    .course-name {
-      font-size: 1.2rem;
-    }
-  
-    .course-desc {
-      font-size: 0.9rem;
-    }
-  
-    .course-img-wrapper img {
-      height: 150px;
-    }
-  
-    .slick-prev {
-      left: -30px;
-    }
-  
-    .slick-next {
-      right: -30px;
-    }
-  }
+}
+
+.mvc-text-center {
+  text-align: center;
+}
+
+.mvc-text-danger {
+  color: #dc3545;
+}

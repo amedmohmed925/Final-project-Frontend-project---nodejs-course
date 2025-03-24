@@ -7,7 +7,7 @@ const TeamSection = () => {
   // قائمة بصور الأشخاص (روابط من Unsplash)
   const teamMembers = [
     { id: 1, image: 'https://i.pinimg.com/736x/c8/dc/3c/c8dc3c28012d7f7d8b90d8138ff9bbbd.jpg' }, // رجل
-    { id: 2, image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&auto=format&fit=crop' }, // رجل
+    { id: 2, image: 'https://i.pinimg.com/736x/ce/76/b2/ce76b20f89a9a46e372cb6d6b612eb90.jpg' }, // رجل
     { id: 3, image: 'https://i.pinimg.com/736x/32/f5/25/32f525caa37da0ae0145b70b4a592485.jpg' }, // رجل
     { id: 4, image: 'https://i.pinimg.com/736x/0d/00/fa/0d00faf7e0a04fe724ecd886df774e4c.jpg' }, // رجل
     { id: 5, image: 'https://i.pinimg.com/736x/91/b5/80/91b5808af306e2ee0995dcb492de5ceb.jpg' }, // رجل
