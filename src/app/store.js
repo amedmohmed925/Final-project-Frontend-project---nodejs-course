@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "../features/user/userSlice";
 import cartReducer from "../features/cart/cartSlice";
 import { clearUser } from "../features/user/userSlice";
-
+import notificationReducer from "../features/notifications/notificationSlice"; // إضافة Reducer
 const authMiddleware = (store) => (next) => (action) => {
   const result = next(action);
 
@@ -24,7 +24,8 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     cart: cartReducer,
-  },
+    notifications: notificationReducer,
+    },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),
 });

@@ -1,0 +1,173 @@
+/* src/styles/Notifications.css */
+.notifications-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .notifications-icon {
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--mainColor);
+    position: relative;
+  }
+  
+  .notifications-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1000;
+  }
+  
+  .notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .notifications-header h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--mainColor);
+    margin: 0;
+  }
+  
+  .close-dropdown-button {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .close-dropdown-button:hover {
+    color: #b71c1c;
+  }
+  
+  .notification-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    transition: background-color 0.3s ease;
+  }
+  
+  .notification-item.unread {
+    background-color: #e3f2fd;
+  }
+  
+  .notification-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .notification-content {
+    flex-grow: 1;
+    cursor: pointer;
+  }
+  
+  .notification-content h5 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .notification-content p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .notification-content small {
+    font-size: 0.85rem;
+    color: #777;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+  }
+  
+  .close-button:hover {
+    color: #b71c1c;
+  }
+  
+  .no-notifications {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #777;
+    font-style: italic;
+  }
+  
+  /* تأثيرات الانتقال */
+  .notifications-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .notifications-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms ease-in, transform 300ms ease-in;
+  }
+  
+  .notifications-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .notifications-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 300ms ease-out, transform 300ms ease-out;
+  }
+  
+  /* ريسبونسيف للشاشات الصغيرة */
+  @media (max-width: 576px) {
+    .notifications-dropdown {
+      width: 100%; /* عرض كامل في الشاشات الصغيرة */
+      max-width: 300px; /* حد أقصى للعرض */
+      right: -10px; /* تعديل الموقع لتجنب التجاوز */
+      left: auto;
+    }
+  
+    .notifications-header h4 {
+      font-size: 1.2rem; /* تصغير العنوان */
+    }
+  
+    .notification-item {
+      padding: 10px; /* تقليل الحشوة */
+    }
+  
+    .notification-content h5 {
+      font-size: 1rem; /* تصغير العنوان */
+    }
+  
+    .notification-content p {
+      font-size: 0.85rem; /* تصغير النص */
+    }
+  
+    .notification-content small {
+      font-size: 0.75rem; /* تصغير الوقت */
+    }
+  
+    .close-button {
+      font-size: 1rem; /* تصغير أيقونة الإغلاق */
+    }
+  }

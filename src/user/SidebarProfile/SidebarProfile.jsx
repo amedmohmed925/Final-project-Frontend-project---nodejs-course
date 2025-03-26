@@ -20,6 +20,7 @@ import { TbCategoryPlus } from "react-icons/tb";
 import { RiAdvertisementFill, RiFunctionAddFill } from "react-icons/ri";
 import { MdAdminPanelSettings, MdSchool } from "react-icons/md";
 import DeleteAccountModal from "../DeleteAccount/DeleteAccount";
+import { IoMdNotifications } from "react-icons/io";
 
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -93,6 +94,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <li>
                 <Link to="/CategoryManager" onClick={onClose}>
                   <TbCategoryPlus className="me-2" /> Category Manager
+                </Link>
+              </li>
+              <li>
+                <Link to="/AdminNotificationSender" onClick={onClose}>
+                  <IoMdNotifications className="me-2" /> Notification Sender
                 </Link>
               </li>
             </>

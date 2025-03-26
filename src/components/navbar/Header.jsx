@@ -1,3 +1,4 @@
+// src/components/Header/Header.jsx
 import { useState, useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -5,12 +6,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
 import { toggleCart, clearCart } from "../../features/cart/cartSlice";
 import { FaCartPlus } from "react-icons/fa";
+import Notifications from "../Notifications/Notifications"; // إضافة مكون الإشعارات
 import "../../styles/Header.css";
 import Logo from "../Logo";
 import Cart from "../Cart/Cart";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("G-XXXXXXX"); // استبدل بـ Measurement ID الخاص بك
+ReactGA.initialize("G-XXXXXXX");
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
@@ -59,7 +61,6 @@ const Header = () => {
           </Navbar.Brand>
 
           <div className="d-flex align-items-center">
-            {/* أيقونة السلة في وضع الموبايل بجانب زر فتح القائمة */}
             <div
               className="cartIconSmallScreen position-relative me-2 d-lg-none"
               onClick={() => dispatch(toggleCart())}
@@ -71,7 +72,11 @@ const Header = () => {
                 </span>
               )}
             </div>
-
+            {user && (
+              <div className="notifications-icon-small-screen me-2 d-lg-none">
+                <Notifications />
+              </div>
+            )}
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
           </div>
 
@@ -150,8 +155,7 @@ const Header = () => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      overflow:"hidden"
-
+                      overflow: "hidden",
                     }}
                   >
                     <img
@@ -176,7 +180,7 @@ const Header = () => {
                   </span>
                 )}
               </div>
-
+              {user && <Notifications />}
               {!user ? (
                 <Nav.Link
                   as={Link}
@@ -209,7 +213,7 @@ const Header = () => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      overflow:"hidden"
+                      overflow: "hidden",
                     }}
                   >
                     <img
