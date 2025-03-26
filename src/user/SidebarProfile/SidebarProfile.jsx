@@ -1,4 +1,4 @@
-// src/user/SidebarProfile/SidebarProfile.js
+import { useEffect, useState } from "react";
 import {
   FaUser,
   FaSignOutAlt,
@@ -11,21 +11,37 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
-import { clearCart } from "../../features/cart/cartSlice"; // استيراد clearCart
+import { clearCart } from "../../features/cart/cartSlice";
+import { logout } from "../../api/authApi";
+import { getAllProgress } from "../../api/courseProgressApi"; // استيراد API لجلب تقدم الدورات
 import "../../styles/SidebarProfile.css";
 import "animate.css";
-import { logout } from "../../api/authApi";
 import { TbCategoryPlus } from "react-icons/tb";
 import { RiAdvertisementFill, RiFunctionAddFill } from "react-icons/ri";
 import { MdAdminPanelSettings, MdSchool } from "react-icons/md";
 import DeleteAccountModal from "../DeleteAccount/DeleteAccount";
-import { useState } from "react";
+
 const SidebarProfile = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  console.log(user);
+  const [progressList, setProgressList] = useState([]); // حالة لتخزين تقدم الدورات
+
+  // جلب تقدم الدورات عند فتح الـ Sidebar
+  useEffect(() => {
+    if (isOpen && user) {
+      const fetchProgress = async () => {
+        try {
+          const data = await getAllProgress();
+          setProgressList(data);
+        } catch (error) {
+          console.error("Failed to fetch progress:", error);
+        }
+      };
+      fetchProgress();
+    }
+  }, [isOpen, user]);
 
   const handleLogout = () => {
     dispatch(logout())
@@ -37,8 +53,8 @@ const SidebarProfile = ({ isOpen, onClose }) => {
       })
       .catch((error) => {
         console.error("Logout failed:", error);
-        dispatch(clearUser()); // نظف الـ user حتى لو فشل
-        dispatch(clearCart()); // نظف الـ cart حتى لو فشل
+        dispatch(clearUser());
+        dispatch(clearCart());
         navigate("/login");
       });
   };
@@ -66,8 +82,7 @@ const SidebarProfile = ({ isOpen, onClose }) => {
             <>
               <li>
                 <Link to="/AdminCouponReport" onClick={onClose}>
-                  <MdAdminPanelSettings className="me-2" />
-                  Admin Coupon Report
+                  <MdAdminPanelSettings className="me-2" /> Admin Coupon Report
                 </Link>
               </li>
               <li>
@@ -84,14 +99,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
           )}
 
           {user?.role === "advertiser" && (
-            <>
-              <li>
-                <Link to="/AdvertiserDashboard" onClick={onClose}>
-                  <RiAdvertisementFill className="me-2" />
-                  Advertiser Dashboard
-                </Link>
-              </li>
-            </>
+            <li>
+              <Link to="/AdvertiserDashboard" onClick={onClose}>
+                <RiAdvertisementFill className="me-2" /> Advertiser Dashboard
+              </Link>
+            </li>
           )}
 
           {user?.role === "teacher" && (
@@ -109,7 +121,38 @@ const SidebarProfile = ({ isOpen, onClose }) => {
             </>
           )}
 
-         
+          {/* قسم تقدم الدورات */}
+          {user?.role === "student" && (
+            <li className="progress-section">
+              <h4>My Learning Progress</h4>
+              {progressList.length > 0 ? (
+                <ul className="progress-list">
+                  {progressList.map((progress) => (
+                    <li key={progress.courseId._id} className="progress-item">
+                      <Link to={`/course/${progress.courseId._id}`} onClick={onClose}>
+                        {progress.courseId.title}
+                      </Link>
+                      <div className="progress-bar-container">
+                        <div
+                          className="progress-bar"
+                          style={{
+                            width: `${progress.completionPercentage}%`,
+                            height: "8px",
+                            backgroundColor: "#28a745",
+                            borderRadius: "4px",
+                          }}
+                        ></div>
+                      </div>
+                      <span>{progress.completionPercentage.toFixed(0)}%</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No courses enrolled yet.</p>
+              )}
+            </li>
+          )}
+
           <DeleteAccountModal
             show={showDeleteModal}
             onHide={() => setShowDeleteModal(false)}
@@ -121,9 +164,9 @@ const SidebarProfile = ({ isOpen, onClose }) => {
           </li>
           <li className="d-flex justify-content-center">
             <button
-              className="btn   text-danger"
+              className="btn text-danger"
               onClick={() => setShowDeleteModal(true)}
-              style={{ backgroundColor: "red !important" }}
+              style={{ backgroundColor: "transparent" }}
             >
               <FaTrash /> Delete My Account
             </button>

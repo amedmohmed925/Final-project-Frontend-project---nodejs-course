@@ -24,6 +24,7 @@ import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 import ReactGA from "react-ga4";
 import HeaderPages from "../HeaderPages";
+import CourseProgress from "../CourseProgress/CourseProgress"; // تأكد من المسار الصحيح
 
 ReactGA.initialize("G-XXXXXXX");
 
@@ -37,13 +38,11 @@ const CourseDetails = () => {
   const [openSection, setOpenSection] = useState(null);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [addToCartError, setAddToCartError] = useState(null);
-  const [isLoginError, setIsLoginError] = useState(false); // State جديد للتحقق من نوع الخطأ
+  const [isLoginError, setIsLoginError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.user); // جلب حالة المستخدم من Redux
-
-  console.log("Dispatch:", dispatch);
+  const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchCourseAndTeacher = async () => {
@@ -53,12 +52,8 @@ const CourseDetails = () => {
 
         if (courseData.teacherId) {
           const teacherId = courseData.teacherId._id || courseData.teacherId;
-          console.log("Teacher ID:", teacherId);
           const teacherData = await dispatch(getUserById(teacherId)).unwrap();
-          console.log("Teacher Data:", teacherData);
-          setTeacher(
-            teacherData || { firstName: "Unknown", lastName: "Instructor" }
-          );
+          setTeacher(teacherData || { firstName: "Unknown", lastName: "Instructor" });
         } else {
           setTeacher({ firstName: "Unknown", lastName: "Instructor" });
         }
@@ -112,7 +107,6 @@ const CourseDetails = () => {
   };
 
   const handleAddToCart = () => {
-    // التحقق من حالة تسجيل الدخول
     if (!user) {
       setAddToCartError("You must be logged in to add this course to your cart.");
       setIsLoginError(true);
@@ -120,7 +114,6 @@ const CourseDetails = () => {
       return;
     }
 
-    // التحقق من أن dispatch هو دالة
     if (typeof dispatch !== "function") {
       console.error("Dispatch is not a function:", dispatch);
       setAddToCartError("Failed to add course to cart: Redux dispatch error");
@@ -129,7 +122,6 @@ const CourseDetails = () => {
       return;
     }
 
-    // إضافة الكورس للسلة
     dispatch(addItemToCart(id))
       .unwrap()
       .then(() =>
@@ -172,19 +164,11 @@ const CourseDetails = () => {
     navigate(`/course/${id}/section/${sectionIndex}/lesson/${lessonIndex}`);
   };
 
-  if (loading)
-    return (
-      <div className="loading-overlay">
-        <div className="spinner"></div>Loading...
-      </div>
-    );
+  if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
   if (error) return <div className="error-overlay">Error: {error}</div>;
   if (!course) return <div className="not-found-overlay">Course not found</div>;
 
-  const totalLessons = course.sections.reduce(
-    (acc, section) => acc + section.lessons.length,
-    0
-  );
+  const totalLessons = course.sections.reduce((acc, section) => acc + section.lessons.length, 0);
   const daysPassed = course.createdAt ? calculateDaysPassed(course.createdAt) : 0;
 
   const renderStars = (rating) => {
@@ -202,12 +186,7 @@ const CourseDetails = () => {
 
     const remainingStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
     for (let i = 1; i <= remainingStars; i++) {
-      stars.push(
-        <FaStar
-          key={fullStars + (hasHalfStar ? 2 : 1) + i}
-          className="star"
-        />
-      );
+      stars.push(<FaStar key={fullStars + (hasHalfStar ? 2 : 1) + i} className="star" />);
     }
 
     return stars;
@@ -228,26 +207,18 @@ const CourseDetails = () => {
                     {renderStars(course.averageRating || 0)}
                   </div>
                 </div>
-                <span className="created-date">
-                  Created: {formatDate(course.createdAt)}
-                </span>
+                <span className="created-date">Created: {formatDate(course.createdAt)}</span>
               </div>
             </div>
             <div className="banner-image">
               <img
-                src={
-                  course.featuredImage ||
-                  "https://via.placeholder.com/400x250.png?text=Course+Image"
-                }
+                src={course.featuredImage || "https://via.placeholder.com/400x250.png?text=Course+Image"}
                 alt={course.title}
               />
             </div>
           </div>
         </section>
-        <div
-          className="d-flex justify-content-center"
-          style={{ flexDirection: "row-reverse" }}
-        >
+        <div className="d-flex justify-content-center" style={{ flexDirection: "row-reverse" }}>
           <section className="pricing-section">
             <div className="pricing-card">
               <div className="pricing-header">
@@ -270,29 +241,15 @@ const CourseDetails = () => {
                 )}
               </button>
               <div className="course-meta">
-                <p>
-                  <FaClock /> Duration: {totalLessons * 2} Hours
-                </p>
-                <p>
-                  <FaBook /> Lessons: {totalLessons}
-                </p>
-                <p>
-                  <FaLevelUpAlt /> Level: {course.level}
-                </p>
-                <p>
-                  <FaFolder /> Category: {course.category}
-                </p>
+                <p><FaClock /> Duration: {totalLessons * 2} Hours</p>
+                <p><FaBook /> Lessons: {totalLessons}</p>
+                <p><FaLevelUpAlt /> Level: {course.level}</p>
+                <p><FaFolder /> Category: {course.category}</p>
               </div>
             </div>
           </section>
 
-          <div
-            className="d-flex"
-            style={{
-              flexDirection: "column",
-            }}
-          >
-            {/* What You'll Learn */}
+          <div className="d-flex" style={{ flexDirection: "column" }}>
             <section className="course-section">
               <h3>What You'll Learn</h3>
               <div className="feature-list">
@@ -304,59 +261,33 @@ const CourseDetails = () => {
               </div>
             </section>
 
-            {/* Course Content */}
             <section className="course-section">
               <h3>Course Content</h3>
               <div className="course-content-meta">
-                <p>
-                  <FaBook /> {totalLessons} Lessons • {totalLessons * 2} Hours
-                </p>
-                <p>
-                  <FaLevelUpAlt /> Level: {course.level}
-                </p>
-                <p>
-                  <FaFolder /> Category: {course.category}
-                </p>
-                <p>
-                  By{" "}
-                  {teacher
-                    ? `${teacher.firstName} ${teacher.lastName}`
-                    : "Loading..."}
-                </p>
+                <p><FaBook /> {totalLessons} Lessons • {totalLessons * 2} Hours</p>
+                <p><FaLevelUpAlt /> Level: {course.level}</p>
+                <p><FaFolder /> Category: {course.category}</p>
+                <p>By {teacher ? `${teacher.firstName} ${teacher.lastName}` : "Loading..."}</p>
               </div>
               <div className="sections-stack">
                 {course.sections.map((section, sectionIndex) => (
                   <div key={sectionIndex} className="section-block">
-                    <div
-                      className="section-header"
-                      onClick={() => toggleSection(sectionIndex)}
-                    >
+                    <div className="section-header" onClick={() => toggleSection(sectionIndex)}>
                       <h4>{section.title}</h4>
                       <FaChevronDown
-                        className={`toggle-icon ${
-                          openSection === sectionIndex ? "open" : ""
-                        }`}
+                        className={`toggle-icon ${openSection === sectionIndex ? "open" : ""}`}
                       />
                     </div>
-                    <div
-                      className={`section-lessons ${
-                        openSection === sectionIndex ? "open" : ""
-                      }`}
-                    >
+                    <div className={`section-lessons ${openSection === sectionIndex ? "open" : ""}`}>
                       {section.lessons.map((lesson, lessonIndex) => (
                         <div
                           key={lessonIndex}
                           className="lesson-block"
-                          onClick={() =>
-                            handleLessonClick(sectionIndex, lessonIndex)
-                          }
+                          onClick={() => handleLessonClick(sectionIndex, lessonIndex)}
                         >
                           <div className="lesson-media">
                             <img
-                              src={
-                                lesson.thumbnailUrl ||
-                                "https://via.placeholder.com/150x100.png?text=Lesson"
-                              }
+                              src={lesson.thumbnailUrl || "https://via.placeholder.com/150x100.png?text=Lesson"}
                               alt={lesson.title}
                             />
                             <FaPlayCircle className="play-overlay" />
@@ -372,10 +303,20 @@ const CourseDetails = () => {
                 ))}
               </div>
             </section>
+
+            {/* إضافة CourseProgress هنا */}
+            {user ? (
+              <section className="course-section">
+                <CourseProgress courseId={id} />
+              </section>
+            ) : (
+              <section className="course-section">
+                <p>Please log in to track your progress.</p>
+              </section>
+            )}
           </div>
         </div>
 
-        {/* Feedback Section */}
         <FeedbackSection courseId={id} />
       </main>
 
@@ -383,23 +324,15 @@ const CourseDetails = () => {
         <Modal.Header closeButton>
           <Modal.Title>Error</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {addToCartError || "An unexpected error occurred."}
-        </Modal.Body>
+        <Modal.Body>{addToCartError || "An unexpected error occurred."}</Modal.Body>
         <Modal.Footer>
           {isLoginError ? (
             <>
-              <Button variant="secondary" onClick={handleCloseModal}>
-                Close
-              </Button>
-              <Button variant="primary" onClick={handleLoginRedirect}>
-                Login
-              </Button>
+              <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+              <Button variant="primary" onClick={handleLoginRedirect}>Login</Button>
             </>
           ) : (
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
+            <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
           )}
         </Modal.Footer>
       </Modal>

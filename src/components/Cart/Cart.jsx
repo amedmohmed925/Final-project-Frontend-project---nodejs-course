@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Offcanvas, Button, Form, Modal, Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCart, removeItemFromCart, applyCouponCode, checkout, closeCart } from "../../features/cart/cartSlice";
+import {
+  fetchCart,
+  removeItemFromCart,
+  applyCouponCode,
+  checkout,
+  closeCart,
+} from "../../features/cart/cartSlice";
 import { FaTrash } from "react-icons/fa";
-import axios from "axios";
 import "../../styles/Cart.css";
+import paymentApi from "../../api/paymentApi"; // استيراد paymentApi
 
 const Cart = () => {
   const { items, total, discount, finalTotal, isCartOpen, status, error } = useSelector((state) => state.cart);
@@ -13,7 +19,7 @@ const Cart = () => {
   const [coupon, setCoupon] = useState("");
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showPaymentSuccessModal, setShowPaymentSuccessModal] = useState(false); // مودال نجاح الدفع
+  const [showPaymentSuccessModal, setShowPaymentSuccessModal] = useState(false);
 
   useEffect(() => {
     if (user && isCartOpen) {
@@ -49,31 +55,16 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     try {
-      const token = localStorage.getItem("accessToken");
-  
-      if (!token) {
-        console.log("Unauthorized. Please log in.");
-        return;
-      }
-  
-      const response = await axios.post(
-        "http://localhost:8080/payment/create-payment",
-        {
-          amount: finalTotal,
-          items: items.map((item) => ({
-            name: item.courseId.title,
-            amount: item.courseId.price * 100,
-            quantity: 1,
-          })),
-          email: user.email,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await paymentApi.post("/create-payment", {
+        amount: finalTotal,
+        items: items.map((item) => ({
+          name: item.courseId.title,
+          amount: item.courseId.price * 100,
+          quantity: 1,
+        })),
+        email: user.email,
+      });
+      console.log("Payment Response:", response.data);
   
       const { paymentKey } = response.data;
   
@@ -90,7 +81,7 @@ const Cart = () => {
       paymentModal.style.alignItems = "center";
   
       const iframe = document.createElement("iframe");
-      iframe.src = `https://accept.paymob.com/api/acceptance/iframes/YOUR_IFRAME_ID?payment_token=${paymentKey}`;
+      iframe.src = `https://accept.paymob.com/api/acceptance/iframes/908586?payment_token=${paymentKey}`;
       iframe.style.width = "80%";
       iframe.style.maxWidth = "600px";
       iframe.style.height = "80%";
@@ -100,7 +91,6 @@ const Cart = () => {
       paymentModal.appendChild(iframe);
       document.body.appendChild(paymentModal);
   
-      // انتظار نجاح الدفع (بديل مؤقت)
       iframe.onload = () => {
         setTimeout(() => {
           document.body.removeChild(paymentModal);
@@ -110,21 +100,27 @@ const Cart = () => {
               dispatch(closeCart());
             }
           });
-        }, 2000); // تأخير 2 ثانية لمحاكاة نجاح الدفع
+        }, 2000);
       };
     } catch (error) {
+      const errorMessage = error.response?.data?.error?.error || error.response?.data?.message || "An error occurred during checkout";
       setShowErrorModal(true);
-      console.error("Checkout Error:", error);
+      console.error("Checkout Error:", error.response ? error.response.data : error.message);
+      dispatch({ type: "cart/setError", payload: errorMessage });
     }
   };
-
   const handleCloseErrorModal = () => setShowErrorModal(false);
   const handleCloseSuccessModal = () => setShowSuccessModal(false);
   const handleClosePaymentSuccessModal = () => setShowPaymentSuccessModal(false);
 
   return (
     <>
-      <Offcanvas show={isCartOpen} onHide={() => dispatch(closeCart())} placement="end" className="cart-offcanvas">
+      <Offcanvas
+        show={isCartOpen}
+        onHide={() => dispatch(closeCart())}
+        placement="end"
+        className="cart-offcanvas"
+      >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Your Cart ({items.length} items)</Offcanvas.Title>
         </Offcanvas.Header>
@@ -145,7 +141,10 @@ const Cart = () => {
                     className="cart-item d-flex align-items-center mb-3"
                   >
                     <img
-                      src={item.courseId.featuredImage || "https://via.placeholder.com/50"}
+                      src={
+                        item.courseId.featuredImage ||
+                        "https://via.placeholder.com/50"
+                      }
                       alt={item.courseId.title}
                       className="cart-item-image me-3"
                     />
@@ -205,7 +204,9 @@ const Cart = () => {
       {/* مودال نجاح الكوبون */}
       <Modal show={showSuccessModal} onHide={handleCloseSuccessModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ color: "var(--mainColor)" }}>Success</Modal.Title>
+          <Modal.Title style={{ color: "var(--mainColor)" }}>
+            Success
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>Coupon applied successfully!</Modal.Body>
         <Modal.Footer>
@@ -215,10 +216,29 @@ const Cart = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* مودال نجاح الدفع */}
-      <Modal show={showPaymentSuccessModal} onHide={handleClosePaymentSuccessModal} centered>
+      {/* مودال الخطأ */}
+      <Modal show={showErrorModal} onHide={handleCloseErrorModal} centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ color: "var(--mainColor)" }}>Payment Successful</Modal.Title>
+          <Modal.Title style={{ color: "red" }}>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{error || "An error occurred during checkout"}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseErrorModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* مودال نجاح الدفع */}
+      <Modal
+        show={showPaymentSuccessModal}
+        onHide={handleClosePaymentSuccessModal}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title style={{ color: "var(--mainColor)" }}>
+            Payment Successful
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>Your payment has been processed successfully!</Modal.Body>
         <Modal.Footer>

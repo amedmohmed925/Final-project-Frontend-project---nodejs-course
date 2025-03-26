@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getCourseById } from "../../api/courseApi";
+import { getCourseProgress, updateCourseProgress } from "../../api/courseProgressApi"; // استيراد APIs
 import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import ReactPlayer from "react-player";
@@ -11,12 +12,13 @@ import Logo from "../Logo";
 const LessonPage = () => {
   const { courseId, sectionIndex, lessonIndex } = useParams();
   const [course, setCourse] = useState(null);
+  const [progress, setProgress] = useState(null); // حالة التقدم
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openSection, setOpenSection] = useState(parseInt(sectionIndex));
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [watermarkPosition, setWatermarkPosition] = useState({ top: "10%", left: "10%" });
-  const [progress, setProgress] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0); // تقدم الفيديو
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
@@ -24,24 +26,29 @@ const LessonPage = () => {
   const playerRef = useRef(null);
   const videoContainerRef = useRef(null);
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user); // جلب حالة المستخدم من Redux
+  const { user } = useSelector((state) => state.user);
 
-  // جلب بيانات الكورس
+  // جلب بيانات الكورس والتقدم
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchCourseAndProgress = async () => {
       try {
-        const data = await getCourseById(courseId);
-        setCourse(data);
+        const courseData = await getCourseById(courseId);
+        setCourse(courseData);
+
+        if (user) {
+          const progressData = await getCourseProgress(courseId);
+          setProgress(progressData.progress || { completionPercentage: 0, sections: [] });
+        }
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchCourse();
-  }, [courseId]);
+    fetchCourseAndProgress();
+  }, [courseId, user]);
 
-  // تحريك العلامة المائية بشكل عشوائي كل ثانيتين
+  // تحريك العلامة المائية
   useEffect(() => {
     const moveWatermark = () => {
       const maxTop = 10;
@@ -58,7 +65,6 @@ const LessonPage = () => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
     };
-
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
@@ -73,80 +79,97 @@ const LessonPage = () => {
     setPlaying(!playing);
   };
 
-  // التحكم في الصوت (mute/unmute)
+  // التحكم في الصوت
   const toggleMute = () => {
     setMuted(!muted);
   };
 
-  // التحكم في مستوى الصوت
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
     setMuted(newVolume === 0);
   };
 
-  // تقديم الفيديو 10 ثواني
+  // تقديم وتأخير الفيديو
   const handleFastForward = () => {
     if (playerRef.current) {
       const currentTime = playerRef.current.getCurrentTime();
-      const newTime = currentTime + 10;
-      playerRef.current.seekTo(newTime);
+      playerRef.current.seekTo(currentTime + 10);
     }
   };
 
-  // تأخير الفيديو 10 ثواني
   const handleRewind = () => {
     if (playerRef.current) {
       const currentTime = playerRef.current.getCurrentTime();
-      const newTime = Math.max(currentTime - 10, 0);
-      playerRef.current.seekTo(newTime);
+      playerRef.current.seekTo(Math.max(currentTime - 10, 0));
     }
   };
 
-  // التحكم في الفيديو عن طريق سحب شريط التقدم
+  // تحديث تقدم الفيديو
   const handleProgressChange = (e) => {
     const newProgress = parseFloat(e.target.value);
-    setProgress(newProgress);
+    setVideoProgress(newProgress);
     if (playerRef.current) {
       const duration = playerRef.current.getDuration();
-      const newTime = (newProgress / 100) * duration;
-      playerRef.current.seekTo(newTime);
+      playerRef.current.seekTo((newProgress / 100) * duration);
     }
   };
 
-  // الدخول لوضع ملء الشاشة
-  const enterFullscreen = () => {
-    if (videoContainerRef.current) {
-      videoContainerRef.current.requestFullscreen().catch((err) => {
-        console.error("Error attempting to enable fullscreen:", err);
-      });
-    }
-  };
-
-  // الخروج من وضع ملء الشاشة
-  const exitFullscreen = () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen().catch((err) => {
-        console.error("Error attempting to exit fullscreen:", err);
-      });
-    }
-  };
-
-  // التحكم في وضع ملء الشاشة
+  // التحكم في ملء الشاشة
   const toggleFullscreen = () => {
     if (isFullscreen) {
-      exitFullscreen();
+      document.exitFullscreen();
     } else {
-      enterFullscreen();
+      videoContainerRef.current.requestFullscreen();
     }
+  };
+
+  // تحديث التقدم عند اكتمال الدرس
+  const markLessonAsCompleted = async () => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      const updatedProgress = await updateCourseProgress(courseId, {
+        sectionIndex: parseInt(sectionIndex),
+        lessonIndex: parseInt(lessonIndex),
+        completed: true,
+      });
+      setProgress(updatedProgress.progress);
+    } catch (err) {
+      console.error("Error updating progress:", err);
+    }
+  };
+
+  // التحقق من اكتمال الدرس
+  const isLessonCompleted = () => {
+    if (!progress || !progress.sections) return false;
+    const section = progress.sections.find((s) => s.sectionIndex === parseInt(sectionIndex));
+    if (!section) return false;
+    const lesson = section.lessons.find((l) => l.lessonIndex === parseInt(lessonIndex));
+    return lesson?.completed || false;
+  };
+
+  // التنقل بين الحلقات مع التحقق من الاكتمال
+  const handleLessonClick = (newSectionIndex, newLessonIndex) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    const currentCompleted = isLessonCompleted();
+    if (!currentCompleted && (newSectionIndex !== parseInt(sectionIndex) || newLessonIndex !== parseInt(lessonIndex))) {
+      alert("Please complete the current lesson before moving to another one.");
+      return;
+    }
+
+    navigate(`/course/${courseId}/section/${newSectionIndex}/lesson/${newLessonIndex}`);
   };
 
   const toggleSection = (index) => {
     setOpenSection(openSection === index ? null : index);
-  };
-
-  const handleLessonClick = (newSectionIndex, newLessonIndex) => {
-    navigate(`/course/${courseId}/section/${newSectionIndex}/lesson/${newLessonIndex}`);
   };
 
   if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
@@ -155,13 +178,11 @@ const LessonPage = () => {
 
   const currentSection = course.sections[sectionIndex];
   const currentLesson = currentSection?.lessons[lessonIndex];
+  const canViewLesson = user || (sectionIndex === "0" && lessonIndex === "0");
 
   if (!currentSection || !currentLesson) {
     return <div className="not-found-overlay">Lesson not found</div>;
   }
-
-  // التحقق من إذا كان المستخدم يمكنه مشاهدة الحلقة
-  const canViewLesson = user || (sectionIndex === "0" && lessonIndex === "0");
 
   return (
     <div className="lesson-page">
@@ -192,13 +213,7 @@ const LessonPage = () => {
                             ? "active"
                             : ""
                         } ${!isLessonAccessible ? "disabled" : ""}`}
-                        onClick={() => {
-                          if (isLessonAccessible) {
-                            handleLessonClick(sIndex, lIndex);
-                          } else {
-                            setShowLoginModal(true);
-                          }
-                        }}
+                        onClick={() => handleLessonClick(sIndex, lIndex)}
                       >
                         <div className="lesson-media">
                           <img
@@ -236,46 +251,32 @@ const LessonPage = () => {
                   playing={playing}
                   volume={volume}
                   muted={muted}
-                  onProgress={(state) => {
-                    if (!playerRef.current) return;
-                    const newProgress = state.played * 100;
-                    setProgress(newProgress);
-                  }}
+                  onProgress={(state) => setVideoProgress(state.played * 100)}
                   onPlay={() => setPlaying(true)}
                   onPause={() => setPlaying(false)}
-                  onReady={() => console.log("Video is ready to play")}
-                  onError={(e) => console.log("Error loading video:", e)}
                 />
                 <div className="video-overlay"></div>
                 <div
                   className="watermark"
-                  style={{
-                    top: watermarkPosition.top,
-                    left: watermarkPosition.left,
-                  }}
+                  style={{ top: watermarkPosition.top, left: watermarkPosition.left }}
                 >
                   <Logo />
                 </div>
-                {/* أدوات التحكم المخصصة */}
                 <div className="custom-controls">
-                  <button onClick={handleRewind} className="control-button">
-                    <FaBackward />
-                  </button>
+                  <button onClick={handleRewind} className="control-button"><FaBackward /></button>
                   <button onClick={togglePlayPause} className="play-pause-button">
                     {playing ? <FaPause /> : <FaPlay />}
                   </button>
-                  <button onClick={handleFastForward} className="control-button">
-                    <FaForward />
-                  </button>
+                  <button onClick={handleFastForward} className="control-button"><FaForward /></button>
                   <input
                     type="range"
                     min={0}
                     max={100}
                     step={0.1}
-                    value={progress}
+                    value={videoProgress}
                     onChange={handleProgressChange}
                     className="custom-progress-bar"
-                    style={{ "--progress": progress }}
+                    style={{ "--progress": videoProgress }}
                   />
                   <button onClick={toggleMute} className="control-button">
                     {muted || volume === 0 ? <FaVolumeMute /> : <FaVolumeUp />}
@@ -300,9 +301,7 @@ const LessonPage = () => {
           ) : (
             <div className="lesson-restricted">
               <p>This lesson is restricted. Please log in to view this content.</p>
-              <Button variant="primary" onClick={() => navigate("/login")}>
-                Login
-              </Button>
+              <Button variant="primary" onClick={() => navigate("/login")}>Login</Button>
             </div>
           )}
           <div className="lesson-details">
@@ -314,6 +313,16 @@ const LessonPage = () => {
                 <p>{currentLesson.quiz}</p>
               </div>
             )}
+            {/* زر Mark as Completed */}
+            {canViewLesson && user && (
+              <Button
+                variant={isLessonCompleted() ? "success" : "primary"}
+                onClick={markLessonAsCompleted}
+                disabled={isLessonCompleted()}
+              >
+                {isLessonCompleted() ? "Completed" : "Mark as Completed"}
+              </Button>
+            )}
           </div>
         </main>
       </div>
@@ -322,16 +331,10 @@ const LessonPage = () => {
         <Modal.Header closeButton>
           <Modal.Title>Login Required</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          You must be logged in to view this lesson. Please log in to continue.
-        </Modal.Body>
+        <Modal.Body>You must be logged in to view this lesson. Please log in to continue.</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowLoginModal(false)}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={() => navigate("/login")}>
-            Login
-          </Button>
+          <Button variant="secondary" onClick={() => setShowLoginModal(false)}>Close</Button>
+          <Button variant="primary" onClick={() => navigate("/login")}>Login</Button>
         </Modal.Footer>
       </Modal>
     </div>
