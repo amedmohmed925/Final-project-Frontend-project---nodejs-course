@@ -1,5 +1,4 @@
-// src/components/Notifications/Notifications.jsx
-import { useEffect, useRef } from "react"; // إضافة useRef
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBell, FaTimes } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
@@ -12,7 +11,7 @@ const Notifications = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { notifications, unreadCount, isOpen } = useSelector((state) => state.notifications);
-  const nodeRef = useRef(null); // مرجع للعنصر المتحرك
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     if (!user) return;
@@ -65,48 +64,50 @@ const Notifications = () => {
         timeout={300}
         classNames="notifications"
         unmountOnExit
-        nodeRef={nodeRef} // تمرير المرجع
+        nodeRef={nodeRef}
       >
-        <div className="notifications-dropdown" ref={nodeRef}>
-          <div className="notifications-header">
-            <h4>Notifications</h4>
-            <button
-              className="close-dropdown-button"
-              onClick={() => dispatch(toggleNotifications())}
-            >
-              <FaTimes />
-            </button>
-          </div>
-          {notifications.length > 0 ? (
-            notifications.map((notification) => (
-              <div
-                key={notification._id}
-                className={`notification-item ${notification.isRead ? "read" : "unread"}`}
+        <div className="notifications-overlay" ref={nodeRef}>
+          <div className="notifications-dropdown">
+            <div className="notifications-header">
+              <h4>Notifications</h4>
+              <button
+                className="close-dropdown-button"
+                onClick={() => dispatch(toggleNotifications())}
               >
+                <FaTimes />
+              </button>
+            </div>
+            {notifications.length > 0 ? (
+              notifications.map((notification) => (
                 <div
-                  onClick={() => !notification.isRead && handleMarkAsRead(notification._id)}
-                  className="notification-content"
+                  key={notification._id}
+                  className={`notification-item ${notification.isRead ? "read" : "unread"}`}
                 >
-                  <div className="d-flex justify-content-between align-items-center">
-                    <h5>{notification.title}</h5>
-                    <button
-                      className="close-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteNotification(notification._id);
-                      }}
-                    >
-                      <IoCloseSharp />
-                    </button>
+                  <div
+                    onClick={() => !notification.isRead && handleMarkAsRead(notification._id)}
+                    className="notification-content"
+                  >
+                    <div className="d-flex justify-content-between align-items-center">
+                      <h5>{notification.title}</h5>
+                      <button
+                        className="close-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteNotification(notification._id);
+                        }}
+                      >
+                        <IoCloseSharp />
+                      </button>
+                    </div>
+                    <p>{notification.message}</p>
+                    <small>{new Date(notification.createdAt).toLocaleString()}</small>
                   </div>
-                  <p>{notification.message}</p>
-                  <small>{new Date(notification.createdAt).toLocaleString()}</small>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p className="no-notifications">No notifications yet</p>
-          )}
+              ))
+            ) : (
+              <p className="no-notifications">No notifications yet</p>
+            )}
+          </div>
         </div>
       </CSSTransition>
     </div>
