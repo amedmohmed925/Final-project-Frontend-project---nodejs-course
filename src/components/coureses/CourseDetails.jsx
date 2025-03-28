@@ -18,8 +18,11 @@ import {
   FaLevelUpAlt,
   FaFolder,
   FaStarHalfAlt,
+  FaUsers,
+  FaTag,
+  FaEye,
 } from "react-icons/fa";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Spinner } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 import ReactGA from "react-ga4";
@@ -164,7 +167,7 @@ const CourseDetails = () => {
     navigate(`/course/${id}/section/${sectionIndex}/lesson/${lessonIndex}`);
   };
 
-  if (loading) return <div className="loading-overlay"><div className="spinner"></div>Loading...</div>;
+  if (loading) return <div className="loading-overlay"><Spinner /></div>;
   if (error) return <div className="error-overlay">Error: {error}</div>;
   if (!course) return <div className="not-found-overlay">Course not found</div>;
 
@@ -208,6 +211,7 @@ const CourseDetails = () => {
                   </div>
                 </div>
                 <span className="created-date">Created: {formatDate(course.createdAt)}</span>
+                <span className="views"><FaEye /> {course.views} Views</span>
               </div>
             </div>
             <div className="banner-image">
@@ -269,6 +273,7 @@ const CourseDetails = () => {
                 <p><FaFolder /> Category: {course.category}</p>
                 <p>By {teacher ? `${teacher.firstName} ${teacher.lastName}` : "Loading..."}</p>
               </div>
+
               <div className="sections-stack">
                 {course.sections.map((section, sectionIndex) => (
                   <div key={sectionIndex} className="section-block">
@@ -300,6 +305,27 @@ const CourseDetails = () => {
                       ))}
                     </div>
                   </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="course-section">
+              <h3>Target Audience</h3>
+              <div className="feature-list">
+                {course.targetAudience.map((item, index) => (
+                  <div key={index} className="feature-item">
+                    <FaUsers className="feature-iconWhatYouLearn" /> {item}
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="course-section">
+              <h3>Tags</h3>
+              <div className="tags-list">
+                {course.tags.map((tag, index) => (
+                  <span key={index} className="tag-item">
+                    <FaTag /> {tag}
+                  </span>
                 ))}
               </div>
             </section>

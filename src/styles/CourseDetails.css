@@ -1,92 +1,100 @@
-
 .course-details-page {
   background: var(--white);
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
-  /* padding: 20px 0; */
 }
 
 .course-main {
   max-width: 100%;
   margin: 0 auto;
-  /* padding: 0 20px; */
   min-height: 100vh;
-
 }
 
 /* Banner Section */
 .course-banner-section {
   background: linear-gradient(to top, var(--gradient-start), var(--gradient-end));
-  padding: 50px 0;
-  margin-bottom: 30px;
+  padding: 3rem 1rem;
+  margin-bottom: 2rem;
 }
 
 .banner-content {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .banner-text {
   flex: 1;
+  min-width: 300px;
 }
 
 .banner-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
   font-weight: 700;
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .banner-description {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
   color: #555;
   line-height: 1.7;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .banner-meta {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 1rem;
   align-items: center;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
 }
 
 .rating span {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
   font-weight: 600;
   color: #333;
 }
 
 .stars {
   display: flex;
-  gap: 3px;
+  gap: 0.2rem;
 }
 
 .stars svg {
   color: #ccc;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .stars .filled {
   color: #f5c518;
 }
 
-.created-date {
-  font-size: 1rem;
+.created-date,
+.views {
+  font-size: clamp(0.9rem, 2vw, 1rem);
   color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .banner-image {
-  flex: 0 0 400px;
+  flex: 0 0 clamp(250px, 40%, 400px);
+  width: 100%;
 }
 
 .banner-image img {
   width: 100%;
+  height: auto;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -95,16 +103,17 @@
 .pricing-section {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 30px;
-  padding: 0 15px;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  height: fit-content;
 }
 
 .pricing-card {
   background: var(--white);
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 300px;
+  padding: 1.5rem;
+  width: clamp(250px, 100%, 300px);
   text-align: center;
 }
 
@@ -112,29 +121,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .price {
-  font-size: 1.8rem;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
   font-weight: 700;
   color: var(--mainColor);
   margin: 0;
 }
 
 .days-passed {
-  font-size: .8rem;
+  font-size: clamp(0.7rem, 2vw, 0.8rem);
   color: var(--gradient-end);
   background: rgba(252, 77, 255, 0.1);
-  padding: 5px 10px;
-  border-radius: 15px;
+  padding: 0.3rem 0.6rem;
+  border-radius : 15px;
 }
 
 .add-to-cart-btn {
   background: #28a745;
   color: var(--white);
-  padding: 10px;
-  font-size: 1rem;
+  padding: 0.8rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 600;
   border: none;
   border-radius: 5px;
@@ -143,9 +152,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 0.6rem;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .add-to-cart-btn:hover {
@@ -157,13 +166,30 @@
   cursor: not-allowed;
 }
 
-.course-meta p {
-  font-size: 0.9rem;
-  color: #555;
-  margin: 15px 0;
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.tag-item {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
+}
+
+.course-meta p {
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  color: #555;
+  margin: 0.8rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 /* Course Section */
@@ -171,28 +197,28 @@
   background: var(--white);
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  padding: 25px !important;
-  margin: 5px !important;
+  padding: 1.5rem;
+  margin: 0.5rem;
 }
 
 .course-section h3 {
-  font-size: 1.8rem;
+  font-size: clamp(1.5rem, 4vw, 1.8rem);
   font-weight: 600;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .feature-list {
   display: grid;
-  gap: 0px;
+  gap: 0.5rem;
 }
 
 .feature-item {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   color: #555;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.6rem;
 }
 
 .feature-iconWhatYouLearn {
@@ -203,22 +229,22 @@
 .course-content-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .course-content-meta p {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: #555;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.3rem;
 }
 
 .sections-stack {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1rem;
 }
 
 .section-block {
@@ -230,18 +256,18 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 0.8rem 0;
 }
 
 .section-header h4 {
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 600;
   color: #333;
   margin: 0;
 }
 
 .toggle-icon {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2vw, 1rem);
   color: var(--mainColor);
   transition: transform 0.3s ease;
 }
@@ -257,20 +283,20 @@
 }
 
 .section-lessons.open {
-  max-height: 1000px;
+  max-height: 1000px; /* Adjust as needed */
 }
 
 .lesson-block {
   display: flex;
-  gap: 15px;
-  padding: 10px 0;
+  gap: 1rem;
+  padding: 0.8rem 0;
   border-top: 1px solid #eee;
 }
 
 .lesson-media {
   position: relative;
-  width: 120px;
-  height: 80px;
+  width: clamp(100px, 20vw, 120px);
+  height: clamp(60px, 15vw, 80px);
 }
 
 .lesson-media img {
@@ -285,35 +311,35 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 24px;
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
   color: var(--white);
   opacity: 0.8;
 }
 
 .lesson-text h5 {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 600;
   color: #333;
   margin: 0;
 }
 
 .lesson-text p {
-  font-size: 0.9rem;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: #777;
-  margin: 5px 0 0;
+  margin: 0.3rem 0 0;
 }
 
 /* Footer */
 .course-footer {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 2.5rem;
 }
 
 .back-btn {
   background: #28a745;
   color: var(--white);
-  padding: 12px 30px;
-  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
   font-weight: 600;
   border: none;
   border-radius: 5px;
@@ -326,32 +352,41 @@
 }
 
 /* Overlays */
-.loading-overlay, .error-overlay, .not-found-overlay {
+.loading-overlay,
+.error-overlay,
+.not-found-overlay {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  font-size: 1.5rem;
 }
 
 .loading-overlay {
   color: var(--mainColor);
 }
 
-
-
-
 .error-overlay {
   color: #ff4d4d;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
   .banner-content {
     flex-direction: column;
     text-align: center;
   }
 
+  .pricing-section {
+    justify-content: center;
+  }
+
+  .d-flex.justify-content-center {
+    flex-direction: column !important;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
   .banner-image {
     flex: none;
     width: 100%;
@@ -362,12 +397,49 @@
     justify-content: center;
   }
 
-  .pricing-section {
-    justify-content: center;
-  }
-
   .pricing-card {
     width: 100%;
     max-width: 400px;
+  }
+
+  .lesson-block {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lesson-media {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9; /* Maintain aspect ratio */
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+
+  .banner-description {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+  }
+
+  .pricing-card {
+    padding: 1rem;
+  }
+
+  .add-to-cart-btn {
+    padding: 0.6rem;
+  }
+
+  .course-section {
+    padding: 1rem;
+  }
+
+  .section-header h4 {
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
+  }
+
+  .lesson-text p {
+    display: none; /* Hide description on very small screens */
   }
 }

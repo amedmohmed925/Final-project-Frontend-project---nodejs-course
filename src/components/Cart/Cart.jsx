@@ -10,7 +10,7 @@ import {
 } from "../../features/cart/cartSlice";
 import { FaTrash } from "react-icons/fa";
 import "../../styles/Cart.css";
-import paymentApi from "../../api/paymentApi"; // استيراد paymentApi
+import paymentApi from "../../api/paymentApi";
 
 const Cart = () => {
   const { items, total, discount, finalTotal, isCartOpen, status, error } = useSelector((state) => state.cart);
@@ -57,51 +57,110 @@ const Cart = () => {
     try {
       const response = await paymentApi.post("/create-payment", {
         amount: finalTotal,
-        items: items.map((item) => ({
-          name: item.courseId.title,
-          amount: item.courseId.price * 100,
-          quantity: 1,
-        })),
         email: user.email,
       });
       console.log("Payment Response:", response.data);
-  
+
       const { paymentKey } = response.data;
-  
+
+      // إنشاء Modal محسّن
       const paymentModal = document.createElement("div");
       paymentModal.style.position = "fixed";
       paymentModal.style.top = "0";
       paymentModal.style.left = "0";
       paymentModal.style.width = "100%";
       paymentModal.style.height = "100%";
-      paymentModal.style.backgroundColor = "rgba(0,0,0,0.5)";
+      paymentModal.style.backgroundColor = "rgba(0, 0, 0, 0.7)"; // خلفية أغمق للتباين
       paymentModal.style.zIndex = "1050";
       paymentModal.style.display = "flex";
       paymentModal.style.justifyContent = "center";
       paymentModal.style.alignItems = "center";
-  
+      paymentModal.style.transition = "opacity 0.3s ease-in-out"; // تأثير انتقال
+      paymentModal.style.opacity = "0"; // للـ animation
+      setTimeout(() => (paymentModal.style.opacity = "1"), 10); // تفعيل الظهور
+
+      // حاوية داخلية للـ iframe
+      const modalContent = document.createElement("div");
+      modalContent.style.backgroundColor = "#fff";
+      modalContent.style.borderRadius = "15px"; // زوايا دائرية
+      modalContent.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.2)"; // ظل أنيق
+      modalContent.style.padding = "20px";
+      modalContent.style.width = "90%";
+      modalContent.style.maxWidth = "600px";
+      modalContent.style.position = "relative";
+      modalContent.style.overflow = "hidden";
+
+      // عنوان للـ Modal
+      const modalTitle = document.createElement("h5");
+      modalTitle.innerText = "Complete Your Payment";
+      modalTitle.style.margin = "0 0 15px 0";
+      modalTitle.style.textAlign = "center";
+      modalTitle.style.color = "#333";
+      modalTitle.style.fontWeight = "bold";
+
+      // الـ iframe
       const iframe = document.createElement("iframe");
       iframe.src = `https://accept.paymob.com/api/acceptance/iframes/908586?payment_token=${paymentKey}`;
-      iframe.style.width = "80%";
-      iframe.style.maxWidth = "600px";
-      iframe.style.height = "80%";
-      iframe.style.maxHeight = "500px";
+      iframe.style.width = "100%";
+      iframe.style.height = "450px"; // ارتفاع ثابت للتناسق
       iframe.style.border = "none";
+      iframe.style.borderRadius = "10px"; // زوايا دائرية للـ iframe
       iframe.style.backgroundColor = "white";
-      paymentModal.appendChild(iframe);
-      document.body.appendChild(paymentModal);
-  
-      iframe.onload = () => {
-        setTimeout(() => {
-          document.body.removeChild(paymentModal);
-          setShowPaymentSuccessModal(true);
-          dispatch(checkout()).then((result) => {
-            if (result.meta.requestStatus === "fulfilled") {
-              dispatch(closeCart());
-            }
-          });
-        }, 2000);
+
+      // زر إغلاق محسّن
+      const closeButton = document.createElement("button");
+      closeButton.innerText = "✖";
+      closeButton.style.position = "absolute";
+      closeButton.style.top = "10px";
+      closeButton.style.right = "10px";
+      closeButton.style.width = "30px";
+      closeButton.style.height = "30px";
+      closeButton.style.backgroundColor = "#dc3545";
+      closeButton.style.color = "white";
+      closeButton.style.border = "none";
+      closeButton.style.borderRadius = "50%"; // شكل دائري
+      closeButton.style.fontSize = "16px";
+      closeButton.style.cursor = "pointer";
+      closeButton.style.display = "flex";
+      closeButton.style.alignItems = "center";
+      closeButton.style.justifyContent = "center";
+      closeButton.style.transition = "background-color 0.2s"; // تأثير عند الـ hover
+      closeButton.onmouseover = () => (closeButton.style.backgroundColor = "#c82333");
+      closeButton.onmouseout = () => (closeButton.style.backgroundColor = "#dc3545");
+      closeButton.onclick = () => {
+        paymentModal.style.opacity = "0"; // تأثير اختفاء
+        setTimeout(() => document.body.removeChild(paymentModal), 300);
       };
+
+      // تجميع العناصر
+      modalContent.appendChild(modalTitle);
+      modalContent.appendChild(iframe);
+      modalContent.appendChild(closeButton);
+      paymentModal.appendChild(modalContent);
+      document.body.appendChild(paymentModal);
+
+      // التحقق من الدفع عبر postMessage (اختياري)
+      window.addEventListener("message", (event) => {
+        if (event.origin === "https://accept.paymob.com") {
+          const paymentData = event.data;
+          console.log("Payment Data from iframe:", paymentData);
+          if (paymentData.success) {
+            paymentModal.style.opacity = "0";
+            setTimeout(() => document.body.removeChild(paymentModal), 300);
+            setShowPaymentSuccessModal(true);
+            dispatch(checkout()).then((result) => {
+              if (result.meta.requestStatus === "fulfilled") {
+                dispatch(closeCart());
+              }
+            });
+          } else {
+            paymentModal.style.opacity = "0";
+            setTimeout(() => document.body.removeChild(paymentModal), 300);
+            setShowErrorModal(true);
+            dispatch({ type: "cart/setError", payload: "Payment failed" });
+          }
+        }
+      });
     } catch (error) {
       const errorMessage = error.response?.data?.error?.error || error.response?.data?.message || "An error occurred during checkout";
       setShowErrorModal(true);
@@ -109,6 +168,7 @@ const Cart = () => {
       dispatch({ type: "cart/setError", payload: errorMessage });
     }
   };
+
   const handleCloseErrorModal = () => setShowErrorModal(false);
   const handleCloseSuccessModal = () => setShowSuccessModal(false);
   const handleClosePaymentSuccessModal = () => setShowPaymentSuccessModal(false);
@@ -201,7 +261,6 @@ const Cart = () => {
         </Offcanvas.Body>
       </Offcanvas>
 
-      {/* مودال نجاح الكوبون */}
       <Modal show={showSuccessModal} onHide={handleCloseSuccessModal} centered>
         <Modal.Header closeButton>
           <Modal.Title style={{ color: "var(--mainColor)" }}>
@@ -216,7 +275,6 @@ const Cart = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* مودال الخطأ */}
       <Modal show={showErrorModal} onHide={handleCloseErrorModal} centered>
         <Modal.Header closeButton>
           <Modal.Title style={{ color: "red" }}>Error</Modal.Title>
@@ -229,7 +287,6 @@ const Cart = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* مودال نجاح الدفع */}
       <Modal
         show={showPaymentSuccessModal}
         onHide={handleClosePaymentSuccessModal}
