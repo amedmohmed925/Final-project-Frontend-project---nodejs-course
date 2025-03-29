@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom"; // Added Link
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseDetailsWithoutVideos } from "../../api/courseApi";
 import { getUserById } from "../../api/userApi";
@@ -21,13 +21,15 @@ import {
   FaUsers,
   FaTag,
   FaEye,
+  FaGraduationCap,
+  FaUniversity,
 } from "react-icons/fa";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 import ReactGA from "react-ga4";
 import HeaderPages from "../HeaderPages";
-import CourseProgress from "../CourseProgress/CourseProgress"; // تأكد من المسار الصحيح
+import CourseProgress from "../CourseProgress/CourseProgress";
 
 ReactGA.initialize("G-XXXXXXX");
 
@@ -271,7 +273,20 @@ const CourseDetails = () => {
                 <p><FaBook /> {totalLessons} Lessons • {totalLessons * 2} Hours</p>
                 <p><FaLevelUpAlt /> Level: {course.level}</p>
                 <p><FaFolder /> Category: {course.category}</p>
-                <p>By {teacher ? `${teacher.firstName} ${teacher.lastName}` : "Loading..."}</p>
+                {/* Updated teacher info with Link */}
+                {teacher ? (
+                  <div className="teacher-info">
+                    <p>
+                      By{" "}
+                      <Link to={`/teacher/${teacher._id}`} className="teacher-link">
+                        {teacher.firstName} {teacher.lastName}
+                      </Link>
+                    </p>
+                    
+                  </div>
+                ) : (
+                  <p>By Loading...</p>
+                )}
               </div>
 
               <div className="sections-stack">
@@ -330,7 +345,6 @@ const CourseDetails = () => {
               </div>
             </section>
 
-            {/* إضافة CourseProgress هنا */}
             {user ? (
               <section className="course-section">
                 <CourseProgress courseId={id} />

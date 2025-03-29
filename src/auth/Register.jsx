@@ -10,6 +10,13 @@ import {
   FaCalendar,
   FaUserShield,
   FaSpinner,
+  FaGraduationCap,
+  FaUniversity,
+  FaBook,
+  FaFacebook,
+  FaTwitter,
+  FaLinkedin,
+  FaInstagram,
 } from "react-icons/fa";
 import { Form, Button, Row, Col, Modal, Container } from "react-bootstrap";
 import { motion } from "framer-motion";
@@ -26,6 +33,17 @@ const Register = () => {
     email: "",
     dob: "",
     role: "",
+    certificates: [],
+    graduationYear: "",
+    university: "",
+    major: "",
+    bio: "",
+    socialMedia: {
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      instagram: "",
+    },
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -39,7 +57,20 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name.startsWith("socialMedia.")) {
+      const socialKey = name.split(".")[1];
+      setFormData({
+        ...formData,
+        socialMedia: { ...formData.socialMedia, [socialKey]: value },
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleCertificatesChange = (e) => {
+    setFormData({ ...formData, certificates: e.target.value.split(",").map(item => item.trim()) });
   };
 
   const validateForm = () => {
@@ -53,10 +84,13 @@ const Register = () => {
       "dob",
       "role",
     ];
-    const emptyFields = requiredFields.filter((field) => !formData[field]);
+    if (formData.role === "teacher") {
+      requiredFields.push("certificates", "graduationYear", "university", "major");
+    }
+    const emptyFields = requiredFields.filter((field) => !formData[field] || (Array.isArray(formData[field]) && formData[field].length === 0));
     if (emptyFields.length > 0) {
       setEmptyFields(emptyFields);
-      setError("Please fill all fields");
+      setError("Please fill all required fields");
       setShowModal(true);
       return false;
     }
@@ -141,14 +175,13 @@ const Register = () => {
               <div className="py-4 logoAuth text-center">
                 <Logo colorText="#0a3e6e" />
                 <motion.h2
-                  className="fs-4 fw-bold mb-0 mt-3  section-title"
+                  className="fs-4 fw-bold mb-0 mt-3 section-title"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
                   Start Your Journey Today
                 </motion.h2>
-               
               </div>
 
               {!showOtpForm ? (
@@ -156,9 +189,7 @@ const Register = () => {
                   <Row>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaUser className="me-2" /> First Name
-                        </Form.Label>
+                        <Form.Label><FaUser className="me-2" /> First Name</Form.Label>
                         <Form.Control
                           type="text"
                           name="firstName"
@@ -172,9 +203,7 @@ const Register = () => {
                     </Col>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaUser className="me-2" /> Last Name
-                        </Form.Label>
+                        <Form.Label><FaUser className="me-2" /> Last Name</Form.Label>
                         <Form.Control
                           type="text"
                           name="lastName"
@@ -190,9 +219,7 @@ const Register = () => {
                   <Row>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaUser className="me-2" /> Username
-                        </Form.Label>
+                        <Form.Label><FaUser className="me-2" /> Username</Form.Label>
                         <Form.Control
                           type="text"
                           name="username"
@@ -206,9 +233,7 @@ const Register = () => {
                     </Col>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaEnvelope className="me-2" /> Email
-                        </Form.Label>
+                        <Form.Label><FaEnvelope className="me-2" /> Email</Form.Label>
                         <Form.Control
                           type="email"
                           name="email"
@@ -224,9 +249,7 @@ const Register = () => {
                   <Row>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaCalendar className="me-2" /> Date of Birth
-                        </Form.Label>
+                        <Form.Label><FaCalendar className="me-2" /> Date of Birth</Form.Label>
                         <Form.Control
                           type="date"
                           name="dob"
@@ -239,9 +262,7 @@ const Register = () => {
                     </Col>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaUserShield className="me-2" /> Role
-                        </Form.Label>
+                        <Form.Label><FaUserShield className="me-2" /> Role</Form.Label>
                         <Form.Select
                           name="role"
                           value={formData.role}
@@ -259,9 +280,7 @@ const Register = () => {
                   <Row>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaLock className="me-2" /> Password
-                        </Form.Label>
+                        <Form.Label><FaLock className="me-2" /> Password</Form.Label>
                         <Form.Control
                           type="password"
                           name="password"
@@ -275,9 +294,7 @@ const Register = () => {
                     </Col>
                     <Col md={6} xs={12} className="mb-3">
                       <Form.Group>
-                        <Form.Label>
-                          <FaLock className="me-2" /> Confirm Password
-                        </Form.Label>
+                        <Form.Label><FaLock className="me-2" /> Confirm Password</Form.Label>
                         <Form.Control
                           type="password"
                           name="confirm_password"
@@ -290,6 +307,145 @@ const Register = () => {
                       </Form.Group>
                     </Col>
                   </Row>
+
+                  {/* Teacher-specific fields */}
+                  {formData.role === "teacher" && (
+                    <>
+                      <Row>
+                        <Col md={12} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaGraduationCap className="me-2" /> Certificates (comma-separated)</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="certificates"
+                              onChange={handleCertificatesChange}
+                              placeholder="e.g. Certificate1, Certificate2"
+                              required
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaCalendar className="me-2" /> Graduation Year</Form.Label>
+                            <Form.Control
+                              type="number"
+                              name="graduationYear"
+                              value={formData.graduationYear}
+                              onChange={handleChange}
+                              placeholder="e.g. 2020"
+                              required
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaUniversity className="me-2" /> University</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="university"
+                              value={formData.university}
+                              onChange={handleChange}
+                              placeholder="Enter your university"
+                              required
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={12} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaBook className="me-2" /> Major</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="major"
+                              value={formData.major}
+                              onChange={handleChange}
+                              placeholder="Enter your major"
+                              required
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={12} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label>Bio</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              name="bio"
+                              value={formData.bio}
+                              onChange={handleChange}
+                              placeholder="Tell us about yourself"
+                              className="rounded"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaFacebook className="me-2" /> Facebook</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="socialMedia.facebook"
+                              value={formData.socialMedia.facebook}
+                              onChange={handleChange}
+                              placeholder="Facebook URL"
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaTwitter className="me-2" /> Twitter</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="socialMedia.twitter"
+                              value={formData.socialMedia.twitter}
+                              onChange={handleChange}
+                              placeholder="Twitter URL"
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaLinkedin className="me-2" /> LinkedIn</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="socialMedia.linkedin"
+                              value={formData.socialMedia.linkedin}
+                              onChange={handleChange}
+                              placeholder="LinkedIn URL"
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                        <Col md={6} xs={12} className="mb-3">
+                          <Form.Group>
+                            <Form.Label><FaInstagram className="me-2" /> Instagram</Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="socialMedia.instagram"
+                              value={formData.socialMedia.instagram}
+                              onChange={handleChange}
+                              placeholder="Instagram URL"
+                              className="rounded-pill"
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </>
+                  )}
+
                   <div className="d-flex flex-column align-items-center py-3">
                     <Button
                       variant="primary"
@@ -354,34 +510,15 @@ const Register = () => {
       </Container>
 
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header
-          closeButton
-          style={{
-            backgroundColor: "#f8f9fa",
-            borderBottom: "1px solid #dee2e6",
-          }}
-        >
-          <Modal.Title style={{ color: "#212529" }}>
-            {success ? "Success" : "Error"}
-          </Modal.Title>
+        <Modal.Header closeButton style={{ backgroundColor: "#f8f9fa", borderBottom: "1px solid #dee2e6" }}>
+          <Modal.Title style={{ color: "#212529" }}>{success ? "Success" : "Error"}</Modal.Title>
         </Modal.Header>
-        <Modal.Body style={{ backgroundColor: "#f8f9fa", color: "#212529" }}>
-          {success || error}
-        </Modal.Body>
-        <Modal.Footer
-          style={{
-            backgroundColor: "#f8f9fa",
-            borderTop: "1px solid #dee2e6",
-          }}
-        >
+        <Modal.Body style={{ backgroundColor: "#f8f9fa", color: "#212529" }}>{success || error}</Modal.Body>
+        <Modal.Footer style={{ backgroundColor: "#f8f9fa", borderTop: "1px solid #dee2e6" }}>
           <Button
             variant="secondary"
             onClick={() => setShowModal(false)}
-            style={{
-              backgroundColor: "var(--mainColor)",
-              borderColor: "var(--mainColor)",
-              color: "#000",
-            }}
+            style={{ backgroundColor: "var(--mainColor)", borderColor: "var(--mainColor)", color: "#000" }}
           >
             Close
           </Button>

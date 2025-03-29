@@ -1,0 +1,38 @@
+.teacher-profile-page {
+    padding-top: 50px;
+  }
+  
+  .teacher-profile-page .card {
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .teacher-profile-page h2 {
+    font-size: 2rem;
+    color: var(--mainColor);
+  }
+  
+  .teacher-profile-page h5 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .social-links a {
+    color: var(--mainColor);
+    transition: color 0.3s;
+  }
+  
+  .social-links a:hover {
+    color: #0a3e6e;
+  }
+  
+  .loading-overlay,
+  .error-overlay,
+  .not-found-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.5rem;
+  }
