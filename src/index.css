@@ -14,6 +14,10 @@
   --gradient-end: #c380ea;
 }
 
+::selection {
+  background-color: var(--mainColor);
+  color: #ffffff;
+}
 
 *{
   font-family: sans-serif;

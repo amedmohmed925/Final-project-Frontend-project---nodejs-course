@@ -1,16 +1,16 @@
-// src/components/Header/Header.jsx
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"; // Add NavDropdown
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
 import { toggleCart, clearCart } from "../../features/cart/cartSlice";
 import { FaCartPlus } from "react-icons/fa";
-import Notifications from "../Notifications/Notifications"; // إضافة مكون الإشعارات
+import Notifications from "../Notifications/Notifications";
 import "../../styles/Header.css";
 import Logo from "../Logo";
 import Cart from "../Cart/Cart";
 import ReactGA from "react-ga4";
+import { getCategories } from "../../api/categoryApi"; // Import getCategories
 
 ReactGA.initialize("G-XXXXXXX");
 
@@ -22,6 +22,7 @@ const Header = () => {
   const location = useLocation();
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [categories, setCategories] = useState([]); // State for categories
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -38,6 +39,19 @@ const Header = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error fetching categories:", error.message);
+      }
+    };
+    fetchCategories();
   }, []);
 
   return (
@@ -92,6 +106,18 @@ const Header = () => {
               >
                 Courses
               </Nav.Link>
+              {/* Add Categories Dropdown */}
+              <NavDropdown title="Categories" id="categories-dropdown">
+                {categories.map((category) => (
+                  <NavDropdown.Item
+                    key={category._id}
+                    as={Link}
+                    to={`/categories/${category._id}`} // Link to category page
+                  >
+                    {category.name}
+                  </NavDropdown.Item>
+                ))}
+              </NavDropdown>
               <Nav.Link
                 as={Link}
                 to="/blog"

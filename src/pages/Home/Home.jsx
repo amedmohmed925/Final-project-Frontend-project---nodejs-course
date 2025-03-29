@@ -11,9 +11,14 @@ import TeamSection from "./TeamSection";
 import Gallery from "./Gallery";
 import ImageContentSection from "./ImageContentSection";
 import MostViewedCoursesSlider from "../../components/coureses/MostViewedCoursesSlider.jsx";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
- 
+
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
+  const navigate = useNavigate(); // Hook for navigation
+
 
   const reviewSliderSettings = {
     dots: true,
@@ -38,58 +43,71 @@ const Home = () => {
       },
     ],
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`); // Navigate to search results page
+    }
+  };
 
   const reviews = [
     {
       name: "Samir Ahmed",
       image: "https://courssat.com/assets/images/home/avatar.png",
-      review: "This course has been a game-changer for me. The instructors are highly knowledgeable!",
+      review:
+        "This course has been a game-changer for me. The instructors are highly knowledgeable!",
       rating: 5,
     },
     {
       name: "Lina Hassan",
       image: "https://courssat.com/assets/images/home/female.png",
-      review: "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
+      review:
+        "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
       rating: 4,
     },
     {
       name: "Omar Khaled",
       image: "https://courssat.com/assets/images/home/avatar.png",
-      review: "The best platform for learning. Highly recommend it to everyone!",
+      review:
+        "The best platform for learning. Highly recommend it to everyone!",
       rating: 5,
     },
     {
       name: "Ahmed Khaled",
       image: "https://courssat.com/assets/images/home/avatar.png",
-      review: "The best platform for learning. Highly recommend it to everyone!",
+      review:
+        "The best platform for learning. Highly recommend it to everyone!",
       rating: 5,
     },
     {
       name: "Lina Hassan",
       image: "https://courssat.com/assets/images/home/female.png",
-      review: "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
+      review:
+        "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
       rating: 4,
     },
     {
       name: "Mohamed Ali",
       image: "https://courssat.com/assets/images/home/avatar.png",
-      review: "The best platform for learning. Highly recommend it to everyone!",
+      review:
+        "The best platform for learning. Highly recommend it to everyone!",
       rating: 5,
     },
     {
       name: "Hassan Mohamed",
       image: "https://courssat.com/assets/images/home/avatar.png",
-      review: "The best platform for learning. Highly recommend it to everyone!",
+      review:
+        "The best platform for learning. Highly recommend it to everyone!",
       rating: 5,
     },
     {
       name: "Lina Hassan",
       image: "https://courssat.com/assets/images/home/female.png",
-      review: "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
+      review:
+        "Amazing experience! I learned so much and the flexibility was perfect for my schedule.",
       rating: 4,
     },
   ];
-
 
   return (
     <div className="home-page">
@@ -100,23 +118,27 @@ const Home = () => {
             <Row className="justify-content-center align-items-center min-vh-100">
               <Col xs={12} md={8} className="text-center">
                 <div className="title-container">
-                  <h1
-                    className="hero-title animate__animated animate__bounceInDown animate__delay-1"
-                  >
-                    Welcome to Our <span className="text-light">EduQuest</span>  Platform
+                  <h1 className="hero-title animate__animated animate__bounceInDown animate__delay-1">
+                    Welcome to Our <span className="text-light">EduQuest</span>{" "}
+                    Platform
                   </h1>
                 </div>
                 <p className="hero-subtitle animate__animated animate__bounceIn animate__delay-3">
                   Learn from the best instructors and enhance your skills.
                 </p>
-                <Form className="search-form animate__animated animate__bounceInUp animate__delay-2">
+                <Form
+                  className="search-form animate__animated animate__bounceInUp animate__delay-2"
+                  onSubmit={handleSearch} // Trigger search on form submit
+                >
                   <InputGroup>
                     <Form.Control
                       type="text"
                       placeholder="Search for a course..."
                       className="search-input"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                     />
-                    <Button className="search-button">
+                    <Button type="submit" className="search-button">
                       <Search />
                     </Button>
                   </InputGroup>
@@ -129,54 +151,12 @@ const Home = () => {
 
       <TeamSection />
 
-      {/* Most Viewed Courses Section */}
-      {/* <section className="most-viewed-courses">
-        <Container>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            Most Viewed Courses
-          </motion.h2>
-          <Slider {...sliderSettings}>
-            {coursesWithDescription.map((course) => (
-              <div key={course.title} className="px-2">
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
-                  <div className="course-card">
-                    <div className="course-image">
-                      <img
-                        src={course.image}
-                        alt={course.title}
-                        onError={handleImageError}
-                      />
-                      <div className="course-price">${course.price}</div>
-                    </div>
-                    <div className="course-content">
-                      <h3 className="course-title">{course.title}</h3>
-                      <p className="course-description">{course.description}</p>
-                      <div className="course-details">
-                        <span className="course-duration">{course.duration}</span>
-                        <span className="course-level">Beginner</span>
-                      </div>
-                      <button className="btn-custom enroll-btn">Enroll Now</button>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
-          </Slider>
-        </Container>
-      </section> */}
-<MostViewedCoursesSlider />
+      <MostViewedCoursesSlider />
       <FeaturesSection />
 
-  
-    
       <ImageContentSection />
-            {/* <WhyChooseUsSectios /> */}
-            <Gallery />
+      {/* <WhyChooseUsSectios /> */}
+      <Gallery />
       {/* Student Reviews Section */}
       <section className="student-reviews-section">
         <Container>
@@ -200,13 +180,19 @@ const Home = () => {
                   className="review-card"
                 >
                   <div className="review-header">
-                    <img src={review.image} alt={review.name} className="review-image" />
+                    <img
+                      src={review.image}
+                      alt={review.name}
+                      className="review-image"
+                    />
                     <h3 className="review-name">{review.name}</h3>
                   </div>
                   <p className="review-text">{review.review}</p>
                   <div className="review-rating">
                     {[...Array(review.rating)].map((_, i) => (
-                      <span key={i} className="rating-heart">❤️</span>
+                      <span key={i} className="rating-heart">
+                        ❤️
+                      </span>
                     ))}
                   </div>
                 </motion.div>
@@ -215,9 +201,6 @@ const Home = () => {
           </Slider>
         </Container>
       </section>
-
-      
-     
     </div>
   );
 };

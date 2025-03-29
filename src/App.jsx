@@ -28,6 +28,8 @@ import LessonPage from "./components/coureses/LessonPage"; // Fixed typo in fold
 import CategoryManager from "./components/CategoryManager.js/CategoryManager";
 import TeacherCourses from "./components/coureses/TeacherCourses";
 import AdminNotificationSender from "./components/AdminNotificationSender/AdminNotificationSender";
+import CategoryCourses from "./components/coureses/CategoryCourses";
+import SearchResults from "./components/SearchResults/SearchResults";
 const App = () => {
 
  
@@ -59,6 +61,8 @@ const App = () => {
           <Route path="/CategoryManager" element={<CategoryManager />} />
           <Route path="/CoursesTeacher" element={<TeacherCourses />} />
           <Route path="/AdminNotificationSender" element={<AdminNotificationSender />} />
+          <Route path="/categories/:categoryId" element={<CategoryCourses />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
             <Footer />
         

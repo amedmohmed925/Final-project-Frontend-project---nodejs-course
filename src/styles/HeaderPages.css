@@ -2,7 +2,8 @@
 .header-section {
     width: 100%;
     min-height: 20vh; /* ارتفاع نسبي بناءً على ارتفاع الشاشة */
-    background: rgb(14, 42, 70);
+    /* background: rgb(14, 42, 70); */
+    background-image: linear-gradient(to right, rgba(200, 0, 255, 0.51), rgba(0, 255, 221, 0.57));
     position: relative;
     overflow: hidden;
   }
