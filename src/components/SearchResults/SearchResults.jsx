@@ -25,7 +25,8 @@ const SearchResults = () => {
         const coursesData = await getAllCoursesPreview();
         const filtered = coursesData.filter((course) =>
           course.category.toLowerCase().includes(query) || // Match category
-          course.tags.some((tag) => tag.toLowerCase().includes(query)) // Match tags
+          course.tags.some((tag) => tag.toLowerCase().includes(query)) || // Match tags
+          course.description.toLowerCase().includes(query) // Match description
         );
         setCourses(coursesData);
         setFilteredCourses(filtered);
@@ -82,7 +83,7 @@ const SearchResults = () => {
   if (error) return <div>خطأ: {error}</div>;
 
   return (
-    <div className="search-results-page" style={{minHeight:"100vh"}}>
+    <div className="search-results-page" style={{ minHeight: "100vh" }}>
       <HeaderPages title={`Search Results for "${query}"`} />
       <Container className="py-5">
         <Row>
