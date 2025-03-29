@@ -5,8 +5,7 @@ import { getCourseDetailsWithoutVideos } from "../../api/courseApi";
 import { getUserById } from "../../api/userApi";
 import { addItemToCart } from "../../features/cart/cartSlice";
 import {
-  FaHeart,
-  FaShareAlt,
+
   FaShoppingCart,
   FaPlayCircle,
   FaClock,
@@ -21,15 +20,12 @@ import {
   FaUsers,
   FaTag,
   FaEye,
-  FaGraduationCap,
-  FaUniversity,
+
 } from "react-icons/fa";
 import { Modal, Button, Spinner } from "react-bootstrap";
 import "../../styles/CourseDetails.css";
 import FeedbackSection from "../FeedbackSection.js/FeedbackSection";
 import ReactGA from "react-ga4";
-import HeaderPages from "../HeaderPages";
-import CourseProgress from "../CourseProgress/CourseProgress";
 
 ReactGA.initialize("G-XXXXXXX");
 
@@ -39,7 +35,6 @@ const CourseDetails = () => {
   const [teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [openSection, setOpenSection] = useState(null);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [addToCartError, setAddToCartError] = useState(null);
@@ -91,25 +86,7 @@ const CourseDetails = () => {
     return diffDays;
   };
 
-  const handleFavoriteToggle = () => {
-    setIsFavorite(!isFavorite);
-    ReactGA.event({
-      category: "Engagement",
-      action: "Toggle Favorite",
-      label: course?.title,
-      value: isFavorite ? 0 : 1,
-    });
-  };
 
-  const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href);
-    alert("Course link copied to clipboard!");
-    ReactGA.event({
-      category: "Engagement",
-      action: "Share Course",
-      label: course?.title,
-    });
-  };
 
   const handleAddToCart = () => {
     if (!user) {
@@ -345,15 +322,7 @@ const CourseDetails = () => {
               </div>
             </section>
 
-            {user ? (
-              <section className="course-section">
-                <CourseProgress courseId={id} />
-              </section>
-            ) : (
-              <section className="course-section">
-                <p>Please log in to track your progress.</p>
-              </section>
-            )}
+           
           </div>
         </div>
 

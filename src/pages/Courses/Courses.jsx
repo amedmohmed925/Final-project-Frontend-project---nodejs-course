@@ -139,7 +139,7 @@ const Courses = () => {
     <div>
       <HeaderPages title="Explore our courses" />
       <div className="courses-container">
-        <Row className="">
+        <Row >
           {/* Filters Sidebar */}
           <Col md={3} className="filters-sidebar">
             <Card className="p-3 shadow-sm">

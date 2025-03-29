@@ -2,23 +2,23 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getCourseById } from "../../api/courseApi";
-import { getCourseProgress, updateCourseProgress } from "../../api/courseProgressApi"; // استيراد APIs
-import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress } from "react-icons/fa";
+import { getCourseProgress, updateCourseProgress } from "../../api/courseProgressApi";
+import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress, FaCheck } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import "../../styles/LessonPage.css";
+import "../../styles/CourseProgress.css";
 import Logo from "../Logo";
-
 const LessonPage = () => {
   const { courseId, sectionIndex, lessonIndex } = useParams();
   const [course, setCourse] = useState(null);
-  const [progress, setProgress] = useState(null); // حالة التقدم
+  const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [openSection, setOpenSection] = useState(parseInt(sectionIndex));
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [watermarkPosition, setWatermarkPosition] = useState({ top: "10%", left: "10%" });
-  const [videoProgress, setVideoProgress] = useState(0); // تقدم الفيديو
+  const [videoProgress, setVideoProgress] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
@@ -28,7 +28,6 @@ const LessonPage = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
 
-  // جلب بيانات الكورس والتقدم
   useEffect(() => {
     const fetchCourseAndProgress = async () => {
       try {
@@ -48,7 +47,6 @@ const LessonPage = () => {
     fetchCourseAndProgress();
   }, [courseId, user]);
 
-  // تحريك العلامة المائية
   useEffect(() => {
     const moveWatermark = () => {
       const maxTop = 10;
@@ -60,7 +58,6 @@ const LessonPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // متابعة حالة ملء الشاشة
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -69,17 +66,14 @@ const LessonPage = () => {
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  // منع النقر بالزر الأيمن
   const handleContextMenu = (e) => {
     e.preventDefault();
   };
 
-  // التحكم في التشغيل/الإيقاف
   const togglePlayPause = () => {
     setPlaying(!playing);
   };
 
-  // التحكم في الصوت
   const toggleMute = () => {
     setMuted(!muted);
   };
@@ -90,7 +84,6 @@ const LessonPage = () => {
     setMuted(newVolume === 0);
   };
 
-  // تقديم وتأخير الفيديو
   const handleFastForward = () => {
     if (playerRef.current) {
       const currentTime = playerRef.current.getCurrentTime();
@@ -105,7 +98,6 @@ const LessonPage = () => {
     }
   };
 
-  // تحديث تقدم الفيديو
   const handleProgressChange = (e) => {
     const newProgress = parseFloat(e.target.value);
     setVideoProgress(newProgress);
@@ -115,7 +107,6 @@ const LessonPage = () => {
     }
   };
 
-  // التحكم في ملء الشاشة
   const toggleFullscreen = () => {
     if (isFullscreen) {
       document.exitFullscreen();
@@ -124,7 +115,6 @@ const LessonPage = () => {
     }
   };
 
-  // تحديث التقدم عند اكتمال الدرس
   const markLessonAsCompleted = async () => {
     if (!user) {
       setShowLoginModal(true);
@@ -143,28 +133,43 @@ const LessonPage = () => {
     }
   };
 
-  // التحقق من اكتمال الدرس
-  const isLessonCompleted = () => {
+  const isLessonCompleted = (sIndex, lIndex) => {
     if (!progress || !progress.sections) return false;
-    const section = progress.sections.find((s) => s.sectionIndex === parseInt(sectionIndex));
+    const section = progress.sections.find((s) => s.sectionIndex === sIndex);
     if (!section) return false;
-    const lesson = section.lessons.find((l) => l.lessonIndex === parseInt(lessonIndex));
+    const lesson = section.lessons.find((l) => l.lessonIndex === lIndex);
     return lesson?.completed || false;
   };
 
-  // التنقل بين الحلقات مع التحقق من الاكتمال
   const handleLessonClick = (newSectionIndex, newLessonIndex) => {
     if (!user) {
       setShowLoginModal(true);
       return;
     }
 
-    const currentCompleted = isLessonCompleted();
-    if (!currentCompleted && (newSectionIndex !== parseInt(sectionIndex) || newLessonIndex !== parseInt(lessonIndex))) {
-      alert("Please complete the current lesson before moving to another one.");
+    const currentSectionIdx = parseInt(sectionIndex);
+    const currentLessonIdx = parseInt(lessonIndex);
+    const currentCompleted = isLessonCompleted(currentSectionIdx, currentLessonIdx);
+
+    // إذا كان الدرس المطلوب مكتملاً، يُسمح بالانتقال إليه
+    const targetCompleted = isLessonCompleted(newSectionIndex, newLessonIndex);
+    if (targetCompleted) {
+      navigate(`/course/${courseId}/section/${newSectionIndex}/lesson/${newLessonIndex}`);
       return;
     }
 
+    // تحديد إذا كان الدرس المطلوب لاحقًا للدرس الحالي
+    const isTargetLater =
+      newSectionIndex > currentSectionIdx ||
+      (newSectionIndex === currentSectionIdx && newLessonIndex > currentLessonIdx);
+
+    // إذا لم يكن الدرس الحالي مكتملاً وكان الدرس المطلوب لاحقًا، امنع الانتقال
+    if (!currentCompleted && isTargetLater) {
+      alert("Please complete the current lesson before moving to the next one.");
+      return;
+    }
+
+    // السماح بالانتقال إذا كان الدرس المطلوب سابقًا أو هو نفسه الدرس الحالي
     navigate(`/course/${courseId}/section/${newSectionIndex}/lesson/${newLessonIndex}`);
   };
 
@@ -191,7 +196,21 @@ const LessonPage = () => {
       </header>
 
       <div className="lesson-page-container">
+
         <aside className="lesson-sidebar">
+        {progress && (
+
+          <div className="course-progress-container">
+            <h3>Course Progress: {progress.completionPercentage.toFixed(2)}%</h3>
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${progress.completionPercentage}%` }}
+              ></div>
+            </div>
+            {/* <CourseProgress /> */}
+          </div>
+        )}
           <h3>Course Curriculum</h3>
           <div className="sections-stack">
             {course.sections.map((section, sIndex) => (
@@ -205,6 +224,7 @@ const LessonPage = () => {
                 <div className={`section-lessons ${openSection === sIndex ? "open" : ""}`}>
                   {section.lessons.map((lesson, lIndex) => {
                     const isLessonAccessible = user || (sIndex === 0 && lIndex === 0);
+                    const completed = isLessonCompleted(sIndex, lIndex);
                     return (
                       <div
                         key={lIndex}
@@ -225,7 +245,10 @@ const LessonPage = () => {
                           )}
                         </div>
                         <div className="lesson-text">
-                          <h5>{sIndex + 1}.{lIndex + 1} {lesson.title}</h5>
+                          <h5>
+                            {sIndex + 1}.{lIndex + 1} {lesson.title}
+                            {completed && <FaCheck className="completed-icon" />}
+                          </h5>
                         </div>
                       </div>
                     );
@@ -313,14 +336,13 @@ const LessonPage = () => {
                 <p>{currentLesson.quiz}</p>
               </div>
             )}
-            {/* زر Mark as Completed */}
             {canViewLesson && user && (
               <Button
-                variant={isLessonCompleted() ? "success" : "primary"}
+                variant={isLessonCompleted(parseInt(sectionIndex), parseInt(lessonIndex)) ? "success" : "primary"}
                 onClick={markLessonAsCompleted}
-                disabled={isLessonCompleted()}
+                disabled={isLessonCompleted(parseInt(sectionIndex), parseInt(lessonIndex))}
               >
-                {isLessonCompleted() ? "Completed" : "Mark as Completed"}
+                {isLessonCompleted(parseInt(sectionIndex), parseInt(lessonIndex)) ? "Completed" : "Mark as Completed"}
               </Button>
             )}
           </div>
