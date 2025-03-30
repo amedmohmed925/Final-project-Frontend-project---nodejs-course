@@ -31,6 +31,7 @@ import AdminNotificationSender from "./components/AdminNotificationSender/AdminN
 import CategoryCourses from "./components/coureses/CategoryCourses";
 import SearchResults from "./components/SearchResults/SearchResults";
 import TeacherProfile from "./components/TeacherProfile/TeacherProfile";
+import Chat from "./components/ChatBot/Chat";
 const App = () => {
 
  
@@ -64,6 +65,7 @@ const App = () => {
           <Route path="/AdminNotificationSender" element={<AdminNotificationSender />} />
           <Route path="/categories/:categoryId" element={<CategoryCourses />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/chatbot" element={<Chat />} />
           <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
         </Routes>
             <Footer />

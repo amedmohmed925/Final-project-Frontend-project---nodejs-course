@@ -401,6 +401,9 @@ const Community = () => {
           <FaBell />
           <span>{notifications.filter((n) => !n.isRead).length}</span>
         </div>
+        <Link className="btn" to={"/chatbot"}>
+        ChatBot AI
+        </Link>
 
         <div className="community-grid">
           <section className="posts-section">
