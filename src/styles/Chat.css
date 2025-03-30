@@ -1,7 +1,4 @@
-:root {
-    --mainColor: #007bff; /* يمكنك تغيير هذا اللون حسب تصميمك */
-  }
-  
+
   .chat-page {
     max-width: 900px;
     margin: 0 auto;
@@ -37,11 +34,10 @@
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    /* خلفية الشات: يمكنك اختيار لون أو صورة */
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* خلفية تدرج لوني */
-    /* أو استخدام صورة: */
-    /* background: url('https://example.com/chat-background.jpg') no-repeat center center; */
-    /* background-size: cover; */
+    /* دمج النمط مع التدرج اللوني القديم */
+    background: linear-gradient(135deg, #84fed5bf, #9800fd4d), 
+                url("https://www.transparenttextures.com/patterns/arabesque.png") repeat;
+    background-size: auto; /* النمط يكرر بحجمه الطبيعي */
     scrollbar-width: thin;
     scrollbar-color: var(--mainColor) #f1f1f1;
   }
@@ -72,7 +68,7 @@
   }
   
   .message-bubble.bg-primary {
-    background: var(--mainColor);
+    background: var(--mainColor) !important;
     border-bottom-right-radius: 5px;
   }
   
