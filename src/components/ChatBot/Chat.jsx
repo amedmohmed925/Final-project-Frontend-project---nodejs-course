@@ -5,15 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import '../../styles/Chat.css';
 import HeaderPages from '../HeaderPages';
-
+import { useLocation } from 'react-router-dom';
+import NavigationBar from '../NavigationBar/NavigationBar'; // استيراد شريط التنقل
 function Chat() {
   const { user } = useSelector((state) => state.user);
   const accessToken = localStorage.getItem('accessToken');
+  const location = useLocation();
+  const isChatbotMode = location.pathname === '/chat/bot'; // تحديد الوضع بناءً على المسار
 
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [isChatbotMode, setIsChatbotMode] = useState(false);
   const [displayedMessages, setDisplayedMessages] = useState([]);
   const chatEndRef = useRef(null);
 
@@ -92,16 +94,9 @@ function Chat() {
 
   return (
     <>
-      <HeaderPages title={'Chat with AI or People'} />
+      <HeaderPages title={isChatbotMode ? 'Chat with AI' : 'Live Chat'} />
+      <NavigationBar /> 
       <div className="container mt-5 chat-page">
-        <div className="d-flex justify-content-center mb-4">
-          <button
-            className={`btn btn-toggle ${isChatbotMode ? 'btn-outline-primary' : ''}`}
-            onClick={() => setIsChatbotMode(!isChatbotMode)}
-          >
-            {isChatbotMode ? 'Switch to Public Chat' : 'Chat with Chatbot'}
-          </button>
-        </div>
         <div className="chat-container card shadow-lg">
           {/* العنوان الثابت */}
           <div className="chat-header p-3 text-center">

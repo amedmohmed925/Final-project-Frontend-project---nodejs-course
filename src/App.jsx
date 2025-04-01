@@ -65,7 +65,8 @@ const App = () => {
           <Route path="/AdminNotificationSender" element={<AdminNotificationSender />} />
           <Route path="/categories/:categoryId" element={<CategoryCourses />} />
           <Route path="/search" element={<SearchResults />} />
-          <Route path="/chatbot" element={<Chat />} />
+          <Route path="/chat/live" element={<Chat />} />
+        <Route path="/chat/bot" element={<Chat />} />
           <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
         </Routes>
             <Footer />
