@@ -140,7 +140,7 @@ const Community = () => {
   };
 
   return (
-    <div>
+    <div className="mainPage">
       <HeaderPages title={"Community"} />
 
       <NavigationBar />

@@ -1,9 +1,10 @@
 
 .community-page {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   position: relative;
+  
 }
 
 .community-buttons {
@@ -12,7 +13,10 @@
   gap: 15px;
   margin-bottom: 30px;
 }
-
+.mainPage{
+  background: linear-gradient(135deg, #84fed5bf, #9800fd4d),
+              url("https://www.transparenttextures.com/patterns/arabesque.png") repeat;
+}
 .btn-community {
   background: var(--mainColor);
   color: white;
@@ -33,8 +37,7 @@
 }
 
 .posts-section {
-  background: linear-gradient(135deg, #84fed5bf, #9800fd4d),
-              url("https://www.transparenttextures.com/patterns/arabesque.png") repeat;
+  
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);

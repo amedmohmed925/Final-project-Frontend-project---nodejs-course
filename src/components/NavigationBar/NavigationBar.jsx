@@ -10,19 +10,19 @@ const NavigationBar = () => {
     <nav className="navigation-bar">
       <Link 
         to="/community" 
-        className={`nav-btn ${location.pathname === '/community' ? 'active' : ''}`}
+        className={`nav-btn btn ${location.pathname === '/community' ? 'active' : ''}`}
       >
         Posts
       </Link>
       <Link 
         to="/chat/live" 
-        className={`nav-btn ${location.pathname === '/chat/live' ? 'active' : ''}`}
+        className={`nav-btn btn ${location.pathname === '/chat/live' ? 'active' : ''}`}
       >
         Live Chat
       </Link>
       <Link 
         to="/chat/bot" 
-        className={`nav-btn ${location.pathname === '/chat/bot' ? 'active' : ''}`}
+        className={`nav-btn btn ${location.pathname === '/chat/bot' ? 'active' : ''}`}
       >
         AI Chatbot
       </Link>

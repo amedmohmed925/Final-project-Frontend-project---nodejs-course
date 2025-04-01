@@ -95,6 +95,8 @@ function Chat() {
   return (
     <>
       <HeaderPages title={isChatbotMode ? 'Chat with AI' : 'Live Chat'} />
+      <div className="mainPage">
+
       <NavigationBar /> 
       <div className="container mt-5 chat-page">
         <div className="chat-container card shadow-lg">
@@ -155,6 +157,7 @@ function Chat() {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </>
   );
