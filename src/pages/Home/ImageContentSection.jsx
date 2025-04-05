@@ -46,7 +46,8 @@ const ImageContentSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             >
-              <h2 className="section-title">Why Learn With Us?</h2>
+
+              <h2 className="fw-bold mb-3">Why Learn With Us?</h2>
               <p className="section-text">
                 Our platform offers the best learning experience with expert
                 instructors, flexible schedules, and certified courses designed

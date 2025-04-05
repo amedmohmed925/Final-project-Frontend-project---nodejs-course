@@ -5,7 +5,7 @@ import { FaUser, FaLock, FaSpinner } from "react-icons/fa";
 import { Form, Button, Modal, Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import "../styles/Register.css"; // تأكدي من أن المسار صحيح
+import "../styles/Register.css";
 import Logo from "../components/Logo";
 
 const Login = () => {
@@ -42,19 +42,46 @@ const Login = () => {
     return true;
   };
 
+  const getCustomErrorMessage = (error) => {
+    const apiMessage = error.message;
+    const status = error.status;
+
+    if (status === 429) {
+      return "You’ve exceeded the login attempts limit. Please wait 10 minutes and try again.";
+    }
+
+    switch (apiMessage) {
+      case "Invalid credentials":
+        return "Username or password is incorrect. Please try again.";
+      case "Too many login attempts, please try again after 10 minutes":
+        return "You’ve exceeded the login attempts limit. Please wait 10 minutes and try again.";
+      case "Account not verified. Please verify your email.":
+        return "Your account is not verified yet. Please check your email to verify it.";
+      default:
+        return apiMessage || "Something went wrong. Please try again.";
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateInputs()) return;
 
     setIsLoading(true);
+    setError("");
+    setSuccess("");
+
     try {
-      await dispatch(login(credentials)).unwrap();
-      setError("");
+      const result = await dispatch(login(credentials)).unwrap();
+      localStorage.setItem("accessToken", result.accessToken);
+      localStorage.setItem("refreshToken", result.refreshToken);
+      localStorage.setItem("user", JSON.stringify(result.user));
       setSuccess("Login successful! Redirecting...");
       setShowModal(true);
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
-      setError(err.message || "Login failed");
+      const customErrorMessage = getCustomErrorMessage(err);
+      setError(customErrorMessage);
       setShowModal(true);
     } finally {
       setIsLoading(false);
@@ -75,7 +102,7 @@ const Login = () => {
               <div className="py-4 logoAuth text-center">
                 <Logo colorText="#0a3e6e" />
                 <motion.h2
-                  className="fs-4 fw-bold mb-0 mt-3  section-title"
+                  className="fs-4 fw-bold mb-0 mt-3 section-title"
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}

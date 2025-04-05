@@ -139,9 +139,9 @@ const Gallery = ({
       height: `${height + 60}px`,
       transform: `translateX(${
         rotations[`${row},${col}`]?.col || 0
-      }px) translateY(${
-        rotations[`${row},${col}`]?.row || 0
-      }px) rotateZ(${rotations[`${row},${col}`]?.rot || 0}deg)`,
+      }px) translateY(${rotations[`${row},${col}`]?.row || 0}px) rotateZ(${
+        rotations[`${row},${col}`]?.rot || 0
+      }deg)`,
     };
   };
 
@@ -150,17 +150,12 @@ const Gallery = ({
       className={`gallery py-5 ${show ? "gallery-display" : ""}`}
       onMouseLeave={hideGallery}
     >
-
-<motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="section-title"
-          >
-            Success Exhibition
-            <h4 className="text-light"> Pictures of stories of excellence</h4>
-          </motion.h2>
-         
+      <div className="text-center mb-5 scroll-animation visible">
+        <h2 className="fw-bold">Success Exhibition</h2>
+        <p className="lead text-muted mx-auto" style={{ maxWidth: 700 }}>
+          Pictures of stories of excellence
+        </p>
+      </div>
       <div>
         {imageRows.map((imageRow, i) => (
           <div key={i} className="gallery__row">

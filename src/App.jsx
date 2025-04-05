@@ -1,9 +1,8 @@
-
-import {  Container } from "react-bootstrap";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/navbar/Header";
-import Login from "./auth/Login"
-import Register from "./auth/Register"
+import Login from "./auth/Login";
+import Register from "./auth/Register";
 import Courses from "./pages/Courses/Courses";
 import Home from "./pages/Home/Home";
 import Profile from "./user/Profile/Profile";
@@ -19,12 +18,12 @@ import About from "./pages/About/About";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCart } from "./features/cart/cartSlice";
-import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard"
-import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport"
+import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard";
+import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport";
 import Community from "./pages/Community/Community";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import Footer from "./components/Footer";
-import LessonPage from "./components/coureses/LessonPage"; // Fixed typo in folder name
+import LessonPage from "./components/coureses/LessonPage";
 import CategoryManager from "./components/CategoryManager.js/CategoryManager";
 import TeacherCourses from "./components/coureses/TeacherCourses";
 import AdminNotificationSender from "./components/AdminNotificationSender/AdminNotificationSender";
@@ -32,49 +31,65 @@ import CategoryCourses from "./components/coureses/CategoryCourses";
 import SearchResults from "./components/SearchResults/SearchResults";
 import TeacherProfile from "./components/TeacherProfile/TeacherProfile";
 import Chat from "./components/ChatBot/Chat";
-const App = () => {
 
- 
+const App = () => {
+  const location = useLocation();
+  const noFooterPaths = [
+    "/register",
+    "/login", // Corrected from "register" duplicate
+    "/profile",
+    "/forgotPassword",
+    "/reset-password",
+    "/AdminNotificationSender",
+    "/update-info",
+    "/AdminCouponReport",
+    "/all-users",
+    "/CategoryManager",
+  ];
+
+  const showFooter = !noFooterPaths.includes(location.pathname);
 
   return (
-    <Router>
-      <div>
+    <div>
       <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/update-info" element={<UpdateInfo />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/all-users" element={<AllUsers />} />
-          <Route path="/add-course" element={<AddCourse />} />
-          <Route path="/courses/:id" element={<CourseDetails />} />
-          <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
-          <Route path="/edit-course/:id" element={<EditCourse />} />
-          <Route path="/AdvertiserDashboard" element={<AdvertiserDashboard />} />
-          <Route path="/AdminCouponReport" element={<AdminCouponReport />} />
-          <Route path="/Community" element={<Community />} />
-          <Route path="/ContactPage" element={<ContactPage />} />
-          <Route path="/CategoryManager" element={<CategoryManager />} />
-          <Route path="/CoursesTeacher" element={<TeacherCourses />} />
-          <Route path="/AdminNotificationSender" element={<AdminNotificationSender />} />
-          <Route path="/categories/:categoryId" element={<CategoryCourses />} />
-          <Route path="/search" element={<SearchResults />} />
-          <Route path="/chat/live" element={<Chat />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/About" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/update-info" element={<UpdateInfo />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/all-users" element={<AllUsers />} />
+        <Route path="/add-course" element={<AddCourse />} />
+        <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
+        <Route path="/edit-course/:id" element={<EditCourse />} />
+        <Route path="/AdvertiserDashboard" element={<AdvertiserDashboard />} />
+        <Route path="/AdminCouponReport" element={<AdminCouponReport />} />
+        <Route path="/Community" element={<Community />} />
+        <Route path="/ContactPage" element={<ContactPage />} />
+        <Route path="/CategoryManager" element={<CategoryManager />} />
+        <Route path="/CoursesTeacher" element={<TeacherCourses />} />
+        <Route path="/AdminNotificationSender" element={<AdminNotificationSender />} />
+        <Route path="/categories/:categoryId" element={<CategoryCourses />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/chat/live" element={<Chat />} />
         <Route path="/chat/bot" element={<Chat />} />
-          <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
-        </Routes>
-            <Footer />
-        
-      </div>
-    </Router>
+        <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
+      </Routes>
+      {showFooter && <Footer />} 
+    </div>
   );
 };
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
 
+export default AppWrapper;

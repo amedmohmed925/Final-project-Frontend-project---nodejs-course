@@ -1,0 +1,36 @@
+.feature-card-section {
+    padding: 30px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+    height: 100% !important;
+    transition: transform 0.3s !important;
+  }
+  
+  .feature-card-section:hover {
+    transform: translateY(-10px) !important;
+  }
+  
+  .feature-icon-section {
+    width: 70px !important;
+    height: 70px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: rgba(111, 66, 193, 0.1) !important;
+    color: #6F42C1 !important;
+    border-radius: 50% !important; 
+    margin-bottom: 20px !important;
+  }
+
+  
+  .scroll-animation {
+    opacity: 0 !;
+    transform: translateY(30px) !;
+    transition: opacity 0.8s, transform 0.8s !;
+  }
+  
+  .scroll-animation.visible {
+    opacity: 1 !;
+    transform: translateY(0) !;
+  }
+  

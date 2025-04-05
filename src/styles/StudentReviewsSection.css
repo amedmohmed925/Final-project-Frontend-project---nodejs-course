@@ -1,0 +1,231 @@
+/* Student Reviews Section */
+.student-reviews-section {
+    padding: 60px 0;
+    background-color: #f9fafb; /* Light gray background for light mode */
+    overflow: hidden; /* Prevent overflow from animations */
+  }
+  
+  
+  /* Slider Container */
+  .review-slide {
+    padding: 0 15px; /* Space between slides */
+  }
+  
+  /* Review Card */
+  .review-card {
+    background: #ffffff; /* White card background */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .review-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  }
+  
+  /* Review Header */
+  .review-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .review-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid  var(--mainColor); /* Blue border for modern touch */
+    margin-bottom: 10px;
+  }
+  
+  .review-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1f2937; /* Dark gray for name */
+    margin: 0;
+  }
+  
+  /* Review Text */
+  .review-text {
+    font-size: 1rem;
+    color: #4b5563; /* Medium gray for readability */
+    line-height: 1.5;
+    margin-bottom: 15px;
+  }
+  
+  /* Review Rating */
+  .review-rating {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .rating-star {
+    font-size: 1.2rem;
+    color: #f59e0b; /* Golden yellow for stars */
+    transition: transform 0.3s ease;
+  }
+  
+  .review-card:hover .rating-star {
+    transform: scale(1.2); /* Slight scale-up animation on hover */
+  }
+  /* Slick Slider Customizations */
+.slick-dots li button:before {
+    font-size: 12px;
+    color: #d1d5db; /* Light gray dots */
+  }
+  
+  .slick-dots li.slick-active button:before {
+    color: var(--mainColor); /* Blue for active dot */
+  }
+  
+  /* Arrows Styling */
+  .slick-arrow {
+    width: 40px;
+    height: 40px;
+    background-color: var(--mainColor) !important;
+    border-radius: 50%; /* Circular shape */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+  
+  .slick-prev {
+    left: -10px; /* Position left arrow */
+  }
+  
+  .slick-next {
+    right: -10px; /* Position right arrow */
+  }
+  
+  /* Arrow Icons */
+  .slick-prev:before,
+  .slick-next:before {
+    content: ""; /* Remove default content */
+    font-size: 0; /* Hide text content */
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+  }
+  
+  .slick-next:before {
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E") no-repeat center;
+    background-size: contain;
+  }
+  
+  /* Hover Effects */
+  .slick-arrow:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    background-color: var(--mainColor);
+
+  }
+  
+  /* Disable Arrows when not clickable */
+  .slick-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .slick-prev {
+      left: -30px;
+    }
+  
+    .slick-next {
+      right: -30px;
+    }
+  
+    .slick-arrow {
+      width: 35px;
+      height: 35px;
+    }
+  
+    .slick-prev:before,
+    .slick-next:before {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .slick-prev {
+      left: -20px;
+    }
+  
+    .slick-next {
+      right: -20px;
+    }
+  
+    .slick-arrow {
+      width: 30px;
+      height: 30px;
+    }
+  }
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .student-reviews-section {
+      padding: 40px 0;
+    }
+  
+    .section-title {
+      font-size: 2rem;
+    }
+  
+    .section-subtitle {
+      font-size: 1rem;
+    }
+  
+    .review-card {
+      padding: 15px;
+    }
+  
+    .review-image {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .review-name {
+      font-size: 1.1rem;
+    }
+  
+    .review-text {
+      font-size: 0.9rem;
+    }
+  
+    .slick-prev {
+      left: -30px;
+    }
+  
+    .slick-next {
+      right: -30px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .section-title {
+      font-size: 1.8rem;
+    }
+  
+    .section-subtitle {
+      font-size: 0.9rem;
+    }
+  
+    .review-image {
+      width: 45px;
+      height: 45px;
+    }
+  
+    .review-text {
+      font-size: 0.85rem;
+    }
+  }

@@ -23,14 +23,14 @@ const TeamSection = () => {
   return (
     <section className="team-section">
       <Container>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="section-title"
-        >
-          Our Team
-        </motion.h2>
+      <div className="text-center mb-5 scroll-animation visible">
+      <h2 className="fw-bold mb-3"> Our Team</h2>
+      <p className="lead text-muted mx-auto" style={{ maxWidth: 700 }}>
+        We're dedicated to providing a personalized learning experience that
+        helps you achieve your goals.
+      </p>
+    </div>
+        
         <Row className="align-items-center">
           <Col xs={12} md={6} className="team-slider-container">
             <div className="team-slider-wrapper">
