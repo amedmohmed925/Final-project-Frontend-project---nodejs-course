@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Container } from 'react-bootstrap';
-import { motion } from 'framer-motion';
-import { getMostViewedCourses } from '../../api/courseApi';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Container, Spinner } from "react-bootstrap";
+import { motion } from "framer-motion";
+import { getMostViewedCourses } from "../../api/courseApi";
 import "../../styles/MostViewedCourses.css";
 
 const MostViewedCoursesSlider = () => {
@@ -22,20 +22,34 @@ const MostViewedCoursesSlider = () => {
     const hasHalfStar = rating % 1 >= 0.5;
 
     for (let i = 1; i <= fullStars; i++) {
-      stars.push(<span key={i} className="mvc-star mvc-filled">★</span>);
+      stars.push(
+        <span key={i} className="mvc-star mvc-filled">
+          ★
+        </span>
+      );
     }
     if (hasHalfStar && fullStars < 5) {
-      stars.push(<span key={fullStars + 1} className="mvc-star mvc-half-filled">★</span>);
+      stars.push(
+        <span key={fullStars + 1} className="mvc-star mvc-half-filled">
+          ★
+        </span>
+      );
     }
     const remainingStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
     for (let i = 1; i <= remainingStars; i++) {
-      stars.push(<span key={fullStars + (hasHalfStar ? 2 : 1) + i} className="mvc-star">★</span>);
+      stars.push(
+        <span key={fullStars + (hasHalfStar ? 2 : 1) + i} className="mvc-star">
+          ★
+        </span>
+      );
     }
     return stars;
   };
 
   const truncateDescription = (description) => {
-    return description.length > 50 ? description.substring(0, 50) + '...' : description;
+    return description.length > 50
+      ? description.substring(0, 50) + "..."
+      : description;
   };
 
   useEffect(() => {
@@ -57,20 +71,26 @@ const MostViewedCoursesSlider = () => {
     e.target.src = "https://via.placeholder.com/300x200.png?text=Course+Image";
   };
 
-  if (loading) return <div className="mvc-text-center">Loading...</div>;
-  if (error) return <div className="mvc-text-center mvc-text-danger">Error: {error}</div>;
+  if (loading)
+    return (
+      <div className="mvc-text-center">
+        <Spinner />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="mvc-text-center mvc-text-danger">Error: {error}</div>
+    );
 
   return (
     <section className="mvc-section">
       <Container>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mvc-section-title"
-        >
-          Most Viewed Courses
-        </motion.h2>
+      <div className="text-center">
+  <h2 className="fw-bold">Explore Our Top-Viewed Courses</h2>
+  <p className="text-muted mx-auto" style={{ maxWidth: 700 }}>
+    Unlock your potential with a tailored educational journey designed to empower you and elevate your aspirations.
+  </p>
+</div>
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
@@ -83,7 +103,7 @@ const MostViewedCoursesSlider = () => {
             delay: 0, // سرعة عالية للحركة المستمرة
             disableOnInteraction: true, // يتوقف عند التفاعل (مثل الـ Hover)
             reverseDirection: true,
-             // الحركة لليسار
+            // الحركة لليسار
           }}
           speed={3000} // سرعة الانتقال (للحركة المستمرة)
           breakpoints={{
@@ -95,7 +115,10 @@ const MostViewedCoursesSlider = () => {
         >
           {courses.map((course) => (
             <SwiperSlide key={course._id} className="mvc-slider-item">
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
                 <div className="mvc-course-item">
                   <div className="mvc-img-wrapper">
                     <img
@@ -103,11 +126,17 @@ const MostViewedCoursesSlider = () => {
                       alt={course.title}
                       onError={handleImageError}
                     />
-                    {course.duration && <span className="mvc-course-duration">{course.duration}</span>}
+                    {course.duration && (
+                      <span className="mvc-course-duration">
+                        {course.duration}
+                      </span>
+                    )}
                   </div>
                   <div className="mvc-course-details">
                     <h3 className="mvc-course-name">{course.title}</h3>
-                    <p className="mvc-course-desc">{truncateDescription(course.description)}</p>
+                    <p className="mvc-course-desc">
+                      {truncateDescription(course.description)}
+                    </p>
                     <div className="mvc-course-info">
                       <div className="mvc-rating">
                         {renderStars(course.averageRating)}

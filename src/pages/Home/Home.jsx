@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StatsSection from "./StatsSection.jsx";
 import ChooseUsSection from "./ChooseUsSection.jsx";
-import StudentReviewsSection from "./StudentReviewsSection.jsx"; // Import the new component
+import StudentReviewsSection from "./StudentReviewsSection.jsx";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +28,22 @@ const Home = () => {
     }
   };
 
+  // Animation variants for motion
+  const titleVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
+  };
+
+  const subtitleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3, ease: "easeOut" } },
+  };
+
+  const formVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, delay: 0.6, ease: "easeOut" } },
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -36,32 +52,45 @@ const Home = () => {
           <Container>
             <Row className="justify-content-center align-items-center min-vh-100">
               <Col xs={12} md={8} className="text-center">
-                <div className="title-container">
-                  <h1 className="hero-title animate__animated animate__bounceInDown animate__delay-1">
-                    Welcome to Our <span className="text-light">EduQuest</span>{" "}
-                    Platform
-                  </h1>
-                </div>
-                <p className="hero-subtitle animate__animated animate__bounceIn animate__delay-3">
-                  Learn from the best instructors and enhance your skills.
-                </p>
-                <Form
-                  className="search-form animate__animated animate__bounceInUp animate__delay-2"
-                  onSubmit={handleSearch}
+                <motion.h1
+                  className="hero-title"
+                  initial="hidden"
+                  animate="visible"
+                  variants={titleVariants}
                 >
-                  <InputGroup>
-                    <Form.Control
-                      type="text"
-                      placeholder="Search for a course..."
-                      className="search-input"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <Button type="submit" className="search-button">
-                      <Search />
-                    </Button>
-                  </InputGroup>
-                </Form>
+                  Empower Your Future with{" "}
+                  <span className="highlight-text">EduQuest</span>
+                </motion.h1>
+                <motion.p
+                  className="hero-subtitle"
+                  initial="hidden"
+                  animate="visible"
+                  variants={subtitleVariants}
+                >
+                  Elevate your skills with world-class courses crafted by industry leaders.
+                </motion.p>
+                <motion.div
+                  className="search-container"
+                  initial="hidden"
+                  animate="visible"
+                  variants={formVariants}
+                >
+                  <Form className="search-form" onSubmit={handleSearch}>
+                    <InputGroup>
+                      <Form.Control
+                        type="text"
+                        placeholder="Find your perfect course..."
+                        className="search-input"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                      />
+                      <Button type="submit" className="search-button">
+                        <Search />
+                        <span className="search-button-text">Search</span>
+                      </Button>
+                    </InputGroup>
+                  </Form>
+                </motion.div>
               </Col>
             </Row>
           </Container>
@@ -75,7 +104,7 @@ const Home = () => {
       <FeaturesSection />
       <ImageContentSection />
       <Gallery />
-      <StudentReviewsSection /> 
+      <StudentReviewsSection />
     </div>
   );
 };

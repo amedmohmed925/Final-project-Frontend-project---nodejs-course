@@ -44,6 +44,13 @@ function StatsSection() {
   return (
     <section className="stats-section" ref={ref}>
       <div className="container">
+        {/* Updated title and paragraph to match the stats section */}
+        <div className="text-center">
+          <h2 className="fw-bold">Our <span style={{color:"var(--mainColor)"}}>EduQuest</span> Stats</h2>
+          <p className="text-muted mx-auto" style={{ maxWidth: 700 }}>
+            Discover the impact of our learning platform through these key numbers.
+          </p>
+        </div>
         <div className="row">
           <div className="col-md-3 mb-4">
             <div className="stats-card scroll-animation visible">

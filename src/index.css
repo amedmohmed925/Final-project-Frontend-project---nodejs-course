@@ -94,7 +94,7 @@ body {
   box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
 }
   ::-webkit-scrollbar {
-    width: 12px;
+    width: 9px;
   }
 
   ::-webkit-scrollbar-track {
@@ -102,12 +102,10 @@ body {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(120deg, #6a11cb 30%, #2575fc 70%);
+    /* background: linear-gradient( #6a11cb 30%, #2575fc 70%); */
+    background-color: #6a11cb;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(120deg, #47058f 30%, #2575fc 70%);
-  }
 
 
 
