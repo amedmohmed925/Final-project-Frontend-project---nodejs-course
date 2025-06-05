@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/cart";
+const API_URL = "http://localhost:8080/v1/cart";
 
 export const cartApi = axios.create({
   baseURL: API_URL,

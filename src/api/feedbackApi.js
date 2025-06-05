@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/feedbacks", // Confirm this matches your backend port
+  baseURL: "http://localhost:8080/v1/feedbacks", // Confirm this matches your backend port
   headers: { "Content-Type": "application/json" },
 });
 

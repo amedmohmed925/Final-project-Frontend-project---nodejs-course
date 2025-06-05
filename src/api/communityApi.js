@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/community";
+const API_URL = "http://localhost:8080/v1/community";
 
 const debounce = (func, delay) => {
   let timeoutId;

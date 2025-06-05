@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://localhost:8080/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        const response = await axios.post('http://localhost:8080/auth/refresh-token', {
+        const response = await axios.post('http://localhost:8080/v1/auth/refresh-token', {
           refreshToken,
         });
         const newAccessToken = response.data.accessToken;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PAYMENT_API_URL = "http://localhost:8080/payment";
+const PAYMENT_API_URL = "http://localhost:8080/v1/payment";
 
 export const paymentApi = axios.create({
   baseURL: PAYMENT_API_URL,

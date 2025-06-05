@@ -3,7 +3,7 @@ import axios from 'axios';
 import store from '../app/store';
 import { clearUser } from '../features/user/userSlice';
 
-const API_URL = 'http://localhost:8080/auth';
+const API_URL = 'http://localhost:8080/v1/auth';
 
 export const api = axios.create({
   baseURL: API_URL,

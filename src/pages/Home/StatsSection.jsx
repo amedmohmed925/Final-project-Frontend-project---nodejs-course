@@ -20,17 +20,17 @@ function StatsSection() {
     const fetchData = async () => {
       try {
         // Fetch students count
-        const studentsResponse = await fetch('http://localhost:8080/users/students/count');
+        const studentsResponse = await fetch('http://localhost:8080/v1/users/students/count');
         const studentsData = await studentsResponse.json();
         setStudentsCount(studentsData);
 
         // Fetch teachers count
-        const teachersResponse = await fetch('http://localhost:8080/users/teachers/count');
+        const teachersResponse = await fetch('http://localhost:8080/v1/users/teachers/count');
         const teachersData = await teachersResponse.json();
         setTeachersCount(teachersData);
 
         // Fetch courses count
-        const coursesResponse = await fetch('http://localhost:8080/courses/count');
+        const coursesResponse = await fetch('http://localhost:8080/v1/courses/count');
         const coursesData = await coursesResponse.json();
         setCoursesCount(coursesData);
       } catch (error) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/course-progress";
+const API_URL = "http://localhost:8080/v1/course-progress";
 
 export const progressApi = axios.create({
   baseURL: API_URL,

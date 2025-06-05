@@ -36,7 +36,7 @@ const App = () => {
   const location = useLocation();
   const noFooterPaths = [
     "/register",
-    "/login", // Corrected from "register" duplicate
+    "/login", 
     "/profile",
     "/forgotPassword",
     "/reset-password",
