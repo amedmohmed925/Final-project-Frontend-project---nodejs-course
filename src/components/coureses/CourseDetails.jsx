@@ -176,7 +176,7 @@ const CourseDetails = () => {
 
   return (
     <div className="course-details-page">
-      <main className="course-main">
+      <main className="course-main ">
         <section className="course-banner-section">
           <div className="banner-content container">
             <div className="banner-text">
@@ -201,7 +201,7 @@ const CourseDetails = () => {
             </div>
           </div>
         </section>
-        <div className="d-flex justify-content-center" style={{ flexDirection: "row-reverse" }}>
+        <div className="d-flex justify-content-center px-5" style={{ flexDirection: "row-reverse" }}>
           <section className="pricing-section">
             <div className="pricing-card">
               <div className="pricing-header">

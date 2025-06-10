@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../api/authApi";
-import { FaUser, FaLock, FaSpinner } from "react-icons/fa";
+import { FaUser, FaLock, FaSpinner, FaGoogle, FaFacebookF, FaTwitter, FaGithub, FaApple } from "react-icons/fa";
 import { Form, Button, Modal, Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import "../styles/Register.css";
+import "../styles/SocialLogin.css";
+
 import Logo from "../components/Logo";
 
 const Login = () => {
@@ -17,6 +19,7 @@ const Login = () => {
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [socialLoading, setSocialLoading] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -26,51 +29,44 @@ const Login = () => {
 
   const validateInputs = () => {
     const { username, password } = credentials;
-
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
       setError("Username can only contain letters, numbers, and underscores.");
       setShowModal(true);
       return false;
     }
-
     if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
-      setError("Password must contain at least one letter and one number.");
+      setError("Password must be at least 8 characters long and include a letter and a number.");
       setShowModal(true);
       return false;
     }
-
     return true;
   };
-
+  
   const getCustomErrorMessage = (error) => {
-    const apiMessage = error.message;
     const status = error.status;
+    const apiMessage = error.message;
 
+    if (status >= 500) {
+      return "A server error occurred. We are working on fixing it, please try again later.";
+    }
+    if (status === 401 || status === 403) {
+      return "Incorrect username or password. Please check your credentials and try again.";
+    }
     if (status === 429) {
-      return "You’ve exceeded the login attempts limit. Please wait 10 minutes and try again.";
+      return "You have made too many login attempts. Please wait a few minutes and try again.";
     }
-
-    switch (apiMessage) {
-      case "Invalid credentials":
-        return "Username or password is incorrect. Please try again.";
-      case "Too many login attempts, please try again after 10 minutes":
-        return "You’ve exceeded the login attempts limit. Please wait 10 minutes and try again.";
-      case "Account not verified. Please verify your email.":
-        return "Your account is not verified yet. Please check your email to verify it.";
-      default:
-        return apiMessage || "Something went wrong. Please try again.";
+    if (apiMessage === "Account not verified. Please verify your email.") {
+        return "Your account has not been verified. Please check your email for a verification link.";
     }
+    return "An unexpected error occurred. Please try again.";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateInputs()) return;
-
     setIsLoading(true);
     setError("");
     setSuccess("");
-
     try {
       const result = await dispatch(login(credentials)).unwrap();
       localStorage.setItem("accessToken", result.accessToken);
@@ -80,13 +76,30 @@ const Login = () => {
       setShowModal(true);
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
-      const customErrorMessage = getCustomErrorMessage(err);
+      const customErrorMessage = getCustomErrorMessage(err); 
       setError(customErrorMessage);
       setShowModal(true);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // =================== بداية الدالة المعدلة ===================
+  // تم إفراغ هذه الدالة لجعل الأيقونات شكلًا فقط بدون وظيفة
+  const handleSocialLogin = async (provider) => {
+    // لا تفعل شيئًا عند الضغط. الأيقونات شكل فقط في الوقت الحالي.
+    // يمكنك إضافة رسالة في الكونسول لتذكيرك بأنها غير مفعلة
+    console.log(`Social login with ${provider} is not implemented yet.`);
+  };
+  // =================== نهاية الدالة المعدلة ===================
+
+  const socialProviders = [
+    { name: "Google", icon: FaGoogle, className: "google-btn" },
+    { name: "Facebook", icon: FaFacebookF, className: "facebook-btn" },
+    { name: "Twitter", icon: FaTwitter, className: "twitter-btn" },
+    { name: "GitHub", icon: FaGithub, className: "github-btn" },
+    { name: "Apple", icon: FaApple, className: "apple-btn" }
+  ];
 
   return (
     <div className="auth-container d-flex align-items-center justify-content-center">
@@ -110,11 +123,10 @@ const Login = () => {
                   Welcome Back to Learning!
                 </motion.h2>
               </div>
+
               <Form onSubmit={handleSubmit} className="auth-form">
                 <Form.Group className="mb-3 position-relative">
-                  <Form.Label>
-                    <FaUser className="me-2" /> Username
-                  </Form.Label>
+                  <Form.Label><FaUser className="me-2" /> Username</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
@@ -126,9 +138,7 @@ const Login = () => {
                   />
                 </Form.Group>
                 <Form.Group className="mb-3 position-relative">
-                  <Form.Label>
-                    <FaLock className="me-2" /> Password
-                  </Form.Label>
+                  <Form.Label><FaLock className="me-2" /> Password</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
@@ -143,33 +153,50 @@ const Login = () => {
                   <Button
                     type="submit"
                     className="auth-button mb-2 rounded-pill"
-                    disabled={isLoading}
+                    disabled={isLoading || socialLoading}
                   >
-                    {isLoading ? (
-                      <FaSpinner className="spinner" />
-                    ) : (
-                      "Let’s Login"
-                    )}
+                    {isLoading ? <FaSpinner className="spinner" /> : "Let's Login"}
                   </Button>
-                  <Link
-                    className="text-secondary mb-2 text-decoration-none"
-                    to="/forgotPassword"
-                  >
+                  <Link className="text-secondary mb-2 text-decoration-none" to="/forgotPassword">
                     Forgot your password?
                   </Link>
-                  <Link
-                    className="text-secondary text-decoration-none"
-                    to="/register"
-                  >
+                  <Link className="text-secondary text-decoration-none" to="/register">
                     Don't have an account? Register
                   </Link>
+                  <div className="social-login-section mt-4">
+                    <div className="divider-container">
+                      <div className="divider">
+                        <span className="divider-text">Or log in with</span>
+                      </div>
+                    </div>
+                    <div className="social-buttons-container">
+                      {socialProviders.map((provider, index) => (
+                        <motion.button
+                          key={provider.name}
+                          type="button"
+                          className={`social-btn ${provider.className}`}
+                          onClick={() => handleSocialLogin(provider.name)}
+                          disabled={isLoading} // تمت إزالة socialLoading من هنا لأنه لم يعد مستخدمًا
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          whileTap={{ scale: 0.9 }}
+                          aria-label={`Login with ${provider.name}`}
+                        >
+                          {/* بما أن socialLoading لن يتم تفعيله، لن يظهر Spinner هنا أبدًا */}
+                          <provider.icon className="social-icon" />
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </Form>
             </motion.div>
           </Col>
         </Row>
       </Container>
-
+      
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header
           closeButton
@@ -204,6 +231,7 @@ const Login = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      
     </div>
   );
 };

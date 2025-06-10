@@ -1,0 +1,51 @@
+  .blog-card:hover {
+          transform: translateY(-8px);
+          transition: all 0.5s ease;
+        }
+        
+        .blog-card:hover .blog-image {
+          transform: scale(1.1);
+        }
+        
+        .blog-card:hover .blog-overlay {
+          opacity: 1;
+        }
+        
+        .blog-card:hover .blog-title {
+          color: #0d6efd !important;
+        }
+        
+        .read-more-btn:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+        }
+        
+        .load-more-btn:hover {
+          transform: scale(1.05) !important;
+          background-color: #6c757d !important;
+          border-color: #6c757d !important;
+          color: white !important;
+        }
+        
+        .subscribe-btn:hover {
+          transform: scale(1.05) !important;
+          box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+        }
+        
+        .badge:hover {
+          background-color: #6c757d !important;
+        }
+        
+        .transition-all {
+          transition: all 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+          .display-1 {
+            font-size: 3rem !important;
+          }
+          
+          .lead {
+            font-size: 1.1rem !important;
+          }
+        }
