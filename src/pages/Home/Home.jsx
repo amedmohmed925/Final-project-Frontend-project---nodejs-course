@@ -4,18 +4,19 @@ import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../../styles/Home.css";
+import "./Home.css";
 import "animate.css";
 import FeaturesSection from "./FeaturesSection";
 import TeamSection from "./TeamSection";
 import Gallery from "./Gallery";
 import ImageContentSection from "./ImageContentSection";
-import MostViewedCoursesSlider from "../../components/coureses/MostViewedCoursesSlider.jsx";
+import MostViewedCoursesSlider from "../../features/courses/components/MostViewedCoursesSlider.jsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StatsSection from "./StatsSection.jsx";
 import ChooseUsSection from "./ChooseUsSection.jsx";
 import StudentReviewsSection from "./StudentReviewsSection.jsx";
+import ModernEduQuestHero from "./ModernEduQuestHero.jsx";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -96,7 +97,7 @@ const Home = () => {
           </Container>
         </div>
       </section>
-
+{/* <ModernEduQuestHero /> */}
       <TeamSection />
       <MostViewedCoursesSlider />
       <StatsSection />

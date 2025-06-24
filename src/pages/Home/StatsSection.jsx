@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import "../../styles/StatsSection.css";
+import './StatsSection.css';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 

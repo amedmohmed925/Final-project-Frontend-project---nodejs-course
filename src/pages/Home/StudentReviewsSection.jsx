@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../../styles/StudentReviewsSection.css"; // Import the custom CSS
+import './StudentReviewsSection.css'; // Import the custom CSS
 
 const StudentReviewsSection = () => {
   const reviewSliderSettings = {

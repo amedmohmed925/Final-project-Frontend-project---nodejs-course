@@ -1,5 +1,5 @@
 import React from 'react'
-import "../../styles/ChooseUsSection.css";
+import "./ChooseUsSection.css";
 
 function ChooseUsSection() {
   return (

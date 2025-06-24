@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import '../../styles/FeaturesSection.css';
+import './FeaturesSection.css';
 import { Link } from 'react-router-dom';
 
 const FeaturesSection = () => {

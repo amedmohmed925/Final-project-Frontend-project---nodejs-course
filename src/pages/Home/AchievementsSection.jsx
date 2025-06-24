@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import '../../styles/Achievements.css';
+import './AchievementsSection.css'; // تأكد من إضافة ملف CSS الخاص بالتصميم
 
 const AchievementsSection = () => {
   const numberAnimation = {

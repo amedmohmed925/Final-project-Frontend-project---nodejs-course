@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "../../styles/Gallery.css";
+import "./Gallery.css";
 import { motion } from "framer-motion";
 const Gallery = ({
   // eslint-disable-next-line react/prop-types

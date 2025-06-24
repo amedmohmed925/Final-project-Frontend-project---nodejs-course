@@ -1,9 +1,9 @@
 
 // src/features/user/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-import { login, logout } from '../../api/authApi';
-import { editUserInfo, getCurrentUser, updateProfileImage } from '../../api/userApi';
-import { getAllUsers } from '../../api/userApi';
+import { login, logout } from '../auth/api/authApi';
+import { editUserInfo, getCurrentUser, updateProfileImage } from './api/userApi';
+import { getAllUsers } from './api/userApi';
 
 const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || null,

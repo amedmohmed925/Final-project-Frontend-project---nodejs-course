@@ -1,6 +1,6 @@
 // src/features/cart/cartSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { addToCart, removeFromCart, getCart, applyCoupon, checkoutCart } from "../../api/cartApi";
+import { addToCart, removeFromCart, getCart, applyCoupon, checkoutCart } from "./api/cartApi";
 
 // Async thunks
 export const fetchCart = createAsyncThunk("cart/fetchCart", async (userId, { rejectWithValue }) => {

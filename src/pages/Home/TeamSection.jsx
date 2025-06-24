@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import '../../styles/TeamSection.css'; // ملف الـ CSS للتنسيق
+import './TeamSection.css'; // ملف الـ CSS للتنسيق
 
 const TeamSection = () => {
   // قائمة بصور الأشخاص (روابط من Unsplash)

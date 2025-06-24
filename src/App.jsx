@@ -1,36 +1,37 @@
 import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import Header from "./components/navbar/Header";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
-import Courses from "./pages/Courses/Courses";
+import Header from "./shared/components/Header";
+import Login from "./features/auth/components/Login";
+import Register from "./features/auth/components/Register";
+import Courses from "./features/courses/pages/Courses";
 import Home from "./pages/Home/Home";
-import Profile from "./user/Profile/Profile";
-import UpdateInfo from "./user/UpdateInfo/UpdateInfo";
-import ForgotPassword from "./auth/ForgotPassword";
-import ResetPassword from "./auth/ResetPassword";
-import AllUsers from "./user/AllUsers/AllUsers";
-import AddCourse from "./components/coureses/AddCourse";
-import CourseDetails from "./components/coureses/CourseDetails";
-import EditCourse from "./components/coureses/EditCourse";
-import Blog from "./pages/Blog/Blog";
-import About from "./pages/About/About";
+import Profile from "./features/user/components/Profile";
+import UpdateInfo from "./features/user/components/UpdateInfo";
+import ForgotPassword from "./features/auth/components/ForgotPassword";
+import ResetPassword from "./features/auth/components/ResetPassword";
+import AllUsers from "./features/user/components/AllUsers";
+import AddCourse from "./features/courses/components/AddCourse";
+import CourseDetails from "./features/courses/components/CourseDetails";
+import EditCourse from "./features/courses/components/EditCourse";
+import Blog from "./pages/Blog"
+import About from "./pages/About";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCart } from "./features/cart/cartSlice";
-import AdvertiserDashboard from "./pages/AdvertiserDashboard/AdvertiserDashboard";
-import AdminCouponReport from "./pages/AdminCouponReport/AdminCouponReport";
-import Community from "./pages/Community/Community";
-import ContactPage from "./pages/ContactPage/ContactPage";
-import Footer from "./components/Footer";
-import LessonPage from "./components/coureses/LessonPage";
-import CategoryManager from "./components/CategoryManager.js/CategoryManager";
-import TeacherCourses from "./components/coureses/TeacherCourses";
-import AdminNotificationSender from "./components/AdminNotificationSender/AdminNotificationSender";
-import CategoryCourses from "./components/coureses/CategoryCourses";
-import SearchResults from "./components/SearchResults/SearchResults";
-import TeacherProfile from "./components/TeacherProfile/TeacherProfile";
-import Chat from "./components/ChatBot/Chat";
+import AdvertiserDashboard from "./features/advertiser/components/AdvertiserDashboard";
+import AdminCouponReport from "./features/coupon/components/AdminCouponReport";
+import Community from "./features/community/components/Community";
+import ContactPage from "./pages/ContactPage";
+import Footer from "./shared/components/Footer";
+import LessonPage from "./features/courses/components/LessonPage";
+import CategoryManager from "./features/category/components/CategoryManager";
+import TeacherCourses from "./features/courses/components/TeacherCourses";
+import AdminNotificationSender from "./features/notifications/components/AdminNotificationSender";
+import CategoryCourses from "./features/courses/components/CategoryCourses";
+import SearchResults from "./features/search/components/SearchResults";
+import TeacherProfile from "./features/teacher/components/TeacherProfile";
+import Chat from "./features/chat/components/Chat";
+import StudentManager from "./components/StudentManager";
 
 const App = () => {
   const location = useLocation();
@@ -80,6 +81,7 @@ const App = () => {
         <Route path="/chat/live" element={<Chat />} />
         <Route path="/chat/bot" element={<Chat />} />
         <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
+        <Route path="/teacher/students-manager" element={<StudentManager />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>
