@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getStudents, removeStudent, getStudentProgress } from "../features/teacher/api/teacherApi";
+import { getStudents, removeStudent, getStudentProgress } from "../api/teacherApi";
 import { Modal, Button, Spinner, Table, Badge, ListGroup, Alert } from "react-bootstrap";
 
 const StudentManager = () => {

@@ -20,6 +20,8 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [socialLoading, setSocialLoading] = useState("");
+  const [usernameHint, setUsernameHint] = useState("");
+  const [passwordHint, setPasswordHint] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,13 +31,9 @@ const Login = () => {
 
   const validateInputs = () => {
     const { username, password } = credentials;
-    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      setError("Username can only contain letters, numbers, and underscores.");
-      setShowModal(true);
-      return false;
-    }
-    if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password)) {
-      setError("Password must be at least 8 characters long and include a letter and a number.");
+    // Username: At least 4 chars, only letters, numbers, underscores, no spaces
+    if (!/^[a-zA-Z0-9_]{4,}$/.test(username) || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password)) {
+      setError("Incorrect username or password. Please check your credentials and try again.");
       setShowModal(true);
       return false;
     }
@@ -135,7 +133,39 @@ const Login = () => {
                     placeholder="Enter your username"
                     required
                     className="rounded-pill"
+                    onFocus={() => setUsernameHint("Username must be at least 4 characters and can only contain letters, numbers, and underscores (_). No spaces or special characters.")}
+                    onBlur={() => setUsernameHint("")}
                   />
+                  {usernameHint && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '-88px',
+                      left: '0',
+                      background: '#fff',
+                      color: '#333',
+                      border: '1px solid #ccc',
+                      borderRadius: '8px',
+                      padding: '8px 12px',
+                      fontSize: '0.95em',
+                      zIndex: 10,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      minWidth: '270px',
+                      maxWidth: '350px',
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        left: '30px',
+                        bottom: '-12px',
+                        width: 0,
+                        height: 0,
+                        borderLeft: '10px solid transparent',
+                        borderRight: '10px solid transparent',
+                        borderTop: '12px solid #fff',
+                        filter: 'drop-shadow(0 1px 1px #ccc)'
+                      }}></span>
+                      {usernameHint}
+                    </div>
+                  )}
                 </Form.Group>
                 <Form.Group className="mb-3 position-relative">
                   <Form.Label><FaLock className="me-2" /> Password</Form.Label>
@@ -147,7 +177,39 @@ const Login = () => {
                     placeholder="Enter your password"
                     required
                     className="rounded-pill"
+                    onFocus={() => setPasswordHint("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.")}
+                    onBlur={() => setPasswordHint("")}
                   />
+                  {passwordHint && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '-48px',
+                      left: '0',
+                      background: '#fff',
+                      color: '#333',
+                      border: '1px solid #ccc',
+                      borderRadius: '8px',
+                      padding: '8px 12px',
+                      fontSize: '0.95em',
+                      zIndex: 10,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      minWidth: '270px',
+                      maxWidth: '350px',
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        left: '30px',
+                        bottom: '-12px',
+                        width: 0,
+                        height: 0,
+                        borderLeft: '10px solid transparent',
+                        borderRight: '10px solid transparent',
+                        borderTop: '12px solid #fff',
+                        filter: 'drop-shadow(0 1px 1px #ccc)'
+                      }}></span>
+                      {passwordHint}
+                    </div>
+                  )}
                 </Form.Group>
                 <div className="d-flex flex-column align-items-center py-3">
                   <Button
@@ -161,7 +223,7 @@ const Login = () => {
                     Forgot your password?
                   </Link>
                   <Link className="text-secondary text-decoration-none" to="/register">
-                    Don't have an account? Register
+                    Don&apos;t have an account? Register
                   </Link>
                   <div className="social-login-section mt-4">
                     <div className="divider-container">

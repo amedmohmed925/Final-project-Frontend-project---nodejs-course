@@ -31,7 +31,8 @@ import CategoryCourses from "./features/courses/components/CategoryCourses";
 import SearchResults from "./features/search/components/SearchResults";
 import TeacherProfile from "./features/teacher/components/TeacherProfile";
 import Chat from "./features/chat/components/Chat";
-import StudentManager from "./components/StudentManager";
+import StudentManager from "./features/teacher/components/StudentManager";
+import PurchasedCourses from "./features/student/components/PurchasedCourses";
 
 const App = () => {
   const location = useLocation();
@@ -82,6 +83,7 @@ const App = () => {
         <Route path="/chat/bot" element={<Chat />} />
         <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
         <Route path="/teacher/students-manager" element={<StudentManager />} />
+        <Route path="/student/purchased-courses" element={<PurchasedCourses />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>

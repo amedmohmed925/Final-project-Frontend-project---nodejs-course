@@ -56,7 +56,6 @@ const MostViewedCoursesSlider = () => {
     const fetchMostViewedCourses = async () => {
       try {
         const data = await getMostViewedCourses(10);
-        console.log("Courses fetched:", data);
         setCourses(data);
         setLoading(false);
       } catch (err) {

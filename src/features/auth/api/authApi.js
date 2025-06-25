@@ -9,12 +9,13 @@ export const api = axios.create({
   baseURL: API_URL,
 });
 
+
 api.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
-    } else if (config.url !== '/login' && config.url !== '/register') {
+    } else if (!['/login', '/register', '/forget-password', '/reset-password'].includes(config.url)) {
       throw new Error('No access token found');
     }
     return config;

@@ -7,7 +7,6 @@ const api = axios.create({
 // List Students
 export const getStudents = async (courseId) => {
   const token = localStorage.getItem('accessToken');
-  console.log(token)
   return api.get('/students', {
     params: { courseId },
     headers: { Authorization: `Bearer ${token}` },
@@ -28,6 +27,15 @@ export const getStudentProgress = async (courseId, studentId) => {
   const token = localStorage.getItem('accessToken');
   return api.get('/students/progress', {
     params: { courseId, studentId },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+// Get Course Progress Stats
+export const getCourseProgress = async (courseId) => {
+  const token = localStorage.getItem('accessToken');
+  return api.get('/progress', {
+    params: { courseId },
     headers: { Authorization: `Bearer ${token}` },
   });
 };

@@ -126,42 +126,51 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               </li>
               <li>
                 <Link to="/teacher/students-manager" onClick={onClose}>
-                  <FaUsers className="me-2" /> إدارة طلابي
+                  <FaUsers className="me-2" /> Student Manager
                 </Link>
               </li>
             </>
           )}
 
-          {/* قسم تقدم الدورات */}
           {user?.role === "student" && (
-            <li className="progress-section">
-              <h4>My Learning Progress</h4>
-              {progressList.length > 0 ? (
-                <ul className="progress-list">
-                  {progressList.map((progress) => (
-                    <li key={progress.courseId._id} className="progress-item">
-                      <Link to={`/course/${progress.courseId._id}`} onClick={onClose}>
-                        {progress.courseId.title}
-                      </Link>
-                      <div className="progress-bar-container">
-                        <div
-                          className="progress-bar"
-                          style={{
-                            width: `${progress.completionPercentage}%`,
-                            height: "8px",
-                            backgroundColor: "#28a745",
-                            borderRadius: "4px",
-                          }}
-                        ></div>
-                      </div>
-                      <span>{progress.completionPercentage.toFixed(0)}%</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No courses enrolled yet.</p>
-              )}
-            </li>
+            <>
+              <li>
+                <Link to="/student/purchased-courses" onClick={onClose}>
+                  <MdSchool className="me-2" /> My Purchased Courses
+                </Link>
+              </li>
+              <li className="progress-section">
+                <h4>My Learning Progress</h4>
+                {progressList.length > 0 ? (
+                  <ul className="progress-list">
+                    {progressList.map((progress) => (
+                      <li key={progress.courseId._id} className="progress-item">
+                        <Link
+                          to={`/course/${progress.courseId._id}`}
+                          onClick={onClose}
+                        >
+                          {progress.courseId.title}
+                        </Link>
+                        <div className="progress-bar-container">
+                          <div
+                            className="progress-bar"
+                            style={{
+                              width: `${progress.completionPercentage}%`,
+                              height: "8px",
+                              backgroundColor: "#28a745",
+                              borderRadius: "4px",
+                            }}
+                          ></div>
+                        </div>
+                        <span>{progress.completionPercentage.toFixed(0)}%</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No courses enrolled yet.</p>
+                )}
+              </li>
+            </>
           )}
 
           <DeleteAccountModal

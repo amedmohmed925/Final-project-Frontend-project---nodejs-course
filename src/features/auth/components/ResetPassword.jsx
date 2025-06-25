@@ -13,6 +13,7 @@ const ResetPassword = () => {
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [passwordHint, setPasswordHint] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,14 +28,18 @@ const ResetPassword = () => {
     }
   }, [email, token]);
 
+  const validatePassword = (password) => {
+    // Password: at least 8 chars, includes uppercase, lowercase, number, special char
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!newPassword.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-      setError('Password must be at least 8 characters with a letter and a number.');
+    if (!validatePassword(newPassword)) {
+      setError('Password must be at least 8 characters and include uppercase, lowercase, number, and special character.');
       setShowModal(true);
       return;
     }
-
     setIsLoading(true);
     try {
       const response = await resetPassword(email, token, newPassword);
@@ -86,7 +91,39 @@ const ResetPassword = () => {
                     placeholder="Enter new password"
                     required
                     className="rounded-pill"
+                    onFocus={() => setPasswordHint("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.")}
+                    onBlur={() => setPasswordHint("")}
                   />
+                  {passwordHint && (
+                    <div style={{
+                      position: 'absolute',
+                      top: '-48px',
+                      left: '0',
+                      background: '#fff',
+                      color: '#333',
+                      border: '1px solid #ccc',
+                      borderRadius: '8px',
+                      padding: '8px 12px',
+                      fontSize: '0.95em',
+                      zIndex: 10,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                      minWidth: '270px',
+                      maxWidth: '350px',
+                    }}>
+                      <span style={{
+                        position: 'absolute',
+                        left: '30px',
+                        bottom: '-12px',
+                        width: 0,
+                        height: 0,
+                        borderLeft: '10px solid transparent',
+                        borderRight: '10px solid transparent',
+                        borderTop: '12px solid #fff',
+                        filter: 'drop-shadow(0 1px 1px #ccc)'
+                      }}></span>
+                      {passwordHint}
+                    </div>
+                  )}
                 </Form.Group>
                 <div className="d-flex flex-column align-items-center py-3">
                   <Button
