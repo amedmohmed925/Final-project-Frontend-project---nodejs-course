@@ -3,6 +3,9 @@ import { listCourseFeedbacks, replyToFeedback, toggleFeedbackVisibility } from "
 import { getCoursesByTeacher } from "../../courses/api/courseApi";
 import { useSelector } from "react-redux";
 import { Button, Form, Modal, Table, Spinner, Alert } from "react-bootstrap";
+import SidebarProfile from "../../user/components/SidebarProfile";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const FeedbackManager = () => {
   const { user } = useSelector((state) => state.user);
@@ -95,11 +98,31 @@ const FeedbackManager = () => {
     } finally {
       setActionLoading(false);
     }
-  };
+  }; 
+   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   return (
-    <div className="container py-4">
-      <h2 className="mb-4">Course Feedbacks</h2>
+    <>
+    
+              <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+     <button
+           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+           className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+         >
+           {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+         </button>
+    <div style={{minHeight:"80vh"}} className="container py-4">
+ <div className="py-4  text-center">
+                        <motion.h2
+                          className="fs-3 fw-bold mb-0 mt-3 section-title"
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                         Course Feedbacks
+                        </motion.h2>
+                      </div>
       <Form onSubmit={fetchFeedbacks} className="mb-3 d-flex gap-2 align-items-center">
         <Form.Select
           value={courseId}
@@ -136,7 +159,7 @@ const FeedbackManager = () => {
             <tr><td colSpan={6} className="text-center">No feedbacks found.</td></tr>
           )}
           {feedbacks.map(fb => (
-            <tr key={fb._id}>
+            <tr style={{height:"30px"}} key={fb._id}>
               <td>{
 
                 fb.student?.name ||
@@ -154,7 +177,7 @@ const FeedbackManager = () => {
                   <span className="text-danger fw-bold">Hidden </span>
                 )}
               </td>
-              <td>
+              <td  className="d-flex gap-2 align-items-center">
                 <Button size="sm" variant="primary" className="me-2" onClick={() => handleReply(fb)} disabled={actionLoading}>
                   Reply
                 </Button>
@@ -193,6 +216,7 @@ const FeedbackManager = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 

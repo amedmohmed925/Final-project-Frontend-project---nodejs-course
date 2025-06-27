@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getStudents, removeStudent, getStudentProgress } from "../api/teacherApi";
 import { Modal, Button, Spinner, Table, Badge, ListGroup, Alert } from "react-bootstrap";
+import { motion } from "framer-motion";
+import SidebarProfile from "../../user/components/SidebarProfile";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const StudentManager = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const courseId = query.get("courseId");
+   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -70,8 +74,25 @@ const StudentManager = () => {
   );
 
   return (
-    <div className="container my-4">
-      <h2 className="mb-4">Course Students</h2>
+    <>
+      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+        <button
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
+            >
+              {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
+            </button> 
+    <div style={{minHeight:"80vh"}} className="container my-4">
+      <div className="py-4  text-center">
+                              <motion.h2
+                                className="fs-3 fw-bold mb-0 mt-3 section-title"
+                                initial={{ opacity: 0, y: -20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                              >
+                             Manager Your Students
+                              </motion.h2>
+                            </div>
       {error && <Alert variant="danger">{error}</Alert>}
       <input
         type="text"
@@ -233,6 +254,7 @@ const StudentManager = () => {
         </Modal.Footer>
       </Modal>
     </div>
+    </>
   );
 };
 
