@@ -129,6 +129,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
                   <FaUsers className="me-2" /> Student Manager
                 </Link>
               </li>
+              <li>
+                <Link to="/teacher/feedbacks" onClick={onClose}>
+                  <FaBookOpen className="me-2" /> Course Feedbacks
+                </Link>
+              </li>
             </>
           )}
 

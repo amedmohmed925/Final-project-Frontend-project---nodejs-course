@@ -20,8 +20,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [socialLoading, setSocialLoading] = useState("");
-  const [usernameHint, setUsernameHint] = useState("");
-  const [passwordHint, setPasswordHint] = useState("");
+  const [loginHint, setLoginHint] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,8 +31,12 @@ const Login = () => {
   const validateInputs = () => {
     const { username, password } = credentials;
     // Username: At least 4 chars, only letters, numbers, underscores, no spaces
-    if (!/^[a-zA-Z0-9_]{4,}$/.test(username) || !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password)) {
-      setError("Incorrect username or password. Please check your credentials and try again.");
+    // Email: standard email format
+    const isUsername = /^[a-zA-Z0-9_]{4,}$/.test(username);
+    const isEmail = /^[\w-.]+@[\w-]+\.[a-zA-Z]{2,}$/.test(username);
+    const isPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/.test(password);
+    if (!(isUsername || isEmail) || !isPassword) {
+      setError("Incorrect username/email or password. Please check your credentials and try again.");
       setShowModal(true);
       return false;
     }
@@ -59,28 +62,33 @@ const Login = () => {
     return "An unexpected error occurred. Please try again.";
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateInputs()) return;
-    setIsLoading(true);
-    setError("");
-    setSuccess("");
-    try {
-      const result = await dispatch(login(credentials)).unwrap();
-      localStorage.setItem("accessToken", result.accessToken);
-      localStorage.setItem("refreshToken", result.refreshToken);
-      localStorage.setItem("user", JSON.stringify(result.user));
-      setSuccess("Login successful! Redirecting...");
-      setShowModal(true);
-      setTimeout(() => navigate("/"), 2000);
-    } catch (err) {
-      const customErrorMessage = getCustomErrorMessage(err); 
-      setError(customErrorMessage);
-      setShowModal(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+const handleSubmit = async (e) => {
+ e.preventDefault(); 
+
+  
+  setIsLoading(true);
+  setError("");
+  setSuccess("");
+  try {
+
+    const result = await dispatch(login(credentials)).unwrap();
+
+    localStorage.setItem("accessToken", result.accessToken);
+    localStorage.setItem("refreshToken", result.refreshToken);
+    localStorage.setItem("user", JSON.stringify(result.user));
+    setSuccess("Login successful! Redirecting...");
+    setShowModal(true);
+  navigate("/");
+  } catch (err) {
+    console.error("Login error:", err);
+    localStorage.setItem('debug_log', JSON.stringify({ event: 'Login error', error: { message: err.message, status: err.status } }));
+    const customErrorMessage = getCustomErrorMessage(err);
+    setError(customErrorMessage);
+    setShowModal(true);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // =================== بداية الدالة المعدلة ===================
   // تم إفراغ هذه الدالة لجعل الأيقونات شكلًا فقط بدون وظيفة
@@ -124,23 +132,24 @@ const Login = () => {
 
               <Form onSubmit={handleSubmit} className="auth-form">
                 <Form.Group className="mb-3 position-relative">
-                  <Form.Label><FaUser className="me-2" /> Username</Form.Label>
+                  <Form.Label><FaUser className="me-2" /> Username or Email</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
                     value={credentials.username}
                     onChange={handleChange}
-                    placeholder="Enter your username"
+                    placeholder="Enter your username or email"
                     required
                     className="rounded-pill"
-                    onFocus={() => setUsernameHint("Username must be at least 4 characters and can only contain letters, numbers, and underscores (_). No spaces or special characters.")}
-                    onBlur={() => setUsernameHint("")}
+                    onFocus={() => setLoginHint("Enter your username (at least 4 letters, numbers, or underscores) or a valid email address.")}
+                    onBlur={() => setLoginHint("")}
                   />
-                  {usernameHint && (
+                  {loginHint && (
                     <div style={{
                       position: 'absolute',
-                      top: '-88px',
-                      left: '0',
+                      top: '-60px',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
                       background: '#fff',
                       color: '#333',
                       border: '1px solid #ccc',
@@ -151,10 +160,13 @@ const Login = () => {
                       boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                       minWidth: '270px',
                       maxWidth: '350px',
+                      textAlign: 'center',
+                      pointerEvents: 'none',
                     }}>
                       <span style={{
                         position: 'absolute',
-                        left: '30px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
                         bottom: '-12px',
                         width: 0,
                         height: 0,
@@ -163,7 +175,7 @@ const Login = () => {
                         borderTop: '12px solid #fff',
                         filter: 'drop-shadow(0 1px 1px #ccc)'
                       }}></span>
-                      {usernameHint}
+                      {loginHint}
                     </div>
                   )}
                 </Form.Group>
@@ -177,39 +189,9 @@ const Login = () => {
                     placeholder="Enter your password"
                     required
                     className="rounded-pill"
-                    onFocus={() => setPasswordHint("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.")}
-                    onBlur={() => setPasswordHint("")}
+                   
                   />
-                  {passwordHint && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '-48px',
-                      left: '0',
-                      background: '#fff',
-                      color: '#333',
-                      border: '1px solid #ccc',
-                      borderRadius: '8px',
-                      padding: '8px 12px',
-                      fontSize: '0.95em',
-                      zIndex: 10,
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                      minWidth: '270px',
-                      maxWidth: '350px',
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        left: '30px',
-                        bottom: '-12px',
-                        width: 0,
-                        height: 0,
-                        borderLeft: '10px solid transparent',
-                        borderRight: '10px solid transparent',
-                        borderTop: '12px solid #fff',
-                        filter: 'drop-shadow(0 1px 1px #ccc)'
-                      }}></span>
-                      {passwordHint}
-                    </div>
-                  )}
+                 
                 </Form.Group>
                 <div className="d-flex flex-column align-items-center py-3">
                   <Button

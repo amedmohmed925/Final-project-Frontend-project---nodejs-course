@@ -131,7 +131,7 @@ const FeedbackSection = ({ courseId }) => {
             {feedbacks.length === 0 ? (
               <p className="no-feedback">No feedback yet. Be the first to share your thoughts!</p>
             ) : (
-              feedbacks.map((feedback) => (
+              feedbacks.filter(fb => fb.visible).map((feedback) => (
                 <div key={feedback._id} className="feedback-item">
                   <div className="feedback-user-info">
                     <img
@@ -145,6 +145,22 @@ const FeedbackSection = ({ courseId }) => {
                     </div>
                   </div>
                   <p className="feedback-comment">{feedback.comment}</p>
+                  {/* عرض رد المعلم إذا كان موجودًا */}
+                  {feedback.reply && (
+                    <div className="teacher-reply-box mt-2 p-2 bg-light border rounded">
+                      <div className="d-flex align-items-center mb-1">
+                        <img
+                          src={feedback.teacherId?.profileImage || "https://courssat.com/assets/images/home/avatar.png"}
+                          alt={feedback.teacherId?.firstName || "Teacher"}
+                          className="imageFeebackUser me-2"
+                          style={{ width: 32, height: 32, borderRadius: "50%" }}
+                        />
+                        <span className="fw-bold">{feedback.teacherId?.firstName || "Teacher"} {feedback.teacherId?.lastName || ""}</span>
+                        <span className="badge bg-primary ms-2">Teacher Reply</span>
+                      </div>
+                      <div className="teacher-reply-text ps-4">{feedback.reply}</div>
+                    </div>
+                  )}
                   {user && user._id === (feedback.userId?._id || feedback.userId) && (
                     <div className="feedback-actions">
                       <button className="feedback-action-icon" onClick={() => handleEdit(feedback)}>

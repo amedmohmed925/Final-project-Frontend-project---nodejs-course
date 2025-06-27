@@ -33,6 +33,7 @@ import TeacherProfile from "./features/teacher/components/TeacherProfile";
 import Chat from "./features/chat/components/Chat";
 import StudentManager from "./features/teacher/components/StudentManager";
 import PurchasedCourses from "./features/student/components/PurchasedCourses";
+import FeedbackManager from "./features/teacher/components/FeedbackManager";
 
 const App = () => {
   const location = useLocation();
@@ -84,6 +85,7 @@ const App = () => {
         <Route path="/teacher/:teacherId" element={<TeacherProfile />} />
         <Route path="/teacher/students-manager" element={<StudentManager />} />
         <Route path="/student/purchased-courses" element={<PurchasedCourses />} />
+        <Route path="/teacher/feedbacks" element={<FeedbackManager />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>

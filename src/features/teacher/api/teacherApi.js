@@ -39,3 +39,28 @@ export const getCourseProgress = async (courseId) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+// List Course Feedbacks
+export const listCourseFeedbacks = async (courseId) => {
+  const token = localStorage.getItem('accessToken');
+  return api.get('/feedbacks', {
+    params: { courseId },
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+// Reply to Feedback
+export const replyToFeedback = async (feedbackId, reply) => {
+  const token = localStorage.getItem('accessToken');
+  return api.post(`/feedbacks/${feedbackId}/reply`, { reply }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+// Toggle Feedback Visibility
+export const toggleFeedbackVisibility = async (feedbackId) => {
+  const token = localStorage.getItem('accessToken');
+  return api.patch(`/feedbacks/${feedbackId}/toggle`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
