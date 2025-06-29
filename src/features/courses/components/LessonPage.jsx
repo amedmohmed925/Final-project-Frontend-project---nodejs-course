@@ -5,6 +5,7 @@ import { getCourseById } from "../api/courseApi";
 import { getCourseProgress, updateCourseProgress } from "../../courseProgress/api/courseProgressApi";
 import { FaChevronDown, FaPlayCircle, FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaForward, FaBackward, FaExpand, FaCompress, FaCheck } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
+import ExamEntryButton from "../../exam/components/ExamEntryButton";
 import ReactPlayer from "react-player";
 import "../styles/LessonPage.css";
 import "../../courseProgress/styles/CourseProgress.css";
@@ -199,7 +200,7 @@ const LessonPage = () => {
 
         <aside className="lesson-sidebar">
         {progress && (
-
+          <>
           <div className="course-progress-container">
             <h3>Course Progress: {progress.completionPercentage.toFixed(2)}%</h3>
             <div className="progress-bar">
@@ -210,12 +211,18 @@ const LessonPage = () => {
             </div>
             {/* <CourseProgress /> */}
           </div>
+          {/* زر الامتحان النهائي */}
+          <ExamEntryButton
+            completion={progress.completionPercentage}
+            onGoToExam={() => navigate(`/course/${courseId}/exams`)}
+          />
+          </>
         )}
           <h3>Course Curriculum</h3>
           <div className="sections-stack">
             {course.sections.map((section, sIndex) => (
               <div key={sIndex} className="section-block">
-                <div className="section-header" onClick={() => toggleSection(sIndex)}>
+                <div className="section-header mb-1" onClick={() => toggleSection(sIndex)}>
                   <h4>{section.title} ({section.lessons.length} Lessons)</h4>
                   <FaChevronDown
                     className={`toggle-icon ${openSection === sIndex ? "open" : ""}`}

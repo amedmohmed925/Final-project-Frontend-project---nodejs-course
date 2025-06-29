@@ -138,7 +138,6 @@ const UpdateInfo = () => {
       <div className={`update-info-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
         <div className="update-info-container profile-card">
           <div className="py-4 logoAuth text-center">
-            <Logo colorText="#0a3e6e" />
             <motion.h2
               className="fs-4 fw-bold mb-0 mt-3 section-title"
               initial={{ opacity: 0, y: -20 }}

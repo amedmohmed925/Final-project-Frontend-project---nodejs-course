@@ -34,6 +34,10 @@ import Chat from "./features/chat/components/Chat";
 import StudentManager from "./features/teacher/components/StudentManager";
 import PurchasedCourses from "./features/student/components/PurchasedCourses";
 import FeedbackManager from "./features/teacher/components/FeedbackManager";
+import ExamCreate from "./features/exam/components/ExamCreate";
+
+import StudentProgressPage from "./features/student/components/StudentProgressPage";
+import StudentExamList from "./features/exam/components/StudentExamList";
 
 const App = () => {
   const location = useLocation();
@@ -86,6 +90,9 @@ const App = () => {
         <Route path="/teacher/students-manager" element={<StudentManager />} />
         <Route path="/student/purchased-courses" element={<PurchasedCourses />} />
         <Route path="/teacher/feedbacks" element={<FeedbackManager />} />
+        <Route path="/teacher/exams/create" element={<ExamCreate />} />
+        <Route path="/course/:courseId/exams" element={<StudentExamList />} />
+        <Route path="/student/progress" element={<StudentProgressPage />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>

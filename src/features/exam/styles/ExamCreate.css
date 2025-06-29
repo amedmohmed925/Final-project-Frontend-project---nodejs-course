@@ -1,0 +1,16 @@
+.exam-create-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.exam-create-container h2 {
+  font-weight: bold;
+}
+
+.exam-create-container .card {
+  border-radius: 10px;
+}
+
+.exam-create-container .btn {
+  min-width: 120px;
+}

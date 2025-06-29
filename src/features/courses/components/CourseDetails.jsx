@@ -269,7 +269,7 @@ const CourseDetails = () => {
               <div className="sections-stack">
                 {course.sections.map((section, sectionIndex) => (
                   <div key={sectionIndex} className="section-block">
-                    <div className="section-header" onClick={() => toggleSection(sectionIndex)}>
+                    <div className="section-header mb-1" onClick={() => toggleSection(sectionIndex)}>
                       <h4>{section.title}</h4>
                       <FaChevronDown
                         className={`toggle-icon ${openSection === sectionIndex ? "open" : ""}`}

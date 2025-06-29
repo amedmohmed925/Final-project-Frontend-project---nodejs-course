@@ -7,6 +7,7 @@ import {
   FaBookOpen,
   FaEdit,
   FaTrash,
+  FaChartBar,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -134,6 +135,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
                   <FaBookOpen className="me-2" /> Course Feedbacks
                 </Link>
               </li>
+              <li>
+                <Link to="/teacher/exams/create" onClick={onClose}>
+                  <FaBookOpen className="me-2" /> Create Exam
+                </Link>
+              </li>
             </>
           )}
 
@@ -145,35 +151,13 @@ const SidebarProfile = ({ isOpen, onClose }) => {
                 </Link>
               </li>
               <li className="progress-section">
-                <h4>My Learning Progress</h4>
-                {progressList.length > 0 ? (
-                  <ul className="progress-list">
-                    {progressList.map((progress) => (
-                      <li key={progress.courseId._id} className="progress-item">
-                        <Link
-                          to={`/course/${progress.courseId._id}`}
-                          onClick={onClose}
-                        >
-                          {progress.courseId.title}
-                        </Link>
-                        <div className="progress-bar-container">
-                          <div
-                            className="progress-bar"
-                            style={{
-                              width: `${progress.completionPercentage}%`,
-                              height: "8px",
-                              backgroundColor: "#28a745",
-                              borderRadius: "4px",
-                            }}
-                          ></div>
-                        </div>
-                        <span>{progress.completionPercentage.toFixed(0)}%</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>No courses enrolled yet.</p>
-                )}
+                <Link
+                  to="/student/progress"
+                  onClick={onClose}
+                  style={{ textDecoration: "none" }}
+                >
+                  <FaChartBar className="me-2" /> My Learning Progress
+                </Link>
               </li>
             </>
           )}
