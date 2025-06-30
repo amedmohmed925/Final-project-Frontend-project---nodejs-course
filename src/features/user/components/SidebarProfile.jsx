@@ -83,15 +83,16 @@ const SidebarProfile = ({ isOpen, onClose }) => {
           {user?.role === "admin" && (
             <>
               <li>
+                <Link to="/admin/dashboard" onClick={onClose}>
+                  <FaChartBar className="me-2" /> Admin Dashboard
+                </Link>
+              </li>
+              <li>
                 <Link to="/AdminCouponReport" onClick={onClose}>
                   <MdAdminPanelSettings className="me-2" /> Admin Coupon Report
                 </Link>
               </li>
-              <li>
-                <Link to="/all-users" onClick={onClose}>
-                  <FaUsers className="me-2" /> All Users
-                </Link>
-              </li>
+             
               <li>
                 <Link to="/CategoryManager" onClick={onClose}>
                   <TbCategoryPlus className="me-2" /> Category Manager

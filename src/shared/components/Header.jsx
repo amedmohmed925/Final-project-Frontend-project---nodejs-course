@@ -117,13 +117,7 @@ const Header = () => {
                   </NavDropdown.Item>
                 ))}
               </NavDropdown>
-              <Nav.Link
-                as={Link}
-                to="/blog"
-                className={location.pathname === "/blog" ? "active-link" : ""}
-              >
-                Blog
-              </Nav.Link>
+             
               <Nav.Link
                 as={Link}
                 to="/about"

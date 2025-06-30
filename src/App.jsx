@@ -9,11 +9,10 @@ import Profile from "./features/user/components/Profile";
 import UpdateInfo from "./features/user/components/UpdateInfo";
 import ForgotPassword from "./features/auth/components/ForgotPassword";
 import ResetPassword from "./features/auth/components/ResetPassword";
-import AllUsers from "./features/user/components/AllUsers";
+import AdminAllUsers from "./features/admin/components/UserTable";
 import AddCourse from "./features/courses/components/AddCourse";
 import CourseDetails from "./features/courses/components/CourseDetails";
 import EditCourse from "./features/courses/components/EditCourse";
-import Blog from "./pages/Blog"
 import About from "./pages/About";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -36,6 +35,13 @@ import PurchasedCourses from "./features/student/components/PurchasedCourses";
 import FeedbackManager from "./features/teacher/components/FeedbackManager";
 import ExamCreate from "./features/exam/components/ExamCreate";
 
+
+import AdminDashboard from "./features/admin/components/AdminDashboard";
+import AdminTeachers from "./features/admin/components/AdminTeachers";
+import AdminStudents from "./features/admin/components/AdminStudents";
+import AdminLogs from "./features/admin/logs";
+import AdminPayments from "./features/admin/payment";
+import { PaymentsDashboardCard } from "./features/admin/payment";
 import StudentProgressPage from "./features/student/components/StudentProgressPage";
 import StudentExamList from "./features/exam/components/StudentExamList";
 
@@ -62,7 +68,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/blog" element={<Blog />} />
         <Route path="/About" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -70,7 +75,9 @@ const App = () => {
         <Route path="/update-info" element={<UpdateInfo />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/all-users" element={<AllUsers />} />
+        <Route path="/all-users" element={<AdminAllUsers />} />
+        <Route path="/admin/users" element={<AdminAllUsers />} />
+// ...existing code...
         <Route path="/add-course" element={<AddCourse />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
@@ -93,6 +100,11 @@ const App = () => {
         <Route path="/teacher/exams/create" element={<ExamCreate />} />
         <Route path="/course/:courseId/exams" element={<StudentExamList />} />
         <Route path="/student/progress" element={<StudentProgressPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/teachers" element={<AdminTeachers />} />
+        <Route path="/admin/students" element={<AdminStudents />} />
+        <Route path="/admin/logs" element={<AdminLogs />} />
+        <Route path="/admin/payments" element={<AdminPayments />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>
