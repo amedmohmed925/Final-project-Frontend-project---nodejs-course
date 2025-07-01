@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
 const renderStars = (rating) => {
+  const safeRating = typeof rating === 'number' && !isNaN(rating) ? rating : 0;
   const stars = [];
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
+  const fullStars = Math.floor(safeRating);
+  const hasHalfStar = safeRating % 1 >= 0.5;
   for (let i = 1; i <= fullStars; i++) {
     stars.push(<FaStar key={i} className="star filled" />);
   }
@@ -46,7 +47,7 @@ const FavoriteCourseCard = ({ course, onRemove }) => {
         <div className="d-flex justify-content-between align-items-center">
           <div className="course-rating">
             {renderStars(course.averageRating)}
-            <span>({course.averageRating})</span>
+            <span>({typeof course.averageRating === 'number' && !isNaN(course.averageRating) ? course.averageRating : 0})</span>
           </div>
           <span className="courseLevel">{course.level}</span>
         </div>

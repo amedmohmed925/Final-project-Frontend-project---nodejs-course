@@ -8,7 +8,7 @@ const AdminTeachers = () => {
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   // Advanced search states
   const [searching, setSearching] = useState(false);
   const [searchFields, setSearchFields] = useState({

@@ -19,6 +19,7 @@ const FeedbackManager = () => {
   const [modalShow, setModalShow] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     // جلب كورسات المعلم عند تحميل الصفحة
@@ -99,7 +100,6 @@ const FeedbackManager = () => {
       setActionLoading(false);
     }
   }; 
-   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
 
   return (

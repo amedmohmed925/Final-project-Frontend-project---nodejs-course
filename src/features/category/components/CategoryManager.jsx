@@ -13,7 +13,7 @@ const CategoryManager = () => {
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);

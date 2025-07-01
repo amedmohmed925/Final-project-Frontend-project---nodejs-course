@@ -10,7 +10,7 @@ const StudentManager = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const courseId = query.get("courseId");
-   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);

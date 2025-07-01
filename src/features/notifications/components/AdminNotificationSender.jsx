@@ -14,7 +14,7 @@ const AdminNotificationSender = () => {
   const [recipientType, setRecipientType] = useState("all");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -26,7 +26,7 @@ const StudentProgressPage = () => {
   const [error, setError] = useState("");
   const [examStatus, setExamStatus] = useState({});
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     const fetchProgress = async () => {
