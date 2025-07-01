@@ -5,7 +5,6 @@ import { getCourseDetailsWithoutVideos } from "../api/courseApi";
 import { getUserById } from "../../user/api/userApi";
 import { addItemToCart } from "../../cart/cartSlice";
 import {
-
   FaShoppingCart,
   FaPlayCircle,
   FaClock,
@@ -20,8 +19,9 @@ import {
   FaUsers,
   FaTag,
   FaEye,
-
+  FaHeart,
 } from "react-icons/fa";
+import FavoriteButton from '../../student/favorites/FavoriteButton';
 import { Modal, Button, Spinner } from "react-bootstrap";
 import "../styles/CourseDetails.css";
 import FeedbackSection from "../../feedback/components/FeedbackSection";
@@ -179,8 +179,13 @@ const CourseDetails = () => {
       <main className="course-main ">
         <section className="course-banner-section">
           <div className="banner-content container">
-            <div className="banner-text">
-              <h1 className="banner-title">{course.title}</h1>
+            <div className="banner-text position-relative">
+              <h1 className="banner-title d-flex align-items-center">
+                {course.title}
+                <span className="ms-3">
+                  <FavoriteButton courseId={course._id} size={32} />
+                </span>
+              </h1>
               <p className="banner-description">{course.description}</p>
               <div className="banner-meta">
                 <div className="rating">

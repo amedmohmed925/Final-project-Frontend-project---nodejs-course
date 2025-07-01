@@ -6,6 +6,7 @@ import "../styles/Courses.css";
 import { Spinner, Form, Button, Row, Col, Card } from "react-bootstrap";
 import HeaderPages from "../../../shared/components/HeaderPages";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+import FavoriteButton from '../../student/favorites/FavoriteButton';
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -227,16 +228,24 @@ const Courses = () => {
           <Col md={9}>
             <div className="courses-grid">
               {filteredCourses.slice(0, visibleCount).map((course) => (
-                <div key={course._id} className="course-card">
-                  <div className="course-image">
+                <div key={course._id} className="course-card position-relative">
+                  <div className="course-image position-relative">
                     <img
                       src={course.featuredImage}
                       alt={course.title}
                       onError={handleImageError}
                     />
+                    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+                      <FavoriteButton courseId={course._id} size={28} />
+                    </div>
                   </div>
                   <div className="course-content">
-                    <h3 className="course-title">{course.title}</h3>
+                    <h3 className="course-title d-flex align-items-center justify-content-between">
+                      {course.title}
+                      <span className="d-md-none ms-2">
+                        <FavoriteButton courseId={course._id} size={22} />
+                      </span>
+                    </h3>
                     <p className="course-description">{truncateDescription(course.description)}</p>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="course-rating">

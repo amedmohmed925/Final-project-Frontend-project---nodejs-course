@@ -8,6 +8,7 @@ import {
   FaEdit,
   FaTrash,
   FaChartBar,
+  FaHeart,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -149,6 +150,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <li>
                 <Link to="/student/purchased-courses" onClick={onClose}>
                   <MdSchool className="me-2" /> My Purchased Courses
+                </Link>
+              </li>
+              <li>
+                <Link to="/student/favorites" onClick={onClose}>
+                  <FaHeart className="me-2 text-danger" /> My Favorites
                 </Link>
               </li>
               <li className="progress-section">

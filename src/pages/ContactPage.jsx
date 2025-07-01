@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { Modal, Spinner } from 'react-bootstrap';
 import './ContactPage.css';
 import HeaderPages from '../shared/components/HeaderPages';
 
@@ -16,10 +18,18 @@ const ContactPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const [modal, setModal] = useState({ show: false, success: false, message: "", loading: false });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here (e.g., API call)
+    setModal({ show: true, loading: true, success: false, message: "" });
+    try {
+      const res = await axios.post("http://localhost:8080/v1/contact", formData);
+      setModal({ show: true, loading: false, success: true, message: res.data.message || "Message sent successfully" });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+    } catch (err) {
+      setModal({ show: true, loading: false, success: false, message: err.response?.data?.message || "Failed to send message" });
+    }
   };
 
   return (
@@ -138,6 +148,31 @@ const ContactPage = () => {
           </defs>
         </svg>
       </div>
+      {/* Modal for success/error */}
+      <Modal show={modal.show} onHide={() => setModal({ ...modal, show: false })} centered>
+        <Modal.Body className="text-center">
+          {modal.loading ? (
+            <div>
+              <Spinner animation="border" variant="primary" />
+              <div className="mt-3">Sending...</div>
+            </div>
+          ) : modal.success ? (
+            <div>
+              <div style={{ fontSize: 48, color: '#28a745', marginBottom: 10 }}>
+                <i className="fas fa-check-circle fa-spin"></i>
+              </div>
+              <div style={{ fontWeight: 600 }}>{modal.message}</div>
+            </div>
+          ) : (
+            <div>
+              <div style={{ fontSize: 48, color: '#dc3545', marginBottom: 10 }}>
+                <i className="fas fa-times-circle fa-spin"></i>
+              </div>
+              <div style={{ fontWeight: 600 }}>{modal.message}</div>
+            </div>
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

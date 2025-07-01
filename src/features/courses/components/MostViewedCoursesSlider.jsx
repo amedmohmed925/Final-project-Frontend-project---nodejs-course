@@ -1,3 +1,4 @@
+import FavoriteButton from '../../student/favorites/FavoriteButton';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -118,13 +119,16 @@ const MostViewedCoursesSlider = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mvc-course-item">
-                  <div className="mvc-img-wrapper">
+                <div className="mvc-course-item position-relative">
+                  <div className="mvc-img-wrapper position-relative">
                     <img
                       src={course.featuredImage}
                       alt={course.title}
                       onError={handleImageError}
                     />
+                    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+                      <FavoriteButton courseId={course._id} size={28} />
+                    </div>
                     {course.duration && (
                       <span className="mvc-course-duration">
                         {course.duration}
@@ -132,7 +136,12 @@ const MostViewedCoursesSlider = () => {
                     )}
                   </div>
                   <div className="mvc-course-details">
-                    <h3 className="mvc-course-name">{course.title}</h3>
+                    <h3 className="mvc-course-name d-flex align-items-center justify-content-between">
+                      {course.title}
+                      <span className="d-md-none ms-2">
+                        <FavoriteButton courseId={course._id} size={22} />
+                      </span>
+                    </h3>
                     <p className="mvc-course-desc">
                       {truncateDescription(course.description)}
                     </p>

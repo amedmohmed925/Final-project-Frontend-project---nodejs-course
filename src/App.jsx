@@ -42,8 +42,10 @@ import AdminStudents from "./features/admin/components/AdminStudents";
 import AdminLogs from "./features/admin/logs";
 import AdminPayments from "./features/admin/payment";
 import { PaymentsDashboardCard } from "./features/admin/payment";
-import StudentProgressPage from "./features/student/components/StudentProgressPage";
+
+import StudentFavoritesRoute from "./routes/StudentFavoritesRoute";
 import StudentExamList from "./features/exam/components/StudentExamList";
+import StudentProgressPage from "./features/student/components/StudentProgressPage";
 
 const App = () => {
   const location = useLocation();
@@ -77,7 +79,6 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/all-users" element={<AdminAllUsers />} />
         <Route path="/admin/users" element={<AdminAllUsers />} />
-// ...existing code...
         <Route path="/add-course" element={<AddCourse />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
@@ -100,6 +101,7 @@ const App = () => {
         <Route path="/teacher/exams/create" element={<ExamCreate />} />
         <Route path="/course/:courseId/exams" element={<StudentExamList />} />
         <Route path="/student/progress" element={<StudentProgressPage />} />
+        <Route path="/student/favorites" element={<StudentFavoritesRoute />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/teachers" element={<AdminTeachers />} />
         <Route path="/admin/students" element={<AdminStudents />} />
