@@ -4,6 +4,7 @@ import cartReducer from "../features/cart/cartSlice";
 import { clearUser } from "../features/user/userSlice";
 import notificationReducer from "../features/notifications/notificationSlice";
 import favoritesReducer from "../features/student/favorites/favoritesSlice";
+import certificatesReducer from "../features/student/certificates/certificatesSlice";
 
 const authMiddleware = (store) => (next) => (action) => {
   const result = next(action);
@@ -25,6 +26,7 @@ const store = configureStore({
     cart: cartReducer,
     notifications: notificationReducer,
     favorites: favoritesReducer,
+    certificates: certificatesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(authMiddleware),

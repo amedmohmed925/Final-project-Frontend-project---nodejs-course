@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAvailableExamsForStudent } from "../api/examApi";
 import { getStudentCompletion } from "../api/studentExamUtils";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addCertificate } from "../../student/certificates/certificatesSlice";
 import { Spinner, Alert, Card, Button, Container, Row, Col } from "react-bootstrap";
 import StudentExamSolve from "./StudentExamSolve";
 
 const StudentExamList = (props) => {
   const { courseId } = useParams();
   const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [certificateIssued, setCertificateIssued] = useState(false);
   const [exams, setExams] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -59,12 +62,19 @@ const StudentExamList = (props) => {
         </Alert>
       </Container>
     );
+
+  // إصدار الشهادة تلقائياً إذا أكمل الطالب الكورس ولا يوجد امتحان ولم تُصدر الشهادة بعد
+  if (completion === 100 && exams.length === 0 && !certificateIssued) {
+    setCertificateIssued(true);
+    dispatch(addCertificate({ courseId, fileUrl: "" })); // يمكن تعديل fileUrl حسب الحاجة
+  }
+
   if (exams.length === 0)
     return (
       <Container className="py-5">
-        <Alert variant="warning" className="shadow-sm text-center" style={{ fontSize: 18 }}>
-          <i className="bi bi-exclamation-triangle-fill me-2" style={{ color: '#ffc107' }}></i>
-          لا يوجد امتحانات متاحة لهذا الكورس حالياً.
+        <Alert variant="success" className="shadow-sm text-center" style={{ fontSize: 18 }}>
+          <i className="bi bi-patch-check-fill me-2" style={{ color: '#28a745' }}></i>
+          تم إكمال الكورس بنجاح! تم إصدار شهادتك تلقائيًا ويمكنك تحميلها من صفحة الشهادات.
         </Alert>
       </Container>
     );

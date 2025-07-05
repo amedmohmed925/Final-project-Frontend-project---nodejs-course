@@ -44,6 +44,7 @@ import AdminPayments from "./features/admin/payment";
 import { PaymentsDashboardCard } from "./features/admin/payment";
 
 import StudentFavoritesRoute from "./routes/StudentFavoritesRoute";
+import CertificatesList from "./features/student/certificates/CertificatesList";
 import StudentExamList from "./features/exam/components/StudentExamList";
 import StudentProgressPage from "./features/student/components/StudentProgressPage";
 
@@ -102,6 +103,7 @@ const App = () => {
         <Route path="/course/:courseId/exams" element={<StudentExamList />} />
         <Route path="/student/progress" element={<StudentProgressPage />} />
         <Route path="/student/favorites" element={<StudentFavoritesRoute />} />
+        <Route path="/student/certificates" element={<CertificatesList />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/teachers" element={<AdminTeachers />} />
         <Route path="/admin/students" element={<AdminStudents />} />

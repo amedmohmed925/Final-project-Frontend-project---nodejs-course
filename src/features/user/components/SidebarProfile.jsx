@@ -157,6 +157,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
                   <FaHeart className="me-2 text-danger" /> My Favorites
                 </Link>
               </li>
+              <li>
+                <Link to="/student/certificates" onClick={onClose}>
+                  <FaBookOpen className="me-2 text-primary" /> My Certificates
+                </Link>
+              </li>
               <li className="progress-section">
                 <Link
                   to="/student/progress"
