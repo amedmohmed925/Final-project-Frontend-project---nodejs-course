@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap"; // Add NavDropdown
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { clearUser } from "../../features/user/userSlice";
@@ -10,7 +10,7 @@ import "../styles/Header.css";
 import Logo from "./Logo";
 import Cart from "../../features/cart/components/Cart";
 import ReactGA from "react-ga4";
-import { getCategories } from "../../features/category/api/categoryApi"; // Import getCategories
+import { getCategories } from "../../features/category/api/categoryApi";
 
 ReactGA.initialize("G-XXXXXXX");
 
@@ -22,7 +22,8 @@ const Header = () => {
   const location = useLocation();
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [categories, setCategories] = useState([]); // State for categories
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -44,10 +45,14 @@ const Header = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setIsLoading(true);
         const categoriesData = await getCategories();
-        setCategories(categoriesData);
+        setCategories(Array.isArray(categoriesData) ? categoriesData : []);
       } catch (error) {
         console.error("Error fetching categories:", error.message);
+        setCategories([]);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCategories();
@@ -105,19 +110,23 @@ const Header = () => {
               >
                 Courses
               </Nav.Link>
-              {/* Add Categories Dropdown */}
               <NavDropdown title="Categories" id="categories-dropdown">
-                {categories.map((category) => (
-                  <NavDropdown.Item
-                    key={category._id}
-                    as={Link}
-                    to={`/categories/${category._id}`} // Link to category page
-                  >
-                    {category.name}
-                  </NavDropdown.Item>
-                ))}
+                {isLoading ? (
+                  <NavDropdown.Item disabled>Loading...</NavDropdown.Item>
+                ) : Array.isArray(categories) && categories.length > 0 ? (
+                  categories.map((category) => (
+                    <NavDropdown.Item
+                      key={category._id}
+                      as={Link}
+                      to={`/categories/${category._id}`}
+                    >
+                      {category.name}
+                    </NavDropdown.Item>
+                  ))
+                ) : (
+                  <NavDropdown.Item disabled>No categories available</NavDropdown.Item>
+                )}
               </NavDropdown>
-             
               <Nav.Link
                 as={Link}
                 to="/about"

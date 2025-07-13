@@ -57,55 +57,55 @@ const MostViewedCoursesSlider = () => {
     const fetchMostViewedCourses = async () => {
       try {
         const data = await getMostViewedCourses(10);
-        setCourses(data);
+        setCourses(Array.isArray(data) ? data : []);
         setLoading(false);
       } catch (err) {
         setError(err.message);
+        setCourses([]);
         setLoading(false);
       }
     };
     fetchMostViewedCourses();
   }, []);
 
-  const handleImageError = (e) => {
-    e.target.src = "https://via.placeholder.com/300x200.png?text=Course+Image";
-  };
+ 
 
-  if (loading)
+  if (loading) {
     return (
       <div className="mvc-text-center">
-        <Spinner />
+        <Spinner animation="border" />
       </div>
     );
-  if (error)
+  }
+  if (error) {
     return (
       <div className="mvc-text-center mvc-text-danger">Error: {error}</div>
     );
+  }
 
   return (
     <section className="mvc-section">
       <Container>
-      <div className="text-center">
-  <h2 className="fw-bold">Explore Our Top-Viewed Courses</h2>
-  <p className="text-muted mx-auto" style={{ maxWidth: 700 }}>
-    Unlock your potential with a tailored educational journey designed to empower you and elevate your aspirations.
-  </p>
-</div>
+        <div className="text-center">
+          <h2 className="fw-bold">Explore Our Top-Viewed Courses</h2>
+          <p className="text-muted mx-auto" style={{ maxWidth: 700 }}>
+            Unlock your potential with a tailored educational journey designed to empower you and elevate your aspirations.
+          </p>
+        </div>
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={30}
           slidesPerView={3}
-          centeredSlides={true} // توسيط الكروت
-          navigation={{ clickable: true }} // تفعيل الأسهم
+          centeredSlides={true}
+          navigation={{ clickable: true }}
           pagination={{ clickable: true }}
           loop={true}
           autoplay={{
-            delay: 0, // سرعة عالية للحركة المستمرة
-            disableOnInteraction: true, // يتوقف عند التفاعل (مثل الـ Hover)
+            delay: 0,
+            disableOnInteraction: true,
             reverseDirection: true,
-            // الحركة لليسار
           }}
-          speed={3000} // سرعة الانتقال (للحركة المستمرة)
+          speed={3000}
           breakpoints={{
             1024: { slidesPerView: 2, spaceBetween: 20 },
             768: { slidesPerView: 1, spaceBetween: 15 },
@@ -113,57 +113,64 @@ const MostViewedCoursesSlider = () => {
           }}
           className="mvc-swiper"
         >
-          {courses.map((course) => (
-            <SwiperSlide key={course._id} className="mvc-slider-item">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="mvc-course-item position-relative">
-                  <div className="mvc-img-wrapper position-relative">
-                    <img
-                      src={course.featuredImage}
-                      alt={course.title}
-                      onError={handleImageError}
-                    />
-                    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
-                      <FavoriteButton courseId={course._id} size={28} />
-                    </div>
-                    {course.duration && (
-                      <span className="mvc-course-duration">
-                        {course.duration}
-                      </span>
-                    )}
-                  </div>
-                  <div className="mvc-course-details">
-                    <h3 className="mvc-course-name d-flex align-items-center justify-content-between">
-                      {course.title}
-                      <span className="d-md-none ms-2">
-                        <FavoriteButton courseId={course._id} size={22} />
-                      </span>
-                    </h3>
-                    <p className="mvc-course-desc">
-                      {truncateDescription(course.description)}
-                    </p>
-                    <div className="mvc-course-info">
-                      <div className="mvc-rating">
-                        {renderStars(course.averageRating)}
-                        <span>({course.averageRating})</span>
+          {Array.isArray(courses) && courses.length > 0 ? (
+            courses.map((course) => (
+              <SwiperSlide key={course._id} className="mvc-slider-item">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="mvc-course-item position-relative">
+                    <div className="mvc-img-wrapper position-relative">
+                      <img
+                        src={course.featuredImage}
+                        alt={course.title}
+                      />
+                      <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+                        <FavoriteButton courseId={course._id} size={28} />
                       </div>
-                      <span className="mvc-course-level">{course.level}</span>
+                      {course.duration && (
+                        <span className="mvc-course-duration">
+                          {course.duration}
+                        </span>
+                      )}
                     </div>
-                    <button
-                      className="mvc-enroll-btn"
-                      onClick={() => navigate(`/courses/${course._id}`)}
-                    >
-                      Enroll Now
-                      <span className="mvc-price">${course.price}</span>
-                    </button>
+                    <div className="mvc-course-details">
+                      <h3 className="mvc-course-name d-flex align-items-center justify-content-between">
+                        {course.title}
+                        <span className="d-md-none ms-2">
+                          <FavoriteButton courseId={course._id} size={22} />
+                        </span>
+                      </h3>
+                      <p className="mvc-course
+
+-desc">
+                        {truncateDescription(course.description)}
+                      </p>
+                      <div className="mvc-course-info">
+                        <div className="mvc-rating">
+                          {renderStars(course.averageRating)}
+                          <span>({course.averageRating})</span>
+                        </div>
+                        <span className="mvc-course-level">{course.level}</span>
+                      </div>
+                      <button
+                        className="mvc-enroll-btn"
+                        onClick={() => navigate(`/courses/${course._id}`)}
+                      >
+                        Enroll Now
+                        <span className="mvc-price">${course.price}</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </SwiperSlide>
+            ))
+          ) : (
+            <SwiperSlide>
+              <div className="mvc-text-center">No courses available</div>
             </SwiperSlide>
-          ))}
+          )}
         </Swiper>
       </Container>
     </section>

@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import './ImageContentSection.css';
 
 const ImageContentSection = () => {
-  const handleImageError = (e) => {
-    e.target.src = "https://via.placeholder.com/600x400.png?text=Image+Not+Found";
-  };
+  // const handleImageError = (e) => {
+  //   e.target.src = "https://via.placeholder.com/600x400.png?text=Image+Not+Found";
+  // };
 
   return (
     <section className="image-content-section">
@@ -26,7 +26,7 @@ const ImageContentSection = () => {
                 src="public\Best-online-course-platforms.webp"
                 alt="Learning Environment"
                 className="content-image"
-                onError={handleImageError}
+               
               />
               <div className="image-overlay">
                 <motion.div

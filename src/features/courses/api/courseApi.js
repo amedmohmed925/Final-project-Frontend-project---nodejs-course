@@ -1,9 +1,9 @@
 // api/axiosInstance.js
 import axios from 'axios';
-
+// final-project-nodejs.vercel.app
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080/v1',
+  baseURL: 'final-project-nodejs.vercel.app/v1',
   headers: {
     'Content-Type': 'application/json',
   },
