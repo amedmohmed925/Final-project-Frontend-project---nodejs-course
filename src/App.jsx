@@ -39,7 +39,7 @@ import ExamCreate from "./features/exam/components/ExamCreate";
 import AdminDashboard from "./features/admin/components/AdminDashboard";
 import AdminTeachers from "./features/admin/components/AdminTeachers";
 import AdminStudents from "./features/admin/components/AdminStudents";
-import AdminLogs from "./features/admin/logs";
+import AdminLogs from "./features/admin/logss";
 import AdminPayments from "./features/admin/payment";
 import { PaymentsDashboardCard } from "./features/admin/payment";
 

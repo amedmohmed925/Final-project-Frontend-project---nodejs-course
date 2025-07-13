@@ -8,7 +8,7 @@ import ChartErrorBoundary from "./ChartErrorBoundary";
 import "../styles/AdminDashboard.css";
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from "chart.js";
 import SidebarProfile from "../../user/components/SidebarProfile";
-import { LogsCount } from "../logs";
+import { LogsCount } from "../logss";
 import { PaymentsDashboardCard } from "../payment";
 
 // Register Chart.js elements/scales
