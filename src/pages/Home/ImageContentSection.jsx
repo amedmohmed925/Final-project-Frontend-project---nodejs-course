@@ -23,7 +23,7 @@ const ImageContentSection = () => {
               className="image-container"
             >
               <img
-                src="public\Best-online-course-platforms.webp"
+                src="\Best-online-course-platforms.webp"
                 alt="Learning Environment"
                 className="content-image"
                
