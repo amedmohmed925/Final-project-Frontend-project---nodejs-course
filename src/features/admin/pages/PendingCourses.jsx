@@ -33,7 +33,7 @@ const PendingCourses = () => {
 
   const handleApprove = async (courseId) => {
     try {
-      await axiosInstance.post(`/courses/admin/approve-course/${courseId}`);
+      await axiosInstance.put(`/courses/admin/approve-course/${courseId}`);
       setPendingCourses((prev) => prev.filter((course) => course._id !== courseId));
       setShowModal(false);
     } catch {

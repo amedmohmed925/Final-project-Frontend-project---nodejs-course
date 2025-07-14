@@ -36,6 +36,8 @@ import FeedbackManager from "./features/teacher/components/FeedbackManager";
 import ExamCreate from "./features/exam/components/ExamCreate";
 import PendingCourses from "./features/admin/pages/PendingCourses";
 import PendingCourseDetails from "./features/admin/pages/PendingCourseDetails";
+import InstructorsList from "./features/instructors/components/InstructorsList"; // Import the InstructorsList component
+import InstructorDetails from "./features/instructors/components/InstructorDetails"; // Import the InstructorDetails component
 
 import AdminDashboard from "./features/admin/components/AdminDashboard";
 import AdminTeachers from "./features/admin/components/AdminTeachers";
@@ -61,6 +63,13 @@ const App = () => {
     "/AdminCouponReport",
     "/all-users",
     "/CategoryManager",
+    "/admin/dashboard",
+    "/add-course",
+    "/CoursesTeacher",
+    "/teacher/students-manager",
+    "/teacher/feedbacks",
+    "/teacher/feedbacks",
+    "/teacher/exams/create",
   ];
 
   const showFooter = !noFooterPaths.includes(location.pathname);
@@ -111,6 +120,8 @@ const App = () => {
         <Route path="/admin/payments" element={<AdminPayments />} />
         <Route path="/admin/pending-courses" element={<PendingCourses />} />
         <Route path="/admin/pending-courses/:courseId" element={<PendingCourseDetails />} />
+        <Route path="/instructors" element={<InstructorsList />} /> {/* Add route for InstructorsList */}
+        <Route path="/instructor/:id" element={<InstructorDetails />} /> {/* Add route for InstructorDetails */}
       </Routes>
       {showFooter && <Footer />} 
     </div>

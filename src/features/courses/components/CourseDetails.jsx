@@ -260,7 +260,7 @@ const CourseDetails = () => {
                   <div className="teacher-info">
                     <p>
                       By{" "}
-                      <Link to={`/teacher/${teacher._id}`} className="teacher-link">
+                      <Link to={`/instructor/${teacher._id}`} className="teacher-link">
                         {teacher.firstName} {teacher.lastName}
                       </Link>
                     </p>

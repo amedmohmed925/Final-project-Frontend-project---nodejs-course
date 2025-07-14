@@ -148,6 +148,13 @@ const Header = () => {
               >
                 Contact
               </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/instructors"
+                className={location.pathname === "/instructors" ? "active-link" : ""}
+              >
+                Instructors
+              </Nav.Link>
 
               {!user ? (
                 <Nav.Link

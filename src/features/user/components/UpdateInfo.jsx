@@ -2,12 +2,13 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editUserInfo } from "../userSlice";
 import { useNavigate } from "react-router-dom";
-import { FaSpinner, FaArrowLeft, FaArrowRight, FaGraduationCap, FaUniversity, FaBook, FaUser, FaEnvelope, FaCalendarAlt, FaLock } from "react-icons/fa";
+import { FaSpinner, FaArrowLeft, FaArrowRight, FaGraduationCap, FaUniversity, FaBook, FaUser, FaEnvelope, FaCalendarAlt, FaLock, FaBell, FaEdit } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import SidebarProfile from "../../user/components/SidebarProfile";
 import "../styles/UpdateInfo.css";
 import { motion } from "framer-motion";
 import Logo from '../../../shared/components/Logo';
+import { Edit, Edit2, Edit3 } from "lucide-react";
 
 const UpdateInfo = () => {
   const { user } = useSelector((state) => state.user);
@@ -173,6 +174,26 @@ const UpdateInfo = () => {
           padding: "40px 20px",
         }}
       >
+            <div className="text-center mb-4">
+                            <div style={{
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              fontSize: '2.5rem',
+                              fontWeight: 800,
+                              marginBottom: '10px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              gap: '10px'
+                            }}>
+                              <FaEdit />
+                             Update Your Information
+                            </div>
+                            <p style={{ color: '#6b7280', fontSize: '1.1rem' }}>
+                               Keep your profile up-to-date for a better experience.
+                            </p>
+                          </div>
         <div
           className="update-info-container"
           style={{
@@ -184,27 +205,8 @@ const UpdateInfo = () => {
             width: "100%",
           }}
         >
-          <div className="text-center mb-4">
-            <motion.h2
-              className="fs-4 fw-bold mb-0 mt-3 section-title"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              style={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                fontSize: "2.5rem",
-                fontWeight: 800,
-                marginBottom: "10px",
-              }}
-            >
-              Update Your Information
-            </motion.h2>
-            <p style={{ color: "#6b7280", fontSize: "1.1rem" }}>
-              Keep your profile up-to-date for a better experience.
-            </p>
-          </div>
+        
+       
 
           <form onSubmit={handleSubmit} className="update-form">
             <div className="info-section" style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
