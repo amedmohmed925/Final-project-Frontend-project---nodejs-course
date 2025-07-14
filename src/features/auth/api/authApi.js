@@ -4,6 +4,7 @@ import store from '../../../store/store';
 import { clearUser } from '../../user/userSlice';
 
 const API_URL = 'http://localhost:8080/v1/auth';
+// const API_URL = 'http://final-project-nodejs.vercel.app/v1/auth';
 
 export const api = axios.create({
   baseURL: API_URL,

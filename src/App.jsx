@@ -34,14 +34,14 @@ import StudentManager from "./features/teacher/components/StudentManager";
 import PurchasedCourses from "./features/student/components/PurchasedCourses";
 import FeedbackManager from "./features/teacher/components/FeedbackManager";
 import ExamCreate from "./features/exam/components/ExamCreate";
-
+import PendingCourses from "./features/admin/pages/PendingCourses";
+import PendingCourseDetails from "./features/admin/pages/PendingCourseDetails";
 
 import AdminDashboard from "./features/admin/components/AdminDashboard";
 import AdminTeachers from "./features/admin/components/AdminTeachers";
 import AdminStudents from "./features/admin/components/AdminStudents";
 import AdminLogs from "./features/admin/logss";
 import AdminPayments from "./features/admin/payment";
-import { PaymentsDashboardCard } from "./features/admin/payment";
 
 import StudentFavoritesRoute from "./routes/StudentFavoritesRoute";
 import CertificatesList from "./features/student/certificates/CertificatesList";
@@ -109,6 +109,8 @@ const App = () => {
         <Route path="/admin/students" element={<AdminStudents />} />
         <Route path="/admin/logs" element={<AdminLogs />} />
         <Route path="/admin/payments" element={<AdminPayments />} />
+        <Route path="/admin/pending-courses" element={<PendingCourses />} />
+        <Route path="/admin/pending-courses/:courseId" element={<PendingCourseDetails />} />
       </Routes>
       {showFooter && <Footer />} 
     </div>

@@ -106,6 +106,13 @@ const AdminDashboard = () => {
               </div>
             </Card.Body>
           </Card>
+          <Card className="stat-card shadow-sm clickable" onClick={() => navigate('/admin/pending-courses')} style={{ cursor: 'pointer' }}>
+            <Card.Body>
+              <FaExclamationCircle className="stat-icon text-warning" />
+              <h5>Pending Courses</h5>
+              <div className="stat-value">{stats.pendingCourses}</div>
+            </Card.Body>
+          </Card>
         </div>
 
         <div className="dashboard-grid" style={{
