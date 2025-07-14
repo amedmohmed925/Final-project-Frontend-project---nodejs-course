@@ -141,13 +141,7 @@ const Header = () => {
               >
                 Community
               </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/ContactPage"
-                className={location.pathname === "/ContactPage" ? "active-link" : ""}
-              >
-                Contact
-              </Nav.Link>
+            
               <Nav.Link
                 as={Link}
                 to="/instructors"
@@ -155,7 +149,13 @@ const Header = () => {
               >
                 Instructors
               </Nav.Link>
-
+  <Nav.Link
+                as={Link}
+                to="/ContactPage"
+                className={location.pathname === "/ContactPage" ? "active-link" : ""}
+              >
+                Contact
+              </Nav.Link>
               {!user ? (
                 <Nav.Link
                   as={Link}

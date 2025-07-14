@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getTeacherDetails } from "../api/instructorsApi";
 import {
   FaGraduationCap,
-  FaUniversity,
   FaCalendarAlt,
   FaUserShield,
   FaCheckCircle,
-  FaTimesCircle,
   FaChalkboardTeacher,
   FaMedal,
+  FaStar,
+  FaStarHalfAlt,
 } from "react-icons/fa";
 import { Card, Container, Row, Col, Badge } from "react-bootstrap";
 import "../styles/InstructorDetails.css";
@@ -17,16 +17,38 @@ import "../styles/InstructorDetails.css";
 const InstructorDetails = () => {
   const { id } = useParams();
   const [instructor, setInstructor] = useState(null);
-  const [courses, setCourses] = useState([]); // State for courses
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
+
+  const truncateDescription = (description) => {
+    return description.length > 50 ? description.substring(0, 50) + "..." : description;
+  };
+
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 1; i <= fullStars; i++) {
+      stars.push(<FaStar key={i} className="star filled" />);
+    }
+    if (hasHalfStar && fullStars < 5) {
+      stars.push(<FaStarHalfAlt key={fullStars + 1} className="star filled" />);
+    }
+    const remainingStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
+    for (let i = 1; i <= remainingStars; i++) {
+      stars.push(<FaStar key={fullStars + (hasHalfStar ? 2 : 1) + i} className="star" />);
+    }
+    return stars;
+  };
 
   useEffect(() => {
     const fetchInstructorDetails = async () => {
       try {
         const data = await getTeacherDetails(id);
         setInstructor(data.teacher);
-        setCourses(data.courses); // Set courses from response
+        setCourses(data.courses);
       } catch (error) {
         console.error("Error fetching instructor details:", error);
       } finally {
@@ -131,7 +153,10 @@ const InstructorDetails = () => {
                     <Card.Body>
                       <FaCalendarAlt className="info-icon" />
                       <h5>Personal Info</h5>
-                      <p>Date of Birth: {new Date(instructor.dob).toLocaleDateString()}</p>
+                      <p>
+                        Date of Birth:{" "}
+                        {new Date(instructor.dob).toLocaleDateString()}
+                      </p>
                       <p>
                         Status:{" "}
                         <span
@@ -148,41 +173,59 @@ const InstructorDetails = () => {
                   </Card>
                 </Col>
               </Row>
-
-              {/* Courses Section */}
-              <div className="courses-section mt-5">
-                <h2 className="section-title">Courses by {instructor.firstName}</h2>
-                <Row className="courses-grid">
-                  {courses.map((course) => (
-                    <Col md={6} lg={4} key={course._id} className="mb-4">
-                      <Card className="course-card" onClick={() => navigate(`/courses/${course._id}`)}>
-                        <Card.Img
-                          variant="top"
-                          src={course.featuredImage || "https://via.placeholder.com/300"}
-                          alt={course.title}
-                          className="course-image"
-                        />
-                        <Card.Body>
-                          <Card.Title className="course-title">{course.title}</Card.Title>
-                          <Card.Text className="course-description">
-                            {course.description.length > 100
-                              ? `${course.description.substring(0, 100)}...`
-                              : course.description}
-                          </Card.Text>
-                          <div className="d-flex justify-content-between align-items-center">
-                            <span className="course-price">${course.price}</span>
-                            <span className="course-level">{course.level}</span>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
             </Card.Body>
           </Card>
         </Col>
       </Row>
+
+      {/* Courses Section */}
+      <Container className="courses-section">
+        <h2 className="section-title">
+          Courses by {instructor.firstName}
+        </h2>
+        <div className="courses-grid">
+          {courses.map((course) => (
+            <div key={course._id} className="course-card">
+              <div className="course-image">
+                <img
+                  src={course.featuredImage || "https://via.placeholder.com/300"}
+                  alt={course.title}
+                  onError={(e) => {
+                    e.target.src = "https://via.placeholder.com/300";
+                  }}
+                />
+              </div>
+              <div className="course-content">
+                <h3 className="course-title">{course.title}</h3>
+                <div className="course-rating mb-2">
+                  {renderStars(course.averageRating || 0)}
+                  <span className="ms-2">{(course.averageRating !== undefined && course.averageRating !== null) ? course.averageRating.toFixed(1) : "0.0"}</span>
+                </div>
+                <p className="course-description">
+                  {truncateDescription(course.description)}
+                </p>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <span className="courseLevel">{course.level}</span>
+                </div>
+                <div className="course-footer">
+                  <span className="course-price">${course.price}</span>
+                  <button
+                    className="enroll-btn"
+                    onClick={() => navigate(`/courses/${course._id}`)}
+                  >
+                    View Course
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {courses.length === 0 && (
+          <p className="text-center text-muted">
+            No courses available from this instructor yet.
+          </p>
+        )}
+      </Container>
     </div>
   );
 };

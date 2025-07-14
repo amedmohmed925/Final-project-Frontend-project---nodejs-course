@@ -1,14 +1,23 @@
 /* Modern styling for instructor details */
 .instructor-details {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #f6f9fc 0%, #f1f4f9 100%);
   min-height: 100vh;
+  padding: 2rem 0;
 }
 
 .profile-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
   border: none;
-  border-radius: 15px;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(106, 17, 203, 0.15);
 }
 
 .profile-header {
@@ -18,9 +27,22 @@
 
 .profile-cover {
   height: 100%;
-  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
   position: relative;
   overflow: hidden;
+  animation: gradientBG 15s ease infinite;
+}
+
+.profile-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
 }
 
 .profile-cover::after {
@@ -31,7 +53,15 @@
   right: 0;
   bottom: 0;
   background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.1)' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.7;
 }
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 .profile-avatar {
   position: absolute;
@@ -42,32 +72,46 @@
 }
 
 .instructor-image {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  border: 5px solid white;
-  box-shadow: 0 0 20px rgba(106, 17, 203, 0.2);
+  border: 6px solid white;
+  box-shadow: 
+    0 0 0 6px rgba(106, 17, 203, 0.2),
+    0 0 30px rgba(106, 17, 203, 0.3);
   object-fit: cover;
   background-color: white;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .instructor-image:hover {
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(5deg);
+  box-shadow: 
+    0 0 0 8px rgba(106, 17, 203, 0.3),
+    0 0 40px rgba(106, 17, 203, 0.4);
 }
 
 .verification-badge {
   position: absolute;
   bottom: 10px;
   right: -10px;
-  background-color: #6a11cb !important;
-  padding: 5px 10px;
-  border-radius: 20px;
+  background: linear-gradient(45deg, #6a11cb, #2575fc) !important;
+  padding: 8px 15px;
+  border-radius: 25px;
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .instructor-name {
@@ -101,15 +145,26 @@
 }
 
 .info-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   height: 100%;
+  background: linear-gradient(145deg, #ffffff, #f6f7f9);
+  box-shadow: 
+    5px 5px 10px rgba(0, 0, 0, 0.05),
+    -5px -5px 10px rgba(255, 255, 255, 0.8);
 }
 
 .info-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(106, 17, 203, 0.1);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    8px 8px 20px rgba(106, 17, 203, 0.15),
+    -8px -8px 20px rgba(255, 255, 255, 0.9);
+  background: linear-gradient(145deg, #ffffff, #f0f2f5);
+}
+
+.info-card .card-body {
+  padding: 1.5rem;
 }
 
 .info-icon {
@@ -149,63 +204,160 @@
 
 /* Courses Section */
 .courses-section {
-  margin-top: 40px;
+  margin-top: 60px;
+  padding: 40px 0;
+  background: linear-gradient(to bottom, #f6f9fc 0%, #ffffff 100%);
 }
 
 .section-title {
-  font-size: 1.8rem;
-  color: #6a11cb;
-  margin-bottom: 20px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 40px;
   text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  border-radius: 2px;
 }
 
 .courses-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
 }
 
 .course-card {
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-  border-radius: 10px;
+  background: white;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
 }
 
 .course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(106, 17, 203, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(106, 17, 203, 0.2);
 }
 
 .course-image {
   height: 200px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.course-card:hover .course-image img {
+  transform: scale(1.1);
+}
+
+.course-content {
+  padding: 20px;
 }
 
 .course-title {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin-bottom: 12px;
+  line-height: 1.4;
 }
 
 .course-description {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #666;
+  line-height: 1.6;
   margin-bottom: 15px;
 }
 
-.course-price {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #6a11cb;
+.course-meta {
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.course-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.course-rating .star {
+  color: #ddd;
+  font-size: 1.2rem;
+  margin-right: 2px;
+}
+
+.course-rating .star.filled {
+  color: #ffd700;
+  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.3));
+}
+
+.course-rating span {
+  color: #666;
+  font-size: 0.9rem;
+  margin-left: 4px;
+  font-weight: 500;
+}
+
+.reviews-count {
+  font-size: 0.85rem;
+  color: #666;
 }
 
 .course-level {
-  font-size: 0.9rem;
-  color: #999;
+  padding: 4px 12px;
+  background: rgba(106, 17, 203, 0.1);
+  color: #6a11cb;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.course-footer {
+  margin-top: 15px;
+}
+
+.course-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #6a11cb;
+}
+
+.enroll-btn {
+  padding: 8px 20px;
+  background: linear-gradient(45deg, #6a11cb, #2575fc);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.enroll-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
 }
 
 /* Responsive adjustments */

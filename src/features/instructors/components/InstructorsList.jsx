@@ -3,6 +3,7 @@ import { getVerifiedTeachers } from "../api/instructorsApi";
 import "../styles/InstructorsList.css";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FaMedal } from "react-icons/fa"; // Import medal icon
+import HeaderPages from "../../../shared/components/HeaderPages";
 
 const InstructorsList = () => {
   const [instructors, setInstructors] = useState([]);
@@ -22,8 +23,10 @@ const InstructorsList = () => {
   }, []);
 
   return (
-    <div className="instructors-list">
-      <h1 className="title">Instructors</h1>
+    <>
+          <HeaderPages title={"Instructors"} />
+
+    <div className="instructors-list" style={{minHeight: "100vh"}}>
       <div className="grid">
         {instructors.map((instructor) => (
           <div
@@ -45,6 +48,11 @@ const InstructorsList = () => {
               {instructor.firstName} {instructor.lastName}
               <FaMedal className="medal-icon" />
             </h2>
+            <h3 className="major">
+              {instructor.major !== "Not specified"
+                ? instructor.major
+                : "Major not specified"}
+            </h3>
             <p className="bio">
               {instructor.bio && instructor.bio !== "Not provided"
                 ? instructor.bio
@@ -54,6 +62,7 @@ const InstructorsList = () => {
         ))}
       </div>
     </div>
+    </>
   );
 };
 
