@@ -11,8 +11,8 @@ const LogsCount = ({ onClick }) => {
 }, []);
   return (
     <div onClick={onClick} style={{ cursor: 'pointer', textAlign: 'center' }}>
-      <div style={{ fontSize: 32, fontWeight: 700, color: '#dc3545' }}>{count}</div>
-      <div style={{ fontSize: 14, color: '#888' }}>Logs</div>
+      <div style={{ fontSize: 32, fontWeight: 700, color: '#fff' }}>{count}</div>
+      <div style={{ fontSize: 14, color: '#fff' }}>Logs</div>
     </div>
   );
 };

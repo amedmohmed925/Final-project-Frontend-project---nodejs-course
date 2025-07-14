@@ -183,15 +183,17 @@ const SidebarProfile = ({ isOpen, onClose }) => {
               <FaSignOutAlt className="me-2" /> Logout
             </button>
           </li>
-          <li className="d-flex justify-content-center">
-            <button
-              className="btn text-danger"
-              onClick={() => setShowDeleteModal(true)}
-              style={{ backgroundColor: "transparent" }}
-            >
-              <FaTrash /> Delete My Account
-            </button>
-          </li>
+          {user?.role !== "admin" && (
+            <li className="d-flex justify-content-center">
+              <button
+                className="btn text-danger"
+                onClick={() => setShowDeleteModal(true)}
+                style={{ backgroundColor: "transparent" }}
+              >
+                <FaTrash /> Delete My Account
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { editUserInfo } from "../userSlice";
 import { useNavigate } from "react-router-dom";
-import { FaSpinner, FaArrowLeft, FaArrowRight, FaGraduationCap, FaUniversity, FaBook, FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { FaSpinner, FaArrowLeft, FaArrowRight, FaGraduationCap, FaUniversity, FaBook, FaUser, FaEnvelope, FaCalendarAlt, FaLock } from "react-icons/fa";
 import { Modal, Button } from "react-bootstrap";
 import SidebarProfile from "../../user/components/SidebarProfile";
 import "../styles/UpdateInfo.css";
@@ -121,38 +121,97 @@ const UpdateInfo = () => {
   };
 
   return (
-    <div className="update-info-page">
+    <div
+      className="update-info-page"
+      style={{
+        background: "linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%)",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+      }}
+    >
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className={`sidebar-arrow-toggle ${isSidebarOpen ? "sidebar-open" : ""}`}
-        aria-label="Toggle Sidebar"
+        style={{
+          position: "fixed",
+          top: "50%",
+          left: isSidebarOpen ? "280px" : "20px",
+          transform: "translateY(-50%)",
+          zIndex: 1000,
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+          border: "none",
+          borderRadius: "50%",
+          width: "50px",
+          height: "50px",
+          color: "white",
+          fontSize: "18px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+          transition: "all 0.3s ease",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         {isSidebarOpen ? <FaArrowLeft /> : <FaArrowRight />}
       </button>
 
       {/* Sidebar */}
-      <SidebarProfile isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <SidebarProfile
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       {/* Main Content */}
-      <div className={`update-info-content ${isSidebarOpen ? "sidebar-open" : ""}`}>
-        <div className="update-info-container profile-card">
-          <div className="py-4 logoAuth text-center">
+      <div
+        style={{
+          marginLeft: isSidebarOpen ? "280px" : "0",
+          transition: "margin-left 0.3s ease",
+          padding: "40px 20px",
+        }}
+      >
+        <div
+          className="update-info-container"
+          style={{
+            background: "white",
+            borderRadius: "20px",
+            padding: "40px",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+            maxWidth: "600px",
+            width: "100%",
+          }}
+        >
+          <div className="text-center mb-4">
             <motion.h2
               className="fs-4 fw-bold mb-0 mt-3 section-title"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              style={{
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontSize: "2.5rem",
+                fontWeight: 800,
+                marginBottom: "10px",
+              }}
             >
               Update Your Information
             </motion.h2>
+            <p style={{ color: "#6b7280", fontSize: "1.1rem" }}>
+              Keep your profile up-to-date for a better experience.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="update-form">
-            <div className="info-section">
-              {/* Common Fields */}
-              <div className="form-group">
-                <label htmlFor="firstName">First Name</label>
+            <div className="info-section" style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="firstName" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaUser style={{ marginRight: "5px" }} /> First Name
+                </label>
                 <input
                   type="text"
                   id="firstName"
@@ -161,10 +220,19 @@ const UpdateInfo = () => {
                   onChange={handleChange}
                   required
                   placeholder="Enter your first name"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="lastName">Last Name</label>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="lastName" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaUser style={{ marginRight: "5px" }} /> Last Name
+                </label>
                 <input
                   type="text"
                   id="lastName"
@@ -173,10 +241,19 @@ const UpdateInfo = () => {
                   onChange={handleChange}
                   required
                   placeholder="Enter your last name"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="email" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaEnvelope style={{ marginRight: "5px" }} /> Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -185,10 +262,19 @@ const UpdateInfo = () => {
                   onChange={handleChange}
                   required
                   placeholder="Enter your email"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="dob">Date of Birth</label>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="dob" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaCalendarAlt style={{ marginRight: "5px" }} /> Date of Birth
+                </label>
                 <input
                   type="date"
                   id="dob"
@@ -196,10 +282,19 @@ const UpdateInfo = () => {
                   value={formData.dob}
                   onChange={handleChange}
                   required
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="password">Current Password</label>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="password" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaLock style={{ marginRight: "5px" }} /> Current Password
+                </label>
                 <input
                   type="password"
                   id="password"
@@ -208,10 +303,19 @@ const UpdateInfo = () => {
                   onChange={handleChange}
                   required
                   placeholder="Enter current password"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="newPassword">New Password (Optional)</label>
+              <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                <label htmlFor="newPassword" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                  <FaLock style={{ marginRight: "5px" }} /> New Password (Optional)
+                </label>
                 <input
                   type="password"
                   id="newPassword"
@@ -219,119 +323,147 @@ const UpdateInfo = () => {
                   value={formData.newPassword}
                   onChange={handleChange}
                   placeholder="Enter new password"
+                  style={{
+                    borderRadius: "10px",
+                    padding: "12px",
+                    border: "1px solid #e5e7eb",
+                    width: "100%",
+                    fontSize: "1rem",
+                  }}
                 />
               </div>
-
-              {/* Teacher-Specific Fields */}
-              {user.role === "teacher" && (
-                <>
-                  <div className="form-group">
-                    <label htmlFor="certificates"><FaGraduationCap /> Certificates (comma-separated)</label>
-                    <input
-                      type="text"
-                      id="certificates"
-                      name="certificates"
-                      value={formData.certificates.join(", ")}
-                      onChange={handleCertificatesChange}
-                      required
-                      placeholder="e.g. Certificate1, Certificate2"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="graduationYear"><FaGraduationCap /> Graduation Year</label>
-                    <input
-                      type="number"
-                      id="graduationYear"
-                      name="graduationYear"
-                      value={formData.graduationYear}
-                      onChange={handleChange}
-                      required
-                      placeholder="e.g. 2020"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="university"><FaUniversity /> University</label>
-                    <input
-                      type="text"
-                      id="university"
-                      name="university"
-                      value={formData.university}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter your university"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="major"><FaBook /> Major</label>
-                    <input
-                      type="text"
-                      id="major"
-                      name="major"
-                      value={formData.major}
-                      onChange={handleChange}
-                      required
-                      placeholder="Enter your major"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="bio">Bio</label>
-                    <textarea
-                      id="bio"
-                      name="bio"
-                      value={formData.bio}
-                      onChange={handleChange}
-                      placeholder="Tell us about yourself"
-                      rows="4"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="socialMedia.facebook"><FaFacebook /> Facebook</label>
-                    <input
-                      type="text"
-                      id="socialMedia.facebook"
-                      name="socialMedia.facebook"
-                      value={formData.socialMedia.facebook}
-                      onChange={handleChange}
-                      placeholder="Facebook URL"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="socialMedia.twitter"><FaTwitter /> Twitter</label>
-                    <input
-                      type="text"
-                      id="socialMedia.twitter"
-                      name="socialMedia.twitter"
-                      value={formData.socialMedia.twitter}
-                      onChange={handleChange}
-                      placeholder="Twitter URL"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="socialMedia.linkedin"><FaLinkedin /> LinkedIn</label>
-                    <input
-                      type="text"
-                      id="socialMedia.linkedin"
-                      name="socialMedia.linkedin"
-                      value={formData.socialMedia.linkedin}
-                      onChange={handleChange}
-                      placeholder="LinkedIn URL"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="socialMedia.instagram"><FaInstagram /> Instagram</label>
-                    <input
-                      type="text"
-                      id="socialMedia.instagram"
-                      name="socialMedia.instagram"
-                      value={formData.socialMedia.instagram}
-                      onChange={handleChange}
-                      placeholder="Instagram URL"
-                    />
-                  </div>
-                </>
-              )}
             </div>
-            <button type="submit" className="btn" disabled={isUpdating}>
+
+            {/* Teacher-Specific Fields */}
+            {user.role === "teacher" && (
+              <div className="info-section" style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+                <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                  <label htmlFor="certificates" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                    <FaGraduationCap style={{ marginRight: "5px" }} /> Certificates (comma-separated)
+                  </label>
+                  <input
+                    type="text"
+                    id="certificates"
+                    name="certificates"
+                    value={formData.certificates.join(", ")}
+                    onChange={handleCertificatesChange}
+                    required
+                    placeholder="e.g. Certificate1, Certificate2"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px",
+                      border: "1px solid #e5e7eb",
+                      width: "100%",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                  <label htmlFor="graduationYear" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                    <FaCalendarAlt style={{ marginRight: "5px" }} /> Graduation Year
+                  </label>
+                  <input
+                    type="number"
+                    id="graduationYear"
+                    name="graduationYear"
+                    value={formData.graduationYear}
+                    onChange={handleChange}
+                    required
+                    placeholder="e.g. 2020"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px",
+                      border: "1px solid #e5e7eb",
+                      width: "100%",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                  <label htmlFor="university" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                    <FaUniversity style={{ marginRight: "5px" }} /> University
+                  </label>
+                  <input
+                    type="text"
+                    id="university"
+                    name="university"
+                    value={formData.university}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter your university"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px",
+                      border: "1px solid #e5e7eb",
+                      width: "100%",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </div>
+                <div className="form-group" style={{ flex: "1 1 calc(50% - 20px)" }}>
+                  <label htmlFor="major" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                    <FaBook style={{ marginRight: "5px" }} /> Major
+                  </label>
+                  <input
+                    type="text"
+                    id="major"
+                    name="major"
+                    value={formData.major}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter your major"
+                    style={{
+                      borderRadius: "10px",
+                      padding: "12px",
+                      border: "1px solid #e5e7eb",
+                      width: "100%",
+                      fontSize: "1rem",
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Bio Field - New Addition */}
+            <div className="form-group" style={{ flex: "1 1 calc(100% - 20px)" }}>
+              <label htmlFor="bio" style={{ fontWeight: "600", marginBottom: "5px" }}>
+                <FaUser style={{ marginRight: "5px" }} /> Bio
+              </label>
+              <textarea
+                id="bio"
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
+                placeholder="Enter a short bio about yourself"
+                style={{
+                  borderRadius: "10px",
+                  padding: "12px",
+                  border: "1px solid #e5e7eb",
+                  width: "100%",
+                  fontSize: "1rem",
+                  minHeight: "100px",
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn"
+              disabled={isUpdating}
+              style={{
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                border: "none",
+                borderRadius: "10px",
+                padding: "12px",
+                fontSize: "1.1rem",
+                fontWeight: "600",
+                color: "white",
+                width: "100%",
+                marginTop: "20px",
+                transition: "all 0.3s ease",
+                cursor: isUpdating ? "not-allowed" : "pointer",
+              }}
+            >
               {isUpdating ? <FaSpinner className="spinner" /> : "Update Profile"}
             </button>
           </form>
