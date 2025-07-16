@@ -1,31 +1,12 @@
-/* Modern styling for instructor details */
-.instructor-details {
-  background: linear-gradient(135deg, #f6f9fc 0%, #f1f4f9 100%);
-  min-height: 100vh;
-  padding: 2rem 0;
-}
-
-.profile-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: none;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.profile-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(106, 17, 203, 0.15);
-}
-
+/* التصميم القديم للكلاسات */
 .profile-header {
   position: relative;
   height: 200px;
+  margin: auto;
+  margin-top: 50px;
 }
 
-.profile-cover {
+.cover {
   height: 100%;
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   position: relative;
@@ -33,7 +14,7 @@
   animation: gradientBG 15s ease infinite;
 }
 
-.profile-cover::before {
+.cover::before {
   content: '';
   position: absolute;
   top: 0;
@@ -45,7 +26,7 @@
     radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
 }
 
-.profile-cover::after {
+.cover::after {
   content: '';
   position: absolute;
   top: 0;
@@ -62,8 +43,7 @@
   100% { background-position: 0% 50%; }
 }
 
-
-.profile-avatar {
+.avatar {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -93,8 +73,8 @@
 
 .verification-badge {
   position: absolute;
-  bottom: 10px;
-  right: -10px;
+  bottom: 30px;
+  right: -15px;
   background: linear-gradient(45deg, #6a11cb, #2575fc) !important;
   padding: 8px 15px;
   border-radius: 25px;
@@ -117,7 +97,7 @@
 .instructor-name {
   color: #6a11cb;
   font-size: 2rem;
-  margin-top: 4rem;
+  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,7 +109,7 @@
   font-size: 1.5rem;
 }
 
-.instructor-bio {
+.bio {
   color: #666;
   font-size: 1.1rem;
   max-width: 600px;

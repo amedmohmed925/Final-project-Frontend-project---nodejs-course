@@ -1,7 +1,7 @@
 // src/api/notificationApi.js
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/v1/notifications";
+const API_URL = "http://localhost:8080/api/v1/notifications";
 
 export const notificationApi = axios.create({
   baseURL: API_URL,

@@ -9,7 +9,7 @@ export const fetchFirstUnwatchedLesson = async (courseId) => {
   try {
     const token = localStorage.getItem("accessToken");
     const response = await axios.get(
-      "http://localhost:8080/v1/course-progress/unwatched-lesson",
+      "http://localhost:8080/api/v1/course-progress/unwatched-lesson",
       {
         params: { courseId },
         headers: { Authorization: token ? `Bearer ${token}` : undefined },

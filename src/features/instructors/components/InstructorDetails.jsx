@@ -157,7 +157,7 @@ const InstructorDetails = () => {
                         Date of Birth:{" "}
                         {new Date(instructor.dob).toLocaleDateString()}
                       </p>
-                      <p>
+                      <p className="d-flex justify-content-center flex-row gap-1 align-items-center">
                         Status:{" "}
                         <span
                           className={

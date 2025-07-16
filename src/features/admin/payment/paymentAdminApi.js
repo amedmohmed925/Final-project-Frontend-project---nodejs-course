@@ -1,7 +1,7 @@
 // API functions for admin payments
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:8080/v1/admin/payments';
+const API_BASE = 'http://localhost:8080/api/v1/admin/payments';
 
 function getAuthHeaders() {
   const token = localStorage.getItem('accessToken');

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/v1/student/certificates";
+const API_URL = "http://localhost:8080/api/v1/student/certificates";
 
 const getAuthHeader = () => {
   const token = localStorage.getItem("accessToken");

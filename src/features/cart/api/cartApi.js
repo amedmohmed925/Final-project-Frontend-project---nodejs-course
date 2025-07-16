@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/v1/cart";
+const API_URL = "http://localhost:8080/api/v1/cart";
 
 export const cartApi = axios.create({
   baseURL: API_URL,
@@ -35,7 +35,7 @@ cartApi.interceptors.response.use(
       if (refreshToken) {
         try {
 
-          const response = await axios.post("http://localhost:8080/auth/refresh", { token: refreshToken });
+          const response = await axios.post("http://localhost:8080/api/auth/refresh", { token: refreshToken });
           const newAccessToken = response.data.accessToken;
 
 

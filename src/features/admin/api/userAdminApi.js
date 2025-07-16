@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const BASE_URL = "http://localhost:8080/v1/admin/users";
-const API_URL = 'http://localhost:8080/v1/users'
+const BASE_URL = "http://localhost:8080/api/v1/admin/users";
+const API_URL = 'http://localhost:8080/api/v1/users'
 
 const getAuthHeaders = () => ({
   Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

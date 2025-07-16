@@ -24,7 +24,7 @@ const ContactPage = () => {
     e.preventDefault();
     setModal({ show: true, loading: true, success: false, message: "" });
     try {
-      const res = await axios.post("http://localhost:8080/v1/contact", formData);
+      const res = await axios.post("http://localhost:8080/api/v1/contact", formData);
       setModal({ show: true, loading: false, success: true, message: res.data.message || "Message sent successfully" });
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (err) {

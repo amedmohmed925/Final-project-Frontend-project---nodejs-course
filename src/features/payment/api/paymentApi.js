@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PAYMENT_API_URL = "http://localhost:8080/v1/payment";
+const PAYMENT_API_URL = "http://localhost:8080/api/v1/payment";
 
 export const paymentApi = axios.create({
   baseURL: PAYMENT_API_URL,
@@ -32,7 +32,7 @@ paymentApi.interceptors.response.use(
 
       if (refreshToken) {
         try {
-          const response = await axios.post("http://localhost:8080/auth/refresh", { token: refreshToken });
+          const response = await axios.post("http://localhost:8080/api/v1/auth/refresh", { token: refreshToken });
           const newAccessToken = response.data.accessToken;
 
           localStorage.setItem("accessToken", newAccessToken);

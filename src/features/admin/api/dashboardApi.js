@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/v1/admin/stats/dashboard";
+const API_URL = "http://localhost:8080/api/v1/admin/stats/dashboard";
 
 export const getDashboardStats = async () => {
   const token = localStorage.getItem("accessToken");
