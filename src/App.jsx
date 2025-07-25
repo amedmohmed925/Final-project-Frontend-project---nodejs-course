@@ -52,6 +52,11 @@ import StudentProgressPage from "./features/student/components/StudentProgressPa
 
 const App = () => {
   const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   const noFooterPaths = [
     "/register",
     "/login", 

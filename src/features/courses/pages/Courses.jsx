@@ -230,6 +230,7 @@ const Courses = () => {
               {filteredCourses.slice(0, visibleCount).map((course) => (
                 <div key={course._id} className="course-card position-relative">
                   <div className="course-image position-relative">
+                  
                     <img
                       src={course.featuredImage}
                       alt={course.title}
