@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Spinner, Modal, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
@@ -9,6 +10,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const TeacherCourses = () => {
+  const user = useSelector((state) => state.user.user);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
@@ -22,7 +24,8 @@ const TeacherCourses = () => {
   useEffect(() => {
     const fetchTeacherCourses = async () => {
       try {
-        const teacherId = "67ca22c2d8e0df490495b712"; // يمكنك جعل هذا ديناميكيًا بناءً على تسجيل الدخول
+        if (!user?._id) return;
+        const teacherId = user._id;
         const data = await getCoursesByTeacher(teacherId);
         setCourses(data);
       } catch (error) {
@@ -32,7 +35,7 @@ const TeacherCourses = () => {
       }
     };
     fetchTeacherCourses();
-  }, []);
+  }, [user]);
 
   // التعامل مع صورة الكورس في حالة الخطأ
   const handleImageError = (e) => {

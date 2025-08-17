@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getStudents, removeStudent, getStudentProgress } from "../api/teacherApi";
+import { getStudents, removeStudent } from "../api/teacherApi";
+import { fetchStudentProgress } from "../../student/api/studentProgressApi";
 import { Modal, Button, Spinner, Table, Badge, ListGroup, Alert } from "react-bootstrap";
 import { motion } from "framer-motion";
 import SidebarProfile from "../../user/components/SidebarProfile";
@@ -58,8 +59,8 @@ const StudentManager = () => {
     setProgressError("");
     setShowProgressModal(true);
     try {
-      const res = await getStudentProgress(courseId, student.studentId);
-      setProgressData(res.data);
+      const data = await fetchStudentProgress();
+      setProgressData(data);
     } catch {
       setProgressError("Failed to fetch progress.");
     } finally {
@@ -69,8 +70,8 @@ const StudentManager = () => {
 
   const filteredStudents = students.filter(
     (s) =>
-      s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.email.toLowerCase().includes(search.toLowerCase())
+      (s.name && s.name.toLowerCase().includes(search.toLowerCase())) ||
+      (s.email && s.email.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (
@@ -226,20 +227,24 @@ const StudentManager = () => {
               <div>
                 <label className="fw-bold">Completed Lessons:</label>
                 <ListGroup>
-                  {progressData.completedLessons.map((lesson) => (
-                    <ListGroup.Item
-                      key={lesson.lessonId}
-                      variant={lesson.completed ? "success" : ""}
-                      className={lesson.completed ? "list-group-item-success" : ""}
-                    >
-                      {lesson.title}
-                      {lesson.completed && (
-                        <Badge bg="success" className="ms-2">
-                          Completed
-                        </Badge>
-                      )}
-                    </ListGroup.Item>
-                  ))}
+                  {Array.isArray(progressData.completedLessons) && progressData.completedLessons.length > 0 ? (
+                    progressData.completedLessons.map((lesson) => (
+                      <ListGroup.Item
+                        key={lesson.lessonId}
+                        variant={lesson.completed ? "success" : ""}
+                        className={lesson.completed ? "list-group-item-success" : ""}
+                      >
+                        {lesson.title}
+                        {lesson.completed && (
+                          <Badge bg="success" className="ms-2">
+                            Completed
+                          </Badge>
+                        )}
+                      </ListGroup.Item>
+                    ))
+                  ) : (
+                    <div className="text-muted">No completed lessons.</div>
+                  )}
                 </ListGroup>
               </div>
             </>
