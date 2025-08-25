@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { getAllCoursesPreview } from "../api/courseApi";
 import { getCategories } from "../../category/api/categoryApi";
 import "../styles/Courses.css";
-import { Spinner, Form, Button, Row, Col, Card } from "react-bootstrap";
+import { Spinner, Button, Row, Col } from "react-bootstrap";
 import HeaderPages from "../../../shared/components/HeaderPages";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import FavoriteButton from '../../student/favorites/FavoriteButton';
-
+import FavoriteButton from "../../student/favorites/FavoriteButton";
+import FiltersSidebar from "../components/Filterssidebar"; // Import the new component
+import truncateChars from '../../../../utils/text';
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
@@ -36,7 +37,9 @@ const Courses = () => {
         setCourses(coursesData);
         setFilteredCourses(coursesData);
         setCategories(["All", ...categoriesData.map((cat) => cat.name)]);
-        const uniqueTags = [...new Set(coursesData.flatMap((course) => course.tags))];
+        const uniqueTags = [
+          ...new Set(coursesData.flatMap((course) => course.tags)),
+        ];
         setAllTags(uniqueTags);
       } catch (err) {
         setError(err.message);
@@ -61,7 +64,9 @@ const Courses = () => {
       const lowerSearchTerm = searchTerm.toLowerCase();
       result = result.filter(
         (course) =>
-          course.tags.some((tag) => tag.toLowerCase().includes(lowerSearchTerm)) ||
+          course.tags.some((tag) =>
+            tag.toLowerCase().includes(lowerSearchTerm)
+          ) ||
           course.title.toLowerCase().includes(lowerSearchTerm) ||
           course.description.toLowerCase().includes(lowerSearchTerm)
       );
@@ -76,7 +81,9 @@ const Courses = () => {
     if (minPrice !== "" || maxPrice !== "") {
       const min = minPrice === "" ? 0 : parseFloat(minPrice);
       const max = maxPrice === "" ? Infinity : parseFloat(maxPrice);
-      result = result.filter((course) => course.price >= min && course.price <= max);
+      result = result.filter(
+        (course) => course.price >= min && course.price <= max
+      );
     }
 
     // Filter by selected tags (AND logic)
@@ -88,14 +95,30 @@ const Courses = () => {
 
     setFilteredCourses(result);
     setVisibleCount(8);
-  }, [searchTerm, selectedLevel, minPrice, maxPrice, selectedTags, selectedCategory, courses]);
+  }, [
+    searchTerm,
+    selectedLevel,
+    minPrice,
+    maxPrice,
+    selectedTags,
+    selectedCategory,
+    courses,
+  ]);
+
+  // Reset function for filters
+  const handleFiltersReset = () => {
+    // Reset visible count when filters are reset
+    setVisibleCount(8);
+  };
 
   const handleImageError = (e) => {
     e.target.src = "path/to/fallback-image.jpg";
   };
 
   const truncateDescription = (description) => {
-    return description.length > 50 ? description.substring(0, 50) + "..." : description;
+    return description.length > 50
+      ? description.substring(0, 50) + "..."
+      : description;
   };
 
   const renderStars = (rating) => {
@@ -111,22 +134,23 @@ const Courses = () => {
     }
     const remainingStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
     for (let i = 1; i <= remainingStars; i++) {
-      stars.push(<FaStar key={fullStars + (hasHalfStar ? 2 : 1) + i} className="star" />);
+      stars.push(
+        <FaStar key={fullStars + (hasHalfStar ? 2 : 1) + i} className="star" />
+      );
     }
     return stars;
   };
 
-  const toggleTag = (tag) => {
-    if (selectedTags.includes(tag)) {
-      setSelectedTags(selectedTags.filter((t) => t !== tag));
-    } else {
-      setSelectedTags([...selectedTags, tag]);
-    }
-  };
-
   if (loading) {
     return (
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
         <Spinner animation="border" role="status">
           <span className="visually-hidden">Loading ...</span>
         </Spinner>
@@ -140,88 +164,26 @@ const Courses = () => {
     <div>
       <HeaderPages title="Explore our courses" />
       <div className="courses-container">
-        <Row >
-          {/* Filters Sidebar */}
+        <Row>
+          {/* Filters Sidebar - Now using the extracted component */}
           <Col md={3} className="filters-sidebar">
-            <Card className="p-3 shadow-sm">
-              <h5 className="mb-3">Filters</h5>
-
-              {/* Category Filter */}
-              <Form.Group controlId="categoryFilter" className="mb-3">
-                <Form.Label>Category</Form.Label>
-                <Form.Select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-
-              {/* Search */}
-              <Form.Group controlId="searchByTags" className="mb-3">
-                <Form.Label>Search</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by tags, title, or description"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </Form.Group>
-
-              {/* Level Filter */}
-              <Form.Group controlId="levelFilter" className="mb-3">
-                <Form.Label>Level</Form.Label>
-                <Form.Select
-                  value={selectedLevel}
-                  onChange={(e) => setSelectedLevel(e.target.value)}
-                >
-                  <option value="">All Levels</option>
-                  <option value="Beginner">Beginner</option>
-                  <option value="Professional">Professional</option>
-                </Form.Select>
-              </Form.Group>
-
-              {/* Price Range Filter */}
-              <Form.Group controlId="priceFilter" className="mb-3">
-                <Form.Label>Price Range</Form.Label>
-                <div className="d-flex gap-2">
-                  <Form.Control
-                    type="number"
-                    placeholder="Min"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                  />
-                  <Form.Control
-                    type="number"
-                    placeholder="Max"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                  />
-                </div>
-              </Form.Group>
-
-              {/* Tags Filter */}
-              <Form.Group controlId="tagsFilter">
-                <Form.Label>Tags</Form.Label>
-                <div className="tags-container">
-                  {allTags.map((tag) => (
-                    <Button
-                      key={tag}
-                      variant={selectedTags.includes(tag) ? "primary" : "outline-primary"}
-                      size="sm"
-                      className="m-1"
-                      onClick={() => toggleTag(tag)}
-                    >
-                      {tag}
-                    </Button>
-                  ))}
-                </div>
-              </Form.Group>
-            </Card>
+            <FiltersSidebar
+              categories={categories}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedLevel={selectedLevel}
+              setSelectedLevel={setSelectedLevel}
+              minPrice={minPrice}
+              setMinPrice={setMinPrice}
+              maxPrice={maxPrice}
+              setMaxPrice={setMaxPrice}
+              allTags={allTags}
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+              onReset={handleFiltersReset}
+            />
           </Col>
 
           {/* Courses Grid */}
@@ -230,24 +192,32 @@ const Courses = () => {
               {filteredCourses.slice(0, visibleCount).map((course) => (
                 <div key={course._id} className="course-card position-relative">
                   <div className="course-image position-relative">
-                  
                     <img
                       src={course.featuredImage}
                       alt={course.title}
                       onError={handleImageError}
                     />
-                    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 2 }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        zIndex: 2,
+                      }}
+                    >
                       <FavoriteButton courseId={course._id} size={28} />
                     </div>
                   </div>
                   <div className="course-content">
-                    <h3 className="course-title d-flex align-items-center justify-content-between">
-                      {course.title}
-                      <span className="d-md-none ms-2">
-                        <FavoriteButton courseId={course._id} size={22} />
-                      </span>
+                    <h3
+                      className="course-title d-flex align-items-center justify-content-between"
+                      title={course?.title} // keep full title on hover
+                    >
+                      {truncateChars(course?.title, 22)}
                     </h3>
-                    <p className="course-description">{truncateDescription(course.description)}</p>
+                    <p className="course-description">
+                      {truncateDescription(course.description)}
+                    </p>
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="course-rating">
                         {renderStars(course.averageRating)}
@@ -256,7 +226,7 @@ const Courses = () => {
                       <span className="courseLevel">{course.level}</span>
                     </div>
                     <button
-                      className="enroll-btn d-flex justify-content-center"
+                      className="enroll-btn d-flex flex-row justify-content-between align-items-center p-3 "
                       onClick={() => navigate(`/courses/${course._id}`)}
                     >
                       Enroll Now
