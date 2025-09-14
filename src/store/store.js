@@ -5,6 +5,7 @@ import { clearUser } from "../features/user/userSlice";
 import notificationReducer from "../features/notifications/notificationSlice";
 import favoritesReducer from "../features/student/favorites/favoritesSlice";
 import certificatesReducer from "../features/student/certificates/certificatesSlice";
+import liveReducer from "../features/live/liveSlice";
 
 const authMiddleware = (store) => (next) => (action) => {
   const result = next(action);
@@ -22,6 +23,7 @@ const authMiddleware = (store) => (next) => (action) => {
 
 const store = configureStore({
   reducer: {
+    live: liveReducer,
     user: userReducer,
     cart: cartReducer,
     notifications: notificationReducer,

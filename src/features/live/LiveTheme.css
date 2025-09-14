@@ -1,0 +1,446 @@
+/* App frame */
+.live-frame { background: #0e2b2f; background: linear-gradient(180deg,#0f3a3f,#0b2629 120px,#0a2326 121px); min-height: 100vh; padding-top: 16px; }
+
+/* Stage card */
+.live-stage { background: #14181b; border: 0; box-shadow: 0 8px 32px rgba(0,0,0,.35); border-radius: 10px; }
+
+/* Video canvas container */
+.stage-canvas { 
+  background: #1a1f23; 
+  border-radius: 8px; 
+  position: relative; 
+  height: calc(70vh - 100px); /* Adjusted height to account for controls */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden;
+  margin-bottom: 20px; /* Add space for controls */
+}
+.stage-canvas .tile { 
+  width: 520px; 
+  max-width: 95%; 
+  border-radius: 16px; 
+  overflow: hidden; 
+  background: #000; 
+}
+.stage-canvas video { 
+  width: 100%; 
+  height: auto; 
+  display: block; 
+}
+
+/* Screen sharing styles */
+.screen-sharing-active {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.screen-share-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent overflow */
+  flex: 1; /* Take up available space */
+}
+
+.screen-share-video {
+  max-width: 100%;
+  max-height: calc(100% - 20px); /* Leave space for controls */
+  object-fit: contain; /* Maintain aspect ratio */
+  display: block; /* Remove any inline spacing */
+  margin-bottom: 20px; /* Additional space at bottom to prevent cut-off */
+}
+
+.screen-share-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.share-icon {
+  font-size: 18px;
+}
+
+.local-video-container {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 180px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid #2d8cff;
+  background-color: #000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.local-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mic-status {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+/* Zoom Style Controls */
+.zoom-style-controls {
+  position: relative;
+  width: 100%;
+}
+
+.invite-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.meeting-info {
+  color: white;
+  font-size: 14px;
+}
+
+.meeting-id {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.copy-link {
+  max-width: 400px;
+}
+
+.btn-copy {
+  background-color: #2d8cff;
+  color: white;
+  border: none;
+}
+
+.btn-copy:hover {
+  background-color: #1c7ae4;
+}
+
+/* Bottom toolbar */
+.live-toolbar {
+  position: relative; /* Changed from sticky to relative */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding: 15px 12px;
+  margin-top: auto; /* Push to bottom of flex container */
+  background-color: rgba(26, 31, 35, 0.95); /* Semi-transparent background */
+  border-top: 1px solid #2a3035;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  border-radius: 0 0 8px 8px; /* Round the bottom corners */
+}
+
+.control-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  min-width: 80px;
+}
+
+.control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.control-label {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.control-btn.disabled {
+  color: #ff4d4f;
+}
+
+.control-btn.active {
+  color: #52c41a;
+}
+
+.control-btn.danger {
+  color: #ff4d4f;
+}
+
+.control-btn.danger:hover {
+  background-color: rgba(255, 77, 79, 0.2);
+}
+
+/* Sidebar Panel */
+.sidebar-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #292e33;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+/* For mobile screens */
+@media (max-width: 576px) {
+  .sidebar-panel {
+    width: 100%;
+  }
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #373d42;
+  background-color: #1c2024;
+}
+
+.panel-header h5 {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  color: white;
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Participants section */
+.participants-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.participant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid #373d42;
+}
+
+.participant-name {
+  color: white;
+  font-size: 14px;
+}
+
+.participant.host .participant-name:after {
+  content: "(Host)";
+  color: #52c41a;
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+/* Chat section */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.no-messages {
+  color: #aaa;
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
+.chat-input {
+  padding: 15px;
+  border-top: 1px solid #373d42;
+  display: flex;
+  gap: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  background-color: #1c2024;
+  border: 1px solid #373d42;
+  color: white;
+}
+
+.chat-input input:focus {
+  background-color: #242a31;
+  color: white;
+  border-color: #2d8cff;
+  box-shadow: none;
+}
+
+.participant-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.micro-btn, .video-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+}
+
+.live-btn { background:#0b2233; border:1px solid #0e2b44; color:#fff; padding:8px 14px; border-radius:10px; font-weight:600; }
+.live-btn:hover { background:#0e2f49; }
+.live-btn.danger { background:#7a0c0c; border-color:#951414; }
+.live-btn.active { background:#106a69; border-color:#0d5655; }
+
+/* Updated Layout for Zoom-like experience */
+.live-wrapper {
+  display: flex;
+  background-color: #1a1f23;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Video content area - parent container for all video elements */
+.video-content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 16px;
+  padding-bottom: 0; /* Controls will add their own padding */
+  overflow: hidden;
+}
+
+.live-main-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.zoom-style-room {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #14181b;
+  position: relative;
+}
+
+/* Info panel */
+.info-panel {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.meeting-meta {
+  padding: 15px;
+  color: #cfd7dc;
+}
+
+.meeting-meta p {
+  margin-bottom: 10px;
+}
+
+.host-controls {
+  border-top: 1px solid #373d42;
+  padding-top: 15px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .live-toolbar {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 15px;
+  }
+  
+  .control-btn {
+    min-width: 60px;
+  }
+  
+  .control-label {
+    font-size: 10px;
+  }
+  
+  .invite-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .copy-link {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* Animation for sidebar */
+.sidebar-panel {
+  animation: slidein 0.3s ease;
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.meeting-meta code { background:#0f151a; border:1px solid #1b2a35; color:#b7d1e0; padding:2px 6px; border-radius:6px; }

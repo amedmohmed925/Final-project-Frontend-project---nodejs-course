@@ -128,6 +128,11 @@ const SidebarProfile = ({ isOpen, onClose }) => {
                 </Link>
               </li>
               <li>
+                <Link to="/golive" onClick={onClose}>
+                  <MdSchool className="me-2" /> Live Courses
+                </Link>
+              </li>
+              <li>
                 <Link to="/teacher/students-manager" onClick={onClose}>
                   <FaUsers className="me-2" /> Student Manager
                 </Link>

@@ -11,7 +11,9 @@ import ForgotPassword from "./features/auth/components/ForgotPassword";
 import ResetPassword from "./features/auth/components/ResetPassword";
 import AdminAllUsers from "./features/admin/components/UserTable";
 import AddCourse from "./features/courses/components/AddCourse";
+import LiveSessionPage from "./features/live/LiveSessionPage";
 import CourseDetails from "./features/courses/components/CourseDetails";
+import JoinLivePage from "./features/live/JoinLivePage"
 import EditCourse from "./features/courses/components/EditCourse";
 import About from "./pages/About";
 import { useDispatch, useSelector } from "react-redux";
@@ -95,6 +97,8 @@ const App = () => {
         <Route path="/all-users" element={<AdminAllUsers />} />
         <Route path="/admin/users" element={<AdminAllUsers />} />
         <Route path="/add-course" element={<AddCourse />} />
+        <Route path="/golive" element={<LiveSessionPage />} />
+        <Route path="/live/:id" element={<JoinLivePage />} />
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/course/:courseId/section/:sectionIndex/lesson/:lessonIndex" element={<LessonPage />} />
         <Route path="/edit-course/:id" element={<EditCourse />} />
